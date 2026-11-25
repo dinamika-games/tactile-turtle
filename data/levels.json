@@ -1,0 +1,1293 @@
+{
+  "format": 1,
+  "note": "The reference solutions in the text form (src/lang/tokens.ts). tests/levels.test.ts checks that each parses and fits the kit and its plate, and, for the levels which have their maps (days) already, that it wins every day.",
+  "levels": [
+    {
+      "id": 1,
+      "world": 1,
+      "world_name": "The Nest Beach",
+      "name": "First steps",
+      "plate": "a4",
+      "solution": [
+        "FORWARD FORWARD FORWARD"
+      ],
+      "days": [
+        {
+          "map": [
+            "###",
+            "#~#",
+            "#.#",
+            "#.#",
+            "#^#",
+            "###"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 1,
+          "y": 1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "world": 1,
+      "world_name": "The Nest Beach",
+      "name": "Around the rock",
+      "plate": "a4",
+      "solution": [
+        "FORWARD LEFT FORWARD FORWARD RIGHT FORWARD"
+      ]
+    },
+    {
+      "id": 3,
+      "world": 1,
+      "world_name": "The Nest Beach",
+      "name": "The dunes",
+      "plate": "a4",
+      "solution": [
+        "FORWARD RIGHT FORWARD LEFT FORWARD RIGHT FORWARD LEFT FORWARD"
+      ]
+    },
+    {
+      "id": 4,
+      "world": 1,
+      "world_name": "The Nest Beach",
+      "name": "The first hatchling",
+      "plate": "a4",
+      "solution": [
+        "FORWARD FORWARD PICK_UP RIGHT FORWARD DROP"
+      ]
+    },
+    {
+      "id": 5,
+      "world": 1,
+      "world_name": "The Nest Beach",
+      "name": "Two hatchlings",
+      "plate": "a4",
+      "solution": [
+        "PICK_UP LEFT FORWARD DROP",
+        "LEFT LEFT FORWARD FORWARD PICK_UP",
+        "RIGHT RIGHT FORWARD FORWARD DROP"
+      ]
+    },
+    {
+      "id": 6,
+      "world": 1,
+      "world_name": "The Nest Beach",
+      "name": "The driftwood",
+      "plate": "a4",
+      "solution": [
+        "FORWARD FORWARD RIGHT FORWARD FORWARD LEFT",
+        "FORWARD FORWARD LEFT FORWARD RIGHT FORWARD"
+      ]
+    },
+    {
+      "id": 7,
+      "world": 1,
+      "world_name": "The Nest Beach",
+      "name": "Facing the sunrise",
+      "plate": "a4",
+      "solution": [
+        "FORWARD FORWARD LEFT FORWARD FORWARD RIGHT"
+      ]
+    },
+    {
+      "id": 8,
+      "world": 1,
+      "world_name": "The Nest Beach",
+      "name": "Turned around",
+      "plate": "a4",
+      "solution": [
+        "LEFT LEFT FORWARD FORWARD FORWARD RIGHT FORWARD"
+      ]
+    },
+    {
+      "id": 9,
+      "world": 1,
+      "world_name": "The Nest Beach",
+      "name": "The shell path",
+      "plate": "a4",
+      "solution": [
+        "PICK_UP FORWARD PICK_UP FORWARD PICK_UP",
+        "RIGHT FORWARD DROP DROP DROP"
+      ]
+    },
+    {
+      "id": 10,
+      "world": 1,
+      "world_name": "The Nest Beach",
+      "name": "Too few tiles",
+      "plate": "a4",
+      "solution": [
+        "REPEAT 12 FORWARD END"
+      ],
+      "days": [
+        {
+          "map": [
+            "###############",
+            "#>...........~#",
+            "###############"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 13,
+          "y": 1
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "world": 2,
+      "world_name": "The Tide Pools",
+      "name": "Around the pool",
+      "plate": "a4",
+      "solution": [
+        "REPEAT 4 FORWARD FORWARD LEFT END"
+      ]
+    },
+    {
+      "id": 12,
+      "world": 2,
+      "world_name": "The Tide Pools",
+      "name": "The long sandbar",
+      "plate": "a4",
+      "solution": [
+        "REPEAT 15 FORWARD END RIGHT REPEAT 12 FORWARD END"
+      ]
+    },
+    {
+      "id": 13,
+      "world": 2,
+      "world_name": "The Tide Pools",
+      "name": "The staircase",
+      "plate": "a4",
+      "solution": [
+        "REPEAT 6 FORWARD LEFT FORWARD RIGHT END"
+      ]
+    },
+    {
+      "id": 14,
+      "world": 2,
+      "world_name": "The Tide Pools",
+      "name": "Hatchlings in a row",
+      "plate": "a4",
+      "solution": [
+        "REPEAT 4 PICK_UP LEFT DROP RIGHT FORWARD END"
+      ]
+    },
+    {
+      "id": 15,
+      "world": 2,
+      "world_name": "The Tide Pools",
+      "name": "Two pools",
+      "plate": "a4",
+      "solution": [
+        "REPEAT 3 FORWARD END LEFT",
+        "REPEAT 3 FORWARD RIGHT END",
+        "REPEAT 5 FORWARD END"
+      ]
+    },
+    {
+      "id": 16,
+      "world": 2,
+      "world_name": "The Tide Pools",
+      "name": "The rectangle",
+      "plate": "a4",
+      "solution": [
+        "REPEAT 2",
+        "  REPEAT 6 FORWARD END LEFT",
+        "  REPEAT 3 FORWARD END LEFT",
+        "END"
+      ]
+    },
+    {
+      "id": 17,
+      "world": 2,
+      "world_name": "The Tide Pools",
+      "name": "Rows of hatchlings",
+      "plate": "a4",
+      "solution": [
+        "REPEAT 3",
+        "  REPEAT 4 PICK_UP LEFT DROP RIGHT FORWARD END",
+        "  RIGHT FORWARD RIGHT",
+        "END"
+      ]
+    },
+    {
+      "id": 18,
+      "world": 2,
+      "world_name": "The Tide Pools",
+      "name": "Twice around",
+      "plate": "a4",
+      "solution": [
+        "REPEAT 2 REPEAT 4 REPEAT 3 FORWARD END RIGHT END END"
+      ]
+    },
+    {
+      "id": 19,
+      "world": 2,
+      "world_name": "The Tide Pools",
+      "name": "The tight case",
+      "plate": "a4",
+      "solution": [
+        "REPEAT 4 REPEAT 2 FORWARD LEFT FORWARD RIGHT END RIGHT END"
+      ]
+    },
+    {
+      "id": 20,
+      "world": 2,
+      "world_name": "The Tide Pools",
+      "name": "The great pool",
+      "plate": "a4",
+      "solution": [
+        "REPEAT 3",
+        "  REPEAT 5 FORWARD END PICK_UP RIGHT RIGHT",
+        "  REPEAT 5 FORWARD END DROP RIGHT RIGHT",
+        "END"
+      ]
+    },
+    {
+      "id": 21,
+      "world": 3,
+      "world_name": "The Coral Garden",
+      "name": "The first coral",
+      "plate": "a4",
+      "solution": [
+        "FORWARD PAINT RED"
+      ]
+    },
+    {
+      "id": 22,
+      "world": 3,
+      "world_name": "The Coral Garden",
+      "name": "A red row",
+      "plate": "a4",
+      "solution": [
+        "REPEAT 8 PAINT RED FORWARD END"
+      ]
+    },
+    {
+      "id": 23,
+      "world": 3,
+      "world_name": "The Coral Garden",
+      "name": "Stripes",
+      "plate": "a4",
+      "solution": [
+        "REPEAT 5 PAINT RED FORWARD PAINT BLUE FORWARD END"
+      ]
+    },
+    {
+      "id": 24,
+      "world": 3,
+      "world_name": "The Coral Garden",
+      "name": "The frame",
+      "plate": "a4",
+      "solution": [
+        "REPEAT 4 REPEAT 5 PAINT YELLOW FORWARD END RIGHT END"
+      ]
+    },
+    {
+      "id": 25,
+      "world": 3,
+      "world_name": "The Coral Garden",
+      "name": "The flower",
+      "plate": "a4",
+      "solution": [
+        "REPEAT 4 FORWARD PAINT RED FORWARD PAINT RED LEFT LEFT FORWARD FORWARD RIGHT END"
+      ]
+    },
+    {
+      "id": 26,
+      "world": 3,
+      "world_name": "The Coral Garden",
+      "name": "The checkerboard",
+      "plate": "a4",
+      "solution": [
+        "REPEAT 3",
+        "  REPEAT 3 PAINT RED FORWARD PAINT BLUE FORWARD END",
+        "  RIGHT FORWARD RIGHT",
+        "  REPEAT 3 PAINT BLUE FORWARD PAINT RED FORWARD END",
+        "  LEFT FORWARD LEFT",
+        "END"
+      ]
+    },
+    {
+      "id": 27,
+      "world": 3,
+      "world_name": "The Coral Garden",
+      "name": "The letter T",
+      "plate": "a4",
+      "solution": [
+        "REPEAT 5 PAINT GREEN FORWARD END",
+        "RIGHT RIGHT FORWARD FORWARD FORWARD LEFT",
+        "REPEAT 4 FORWARD PAINT GREEN END"
+      ]
+    },
+    {
+      "id": 28,
+      "world": 3,
+      "world_name": "The Coral Garden",
+      "name": "Two squares",
+      "plate": "a4",
+      "solution": [
+        "REPEAT 4 REPEAT 6 PAINT BLUE FORWARD END RIGHT END",
+        "FORWARD RIGHT FORWARD LEFT",
+        "REPEAT 4 REPEAT 4 PAINT YELLOW FORWARD END RIGHT END"
+      ]
+    },
+    {
+      "id": 29,
+      "world": 3,
+      "world_name": "The Coral Garden",
+      "name": "Two stripes",
+      "plate": "a4",
+      "solution": [
+        "REPEAT 4 PAINT RED FORWARD END",
+        "REPEAT 4 PAINT BLUE FORWARD END"
+      ]
+    },
+    {
+      "id": 30,
+      "world": 3,
+      "world_name": "The Coral Garden",
+      "name": "The reef mural",
+      "plate": "a4",
+      "solution": [
+        "REPEAT 4",
+        "  REPEAT 3 PAINT RED FORWARD PAINT YELLOW FORWARD END",
+        "  RIGHT",
+        "  REPEAT 2 PAINT BLUE FORWARD END",
+        "  RIGHT",
+        "END"
+      ]
+    },
+    {
+      "id": 31,
+      "world": 4,
+      "world_name": "The Mangroves",
+      "name": "Maybe a root",
+      "plate": "a4",
+      "solution": [
+        "REPEAT 6 IF FRONT = ROCK LEFT FORWARD RIGHT ELSE FORWARD END END"
+      ]
+    },
+    {
+      "id": 32,
+      "world": 4,
+      "world_name": "The Mangroves",
+      "name": "Left or right",
+      "plate": "a4",
+      "solution": [
+        "REPEAT 8 IF FRONT = ROCK LEFT ELSE FORWARD END END"
+      ]
+    },
+    {
+      "id": 33,
+      "world": 4,
+      "world_name": "The Mangroves",
+      "name": "Coloured signs",
+      "plate": "a4",
+      "solution": [
+        "REPEAT 10",
+        "  IF HERE = RED LEFT END",
+        "  IF HERE = BLUE RIGHT END",
+        "  FORWARD",
+        "END"
+      ]
+    },
+    {
+      "id": 34,
+      "world": 4,
+      "world_name": "The Mangroves",
+      "name": "The arrow path",
+      "plate": "a4",
+      "solution": [
+        "REPEAT 15",
+        "  IF HERE = RED LEFT ELSE IF HERE = BLUE RIGHT END END",
+        "  FORWARD",
+        "END"
+      ]
+    },
+    {
+      "id": 35,
+      "world": 4,
+      "world_name": "The Mangroves",
+      "name": "Roots on the way",
+      "plate": "a4",
+      "solution": [
+        "REPEAT 12",
+        "  IF FRONT = ROCK",
+        "    RIGHT FORWARD LEFT FORWARD FORWARD LEFT FORWARD RIGHT",
+        "  ELSE FORWARD END",
+        "END"
+      ]
+    },
+    {
+      "id": 36,
+      "world": 4,
+      "world_name": "The Mangroves",
+      "name": "Hidden hatchlings",
+      "plate": "a4",
+      "solution": [
+        "REPEAT 10",
+        "  IF FRONT = HATCHLING PICK_UP LEFT DROP RIGHT END",
+        "  FORWARD",
+        "END"
+      ]
+    },
+    {
+      "id": 37,
+      "world": 4,
+      "world_name": "The Mangroves",
+      "name": "Not a rock",
+      "plate": "a4",
+      "solution": [
+        "REPEAT 10 IF NOT FRONT = ROCK FORWARD ELSE RIGHT END END"
+      ]
+    },
+    {
+      "id": 38,
+      "world": 4,
+      "world_name": "The Mangroves",
+      "name": "Red or blue",
+      "plate": "a4",
+      "solution": [
+        "REPEAT 6",
+        "  IF HERE = RED OR HERE = BLUE LEFT END",
+        "  FORWARD",
+        "END"
+      ]
+    },
+    {
+      "id": 39,
+      "world": 4,
+      "world_name": "The Mangroves",
+      "name": "The winding channel",
+      "plate": "a4",
+      "solution": [
+        "REPEAT 20",
+        "  IF FRONT = ROCK LEFT IF FRONT = ROCK RIGHT RIGHT END END",
+        "  FORWARD",
+        "END"
+      ]
+    },
+    {
+      "id": 40,
+      "world": 4,
+      "world_name": "The Mangroves",
+      "name": "The mangrove maze",
+      "plate": "a4",
+      "solution": [
+        "REPEAT 30",
+        "  IF FRONT ≠ ROCK FORWARD",
+        "  ELSE IF HERE = GREEN LEFT ELSE RIGHT END END",
+        "  IF FRONT = HATCHLING PICK_UP END",
+        "END"
+      ]
+    },
+    {
+      "id": 41,
+      "world": 5,
+      "world_name": "The Harbour",
+      "name": "The first switch",
+      "plate": "a4",
+      "solution": [
+        "FORWARD FORWARD SWITCH RIGHT REPEAT 4 FORWARD END"
+      ]
+    },
+    {
+      "id": 42,
+      "world": 5,
+      "world_name": "The Harbour",
+      "name": "The first box",
+      "plate": "a4",
+      "solution": [
+        "FORWARD PICK_UP RIGHT RIGHT FORWARD FORWARD DROP"
+      ]
+    },
+    {
+      "id": 43,
+      "world": 5,
+      "world_name": "The Harbour",
+      "name": "Open or closed",
+      "plate": "a4",
+      "solution": [
+        "REPEAT 6 IF FRONT = GATE SWITCH END FORWARD END"
+      ]
+    },
+    {
+      "id": 44,
+      "world": 5,
+      "world_name": "The Harbour",
+      "name": "The key",
+      "plate": "a4",
+      "solution": [
+        "FORWARD PICK_UP RIGHT REPEAT 3 FORWARD END USE FORWARD FORWARD"
+      ]
+    },
+    {
+      "id": 45,
+      "world": 5,
+      "world_name": "The Harbour",
+      "name": "Red left, blue right",
+      "plate": "a4",
+      "solution": [
+        "REPEAT 4",
+        "  IF COLOUR = RED PICK_UP LEFT DROP RIGHT",
+        "  ELSE PICK_UP RIGHT DROP LEFT END",
+        "  FORWARD",
+        "END"
+      ],
+      "days": [
+        {
+          "map": [
+            "#######",
+            "#..b..#",
+            "#.RrB.#",
+            "#.RrB.#",
+            "#.RbB.#",
+            "#.R^B.#",
+            "#######"
+          ]
+        },
+        {
+          "map": [
+            "#######",
+            "#..r..#",
+            "#.RbB.#",
+            "#.RbB.#",
+            "#.RrB.#",
+            "#.R^B.#",
+            "#######"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "sorted"
+        }
+      ]
+    },
+    {
+      "id": 46,
+      "world": 5,
+      "world_name": "The Harbour",
+      "name": "Carrying two",
+      "plate": "a4",
+      "solution": [
+        "FORWARD PICK_UP LEFT FORWARD PICK_UP RIGHT",
+        "REPEAT 4 FORWARD END",
+        "IF CARRYING = 2 DROP DROP END"
+      ]
+    },
+    {
+      "id": 47,
+      "world": 5,
+      "world_name": "The Harbour",
+      "name": "The relay",
+      "plate": "a4",
+      "solution": [
+        "REPEAT 3",
+        "  PICK_UP RIGHT PICK_UP RIGHT",
+        "  REPEAT 5 FORWARD END DROP LEFT DROP",
+        "  LEFT LEFT LEFT REPEAT 5 FORWARD END RIGHT RIGHT",
+        "END"
+      ]
+    },
+    {
+      "id": 48,
+      "world": 5,
+      "world_name": "The Harbour",
+      "name": "Toggling",
+      "plate": "a4",
+      "solution": [
+        "FORWARD SWITCH FORWARD FORWARD SWITCH LEFT FORWARD FORWARD SWITCH RIGHT REPEAT 4 FORWARD END"
+      ]
+    },
+    {
+      "id": 49,
+      "world": 5,
+      "world_name": "The Harbour",
+      "name": "The busy quay",
+      "plate": "a4",
+      "solution": [
+        "REPEAT 12",
+        "  IF FRONT = GATE SWITCH",
+        "  ELSE IF FRONT = BOX PICK_UP LEFT DROP RIGHT ELSE FORWARD END",
+        "  END",
+        "END"
+      ]
+    },
+    {
+      "id": 50,
+      "world": 5,
+      "world_name": "The Harbour",
+      "name": "The harbour master",
+      "plate": "a4",
+      "solution": [
+        "WHILE FRONT ≠ ROCK",
+        "  IF FRONT = BOX",
+        "    IF COLOUR = RED PICK_UP LEFT DROP RIGHT",
+        "    ELSE PICK_UP RIGHT DROP LEFT END",
+        "  END",
+        "  FORWARD",
+        "END"
+      ]
+    },
+    {
+      "id": 51,
+      "world": 6,
+      "world_name": "The Lighthouse",
+      "name": "Until the wall",
+      "plate": "a4",
+      "solution": [
+        "WHILE FRONT = FREE FORWARD END"
+      ]
+    },
+    {
+      "id": 52,
+      "world": 6,
+      "world_name": "The Lighthouse",
+      "name": "The beam",
+      "plate": "a4",
+      "solution": [
+        "FORWARD WHILE LIGHT = RED WAIT END FORWARD FORWARD FORWARD"
+      ]
+    },
+    {
+      "id": 53,
+      "world": 6,
+      "world_name": "The Lighthouse",
+      "name": "The crab",
+      "plate": "a4",
+      "solution": [
+        "REPEAT 3 FORWARD END WHILE FRONT ≠ FREE WAIT END REPEAT 4 FORWARD END"
+      ]
+    },
+    {
+      "id": 54,
+      "world": 6,
+      "world_name": "The Lighthouse",
+      "name": "The current",
+      "plate": "a4",
+      "solution": [
+        "WHILE HERE ≠ YELLOW IF FRONT = ROCK RIGHT ELSE FORWARD END END"
+      ]
+    },
+    {
+      "id": 55,
+      "world": 6,
+      "world_name": "The Lighthouse",
+      "name": "Search the coast",
+      "plate": "a4",
+      "solution": [
+        "WHILE NOT FRONT = ROCK",
+        "  IF FRONT = HATCHLING PICK_UP END",
+        "  FORWARD",
+        "END"
+      ]
+    },
+    {
+      "id": 56,
+      "world": 6,
+      "world_name": "The Lighthouse",
+      "name": "Lights on",
+      "plate": "a4",
+      "solution": [
+        "WHILE FRONT = FREE LEFT IF FRONT = LAMP SWITCH END RIGHT FORWARD END"
+      ]
+    },
+    {
+      "id": 57,
+      "world": 6,
+      "world_name": "The Lighthouse",
+      "name": "The light decides",
+      "plate": "a4",
+      "solution": [
+        "WHILE LIGHT = YELLOW WAIT END",
+        "IF LIGHT = RED LEFT ELSE RIGHT END",
+        "WHILE FRONT = FREE FORWARD END"
+      ]
+    },
+    {
+      "id": 58,
+      "world": 6,
+      "world_name": "The Lighthouse",
+      "name": "The stairs",
+      "plate": "a4",
+      "solution": [
+        "WHILE HERE ≠ YELLOW WHILE FRONT = FREE FORWARD END LEFT END"
+      ]
+    },
+    {
+      "id": 59,
+      "world": 6,
+      "world_name": "The Lighthouse",
+      "name": "Fuel for the light",
+      "plate": "a4",
+      "solution": [
+        "PICK_UP RIGHT WHILE FRONT ≠ LAMP FORWARD END USE"
+      ]
+    },
+    {
+      "id": 60,
+      "world": 6,
+      "world_name": "The Lighthouse",
+      "name": "The lighthouse night",
+      "plate": "a4",
+      "solution": [
+        "WHILE HERE ≠ YELLOW",
+        "  IF FRONT = ROCK LEFT",
+        "  ELSE IF LIGHT = RED OR FRONT ≠ FREE WAIT ELSE FORWARD END",
+        "  END",
+        "END"
+      ]
+    },
+    {
+      "id": 61,
+      "world": 7,
+      "world_name": "The Kelp Forest",
+      "name": "Remember three",
+      "plate": "a4",
+      "solution": [
+        "a ← 3 REPEAT a FORWARD END LEFT REPEAT a FORWARD END"
+      ]
+    },
+    {
+      "id": 62,
+      "world": 7,
+      "world_name": "The Kelp Forest",
+      "name": "The tide",
+      "plate": "a4",
+      "solution": [
+        "REPEAT TIDE FORWARD END PICK_UP RIGHT RIGHT REPEAT TIDE FORWARD END DROP"
+      ]
+    },
+    {
+      "id": 63,
+      "world": 7,
+      "world_name": "The Kelp Forest",
+      "name": "Count the steps",
+      "plate": "a4",
+      "solution": [
+        "a ← 0",
+        "WHILE FRONT = FREE FORWARD a ← a + 1 END",
+        "RIGHT RIGHT REPEAT a FORWARD END"
+      ]
+    },
+    {
+      "id": 64,
+      "world": 7,
+      "world_name": "The Kelp Forest",
+      "name": "Count the hatchlings",
+      "plate": "a4",
+      "solution": [
+        "a ← 0",
+        "REPEAT 8",
+        "  IF FRONT = HATCHLING a ← a + 1 END",
+        "  RIGHT FORWARD LEFT",
+        "END",
+        "LEFT REPEAT a PAINT RED FORWARD END"
+      ]
+    },
+    {
+      "id": 65,
+      "world": 7,
+      "world_name": "The Kelp Forest",
+      "name": "Tide plus two",
+      "plate": "a4",
+      "solution": [
+        "REPEAT TIDE + 2 FORWARD END LEFT REPEAT TIDE − 1 FORWARD END"
+      ]
+    },
+    {
+      "id": 66,
+      "world": 7,
+      "world_name": "The Kelp Forest",
+      "name": "Growing steps",
+      "plate": "a4",
+      "solution": [
+        "a ← 1 REPEAT 6 REPEAT a FORWARD END LEFT a ← a + 1 END"
+      ]
+    },
+    {
+      "id": 67,
+      "world": 7,
+      "world_name": "The Kelp Forest",
+      "name": "Two counters",
+      "plate": "a4",
+      "solution": [
+        "a ← 0 b ← 0",
+        "WHILE FRONT = FREE",
+        "  FORWARD",
+        "  IF HERE = RED a ← a + 1 ELSE b ← b + 1 END",
+        "END",
+        "RIGHT REPEAT a FORWARD END RIGHT REPEAT b FORWARD END"
+      ]
+    },
+    {
+      "id": 68,
+      "world": 7,
+      "world_name": "The Kelp Forest",
+      "name": "Which is longer?",
+      "plate": "a4",
+      "solution": [
+        "a ← 0 WHILE FRONT = FREE FORWARD a ← a + 1 END",
+        "RIGHT RIGHT REPEAT a FORWARD END LEFT",
+        "b ← 0 WHILE FRONT = FREE FORWARD b ← b + 1 END",
+        "IF a > b PAINT RED ELSE PAINT BLUE END"
+      ]
+    },
+    {
+      "id": 69,
+      "world": 7,
+      "world_name": "The Kelp Forest",
+      "name": "Double it",
+      "plate": "a4",
+      "solution": [
+        "a ← TIDE × 2 REPEAT a FORWARD END RIGHT REPEAT a − 1 FORWARD END"
+      ]
+    },
+    {
+      "id": 70,
+      "world": 7,
+      "world_name": "The Kelp Forest",
+      "name": "The kelp count",
+      "plate": "a4",
+      "solution": [
+        "a ← 0 b ← 0",
+        "WHILE FRONT ≠ ROCK",
+        "  IF HERE = RED a ← a + 1 END",
+        "  IF HERE = BLUE b ← b + 1 END",
+        "  FORWARD",
+        "END",
+        "LEFT",
+        "IF a > b REPEAT a PAINT RED FORWARD END",
+        "ELSE IF a < b REPEAT b PAINT BLUE FORWARD END",
+        "ELSE PAINT YELLOW END",
+        "END"
+      ]
+    },
+    {
+      "id": 71,
+      "world": 8,
+      "world_name": "The Volcano Isle",
+      "name": "The triangle",
+      "plate": "a4",
+      "solution": [
+        "FOR a ← 1 TO 5",
+        "  REPEAT a FORWARD END LEFT",
+        "  REPEAT a FORWARD END RIGHT",
+        "END"
+      ]
+    },
+    {
+      "id": 72,
+      "world": 8,
+      "world_name": "The Volcano Isle",
+      "name": "The spiral",
+      "plate": "a4",
+      "solution": [
+        "FOR a ← 1 TO 10 REPEAT a FORWARD END LEFT END"
+      ]
+    },
+    {
+      "id": 73,
+      "world": 8,
+      "world_name": "The Volcano Isle",
+      "name": "The third stone",
+      "plate": "a4",
+      "solution": [
+        "FOR a ← 1 TO 6 IF a = 3 PAINT RED ELSE PAINT BLUE END FORWARD END"
+      ]
+    },
+    {
+      "id": 74,
+      "world": 8,
+      "world_name": "The Volcano Isle",
+      "name": "Countdown",
+      "plate": "a4",
+      "solution": [
+        "FOR a ← 5 TO 1",
+        "  REPEAT a PAINT GREEN FORWARD END RIGHT RIGHT",
+        "  REPEAT a FORWARD END LEFT FORWARD LEFT",
+        "END"
+      ]
+    },
+    {
+      "id": 75,
+      "world": 8,
+      "world_name": "The Volcano Isle",
+      "name": "The lava field",
+      "plate": "a4",
+      "solution": [
+        "FOR a ← 1 TO 6",
+        "  REPEAT a PAINT RED FORWARD END RIGHT RIGHT",
+        "  REPEAT a FORWARD END LEFT FORWARD LEFT",
+        "END"
+      ]
+    },
+    {
+      "id": 76,
+      "world": 8,
+      "world_name": "The Volcano Isle",
+      "name": "Every second",
+      "plate": "a4",
+      "solution": [
+        "FOR a ← 1 TO 5 REPEAT a × 2 FORWARD END PAINT YELLOW RIGHT END"
+      ]
+    },
+    {
+      "id": 77,
+      "world": 8,
+      "world_name": "The Volcano Isle",
+      "name": "The table",
+      "plate": "a4",
+      "solution": [
+        "FOR a ← 1 TO 3",
+        "  FOR b ← 1 TO 3",
+        "    REPEAT a × b PAINT RED FORWARD END RIGHT RIGHT",
+        "    REPEAT a × b FORWARD END LEFT FORWARD LEFT",
+        "  END",
+        "END"
+      ]
+    },
+    {
+      "id": 78,
+      "world": 8,
+      "world_name": "The Volcano Isle",
+      "name": "Up to the tide",
+      "plate": "a4",
+      "solution": [
+        "FOR a ← 1 TO TIDE REPEAT a FORWARD END PAINT BLUE LEFT END"
+      ]
+    },
+    {
+      "id": 79,
+      "world": 8,
+      "world_name": "The Volcano Isle",
+      "name": "The pyramid",
+      "plate": "a4",
+      "solution": [
+        "FOR a ← 9 TO 1",
+        "  REPEAT a PAINT YELLOW FORWARD END RIGHT FORWARD RIGHT",
+        "  REPEAT a − 1 FORWARD END LEFT LEFT",
+        "END"
+      ]
+    },
+    {
+      "id": 80,
+      "world": 8,
+      "world_name": "The Volcano Isle",
+      "name": "The crater path",
+      "plate": "a4",
+      "solution": [
+        "FOR a ← 10 TO 1 REPEAT a FORWARD END RIGHT IF a = 5 PAINT RED END END"
+      ]
+    },
+    {
+      "id": 81,
+      "world": 9,
+      "world_name": "The Sunken Ship",
+      "name": "Turn around",
+      "plate": "a4",
+      "solution": [
+        "DEFINE ★ LEFT LEFT END FORWARD FORWARD ★ FORWARD FORWARD ★"
+      ]
+    },
+    {
+      "id": 82,
+      "world": 9,
+      "world_name": "The Sunken Ship",
+      "name": "A square",
+      "plate": "a4",
+      "solution": [
+        "DEFINE ★ REPEAT 4 REPEAT 3 PAINT GREEN FORWARD END RIGHT END END",
+        "★ REPEAT 4 FORWARD END ★ REPEAT 4 FORWARD END ★"
+      ]
+    },
+    {
+      "id": 83,
+      "world": 9,
+      "world_name": "The Sunken Ship",
+      "name": "Two helpers",
+      "plate": "a4",
+      "solution": [
+        "DEFINE ★ LEFT LEFT END",
+        "DEFINE ● PICK_UP ★ REPEAT 3 FORWARD END DROP ★ END",
+        "● FORWARD ● FORWARD ●"
+      ]
+    },
+    {
+      "id": 84,
+      "world": 9,
+      "world_name": "The Sunken Ship",
+      "name": "A helper's helper",
+      "plate": "a4",
+      "solution": [
+        "DEFINE ★ LEFT LEFT END",
+        "DEFINE ● FORWARD FORWARD ★ FORWARD FORWARD ★ END",
+        "REPEAT 3 ● RIGHT FORWARD LEFT END"
+      ]
+    },
+    {
+      "id": 85,
+      "world": 9,
+      "world_name": "The Sunken Ship",
+      "name": "A parameter",
+      "plate": "a4",
+      "solution": [
+        "DEFINE ★ a REPEAT a FORWARD END RIGHT END",
+        "★ 2 ★ 4 ★ 6 ★ 8"
+      ]
+    },
+    {
+      "id": 86,
+      "world": 9,
+      "world_name": "The Sunken Ship",
+      "name": "The decks",
+      "plate": "a4",
+      "solution": [
+        "DEFINE ★",
+        "  REPEAT 6 IF FRONT = HATCHLING PICK_UP END FORWARD END",
+        "  RIGHT RIGHT REPEAT 6 FORWARD END DROP",
+        "END",
+        "REPEAT 3 ★ LEFT FORWARD FORWARD LEFT END"
+      ]
+    },
+    {
+      "id": 87,
+      "world": 9,
+      "world_name": "The Sunken Ship",
+      "name": "The spiral stair",
+      "plate": "a4",
+      "solution": [
+        "DEFINE ★ a",
+        "  IF a > 0 REPEAT a FORWARD END LEFT ★ a − 1 END",
+        "END",
+        "★ 6"
+      ]
+    },
+    {
+      "id": 88,
+      "world": 9,
+      "world_name": "The Sunken Ship",
+      "name": "Deeper and deeper",
+      "plate": "a4",
+      "solution": [
+        "DEFINE ★ IF FRONT = FREE FORWARD ★ FORWARD ELSE RIGHT RIGHT END END ★"
+      ]
+    },
+    {
+      "id": 89,
+      "world": 9,
+      "world_name": "The Sunken Ship",
+      "name": "The cabins",
+      "plate": "a4",
+      "solution": [
+        "DEFINE ★",
+        "  a ← 0 WHILE FRONT = FREE FORWARD a ← a + 1 END",
+        "  IF FRONT = HATCHLING PICK_UP END",
+        "  RIGHT RIGHT REPEAT a FORWARD END DROP RIGHT RIGHT",
+        "END",
+        "DEFINE ● LEFT FORWARD FORWARD RIGHT END",
+        "REPEAT 4 ★ ● END"
+      ]
+    },
+    {
+      "id": 90,
+      "world": 9,
+      "world_name": "The Sunken Ship",
+      "name": "The ship's hold",
+      "plate": "a4",
+      "solution": [
+        "DEFINE ★ WHILE FRONT = FREE IF HERE = RED PAINT BLUE END FORWARD END END",
+        "DEFINE ● RIGHT FORWARD RIGHT END",
+        "REPEAT 3 ★ ● ★ LEFT FORWARD LEFT END"
+      ]
+    },
+    {
+      "id": 91,
+      "world": 10,
+      "world_name": "The Great Crossing",
+      "name": "Hand on the wall",
+      "plate": "a4",
+      "solution": [
+        "WHILE HERE ≠ YELLOW RIGHT WHILE FRONT = ROCK LEFT END FORWARD END"
+      ]
+    },
+    {
+      "id": 92,
+      "world": 10,
+      "world_name": "The Great Crossing",
+      "name": "Follow the line",
+      "plate": "a4",
+      "solution": [
+        "WHILE HERE ≠ YELLOW",
+        "  IF COLOUR = BLUE OR COLOUR = YELLOW",
+        "    FORWARD",
+        "  ELSE",
+        "    LEFT",
+        "    IF COLOUR ≠ BLUE RIGHT RIGHT END",
+        "  END",
+        "END"
+      ],
+      "days": [
+        {
+          "map": [
+            "#########",
+            "#>BBB...#",
+            "#...B...#",
+            "#...BBBY#",
+            "#########"
+          ]
+        },
+        {
+          "map": [
+            "#########",
+            "#...BBBY#",
+            "#...B...#",
+            "#>BBB...#",
+            "#########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach_colour",
+          "colour": "YELLOW"
+        }
+      ]
+    },
+    {
+      "id": 93,
+      "world": 10,
+      "world_name": "The Great Crossing",
+      "name": "The snake",
+      "plate": "a4",
+      "solution": [
+        "b ← 0",
+        "REPEAT 6",
+        "  WHILE FRONT = FREE FORWARD END",
+        "  IF b = 0 RIGHT FORWARD RIGHT b ← 1",
+        "  ELSE LEFT FORWARD LEFT b ← 0 END",
+        "END"
+      ]
+    },
+    {
+      "id": 94,
+      "world": 10,
+      "world_name": "The Great Crossing",
+      "name": "Bar chart",
+      "plate": "a3",
+      "solution": [
+        "a ← 0 b ← 0 c ← 0",
+        "WHILE FRONT = FREE",
+        "  IF HERE = RED a ← a + 1 END",
+        "  IF HERE = BLUE b ← b + 1 END",
+        "  IF HERE = GREEN c ← c + 1 END",
+        "  FORWARD",
+        "END",
+        "RIGHT FORWARD RIGHT REPEAT a PAINT RED FORWARD END",
+        "LEFT FORWARD LEFT REPEAT b PAINT BLUE FORWARD END",
+        "RIGHT FORWARD RIGHT REPEAT c PAINT GREEN FORWARD END"
+      ]
+    },
+    {
+      "id": 95,
+      "world": 10,
+      "world_name": "The Great Crossing",
+      "name": "The sorting yard",
+      "plate": "a4",
+      "solution": [
+        "REPEAT 6",
+        "  IF COLOUR = RED a ← 1 ELSE IF COLOUR = BLUE a ← 2 ELSE a ← 3 END END",
+        "  PICK_UP RIGHT REPEAT a FORWARD END DROP",
+        "  RIGHT RIGHT REPEAT a FORWARD END RIGHT",
+        "END"
+      ]
+    },
+    {
+      "id": 96,
+      "world": 10,
+      "world_name": "The Great Crossing",
+      "name": "Five mazes",
+      "plate": "a4",
+      "solution": [
+        "WHILE HERE ≠ YELLOW RIGHT WHILE FRONT ≠ FREE LEFT END FORWARD END"
+      ]
+    },
+    {
+      "id": 97,
+      "world": 10,
+      "world_name": "The Great Crossing",
+      "name": "The rescue",
+      "plate": "a4",
+      "solution": [
+        "a ← 0 b ← 0",
+        "REPEAT 8",
+        "  WHILE FRONT ≠ ROCK",
+        "    IF FRONT = HATCHLING PICK_UP a ← a + 1 END",
+        "    FORWARD",
+        "  END",
+        "  IF b = 0 RIGHT FORWARD RIGHT b ← 1",
+        "  ELSE LEFT FORWARD LEFT b ← 0 END",
+        "END",
+        "REPEAT a DROP END"
+      ]
+    },
+    {
+      "id": 98,
+      "world": 10,
+      "world_name": "The Great Crossing",
+      "name": "Currents and beams",
+      "plate": "a4",
+      "solution": [
+        "WHILE HERE ≠ YELLOW",
+        "  IF LIGHT = RED WAIT",
+        "  ELSE IF FRONT = FREE FORWARD",
+        "  ELSE IF FRONT = GATE WAIT ELSE LEFT END",
+        "  END END",
+        "END"
+      ]
+    },
+    {
+      "id": 99,
+      "world": 10,
+      "world_name": "The Great Crossing",
+      "name": "The storm",
+      "plate": "a4",
+      "solution": [
+        "DEFINE ★ IF FRONT = HATCHLING PICK_UP END IF HERE = RED PAINT GREEN END END",
+        "DEFINE ● WHILE LIGHT = RED WAIT END END",
+        "WHILE HERE ≠ YELLOW",
+        "  ★ ●",
+        "  IF FRONT = ROCK RIGHT IF FRONT = ROCK LEFT LEFT END",
+        "  ELSE FORWARD END",
+        "END",
+        "REPEAT CARRYING DROP END"
+      ]
+    },
+    {
+      "id": 100,
+      "world": 10,
+      "world_name": "The Great Crossing",
+      "name": "Home",
+      "plate": "a4",
+      "solution": [
+        "DEFINE ★ RIGHT WHILE FRONT ≠ FREE LEFT END FORWARD END",
+        "WHILE HERE ≠ YELLOW",
+        "  ★",
+        "  IF FRONT = HATCHLING PICK_UP END",
+        "END",
+        "REPEAT CARRYING DROP END"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tactile Turtle</title>
+    <link rel="icon" href="data:," />
+    <style>
+      html, body { margin: 0; height: 100%; background: #000; color: #fff; font-family: "Noto Sans", system-ui, sans-serif; }
+      #stage { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; }
+      #stage svg { max-width: 100vw; max-height: 100vh; }
+      #start { font-size: 2rem; padding: 1rem 2.5rem; border-radius: 1rem; border: 0; background: #ffb703; color: #000; font-weight: 700; cursor: pointer; }
+      #debug { position: fixed; right: 0.5rem; bottom: 0.5rem; display: none; text-align: right; font-size: 0.8rem; color: #8f8; }
+      #debug video { width: 320px; transform: scaleX(-1); display: block; }
+      body.debug #debug { display: block; }
+    </style>
+  </head>
+  <body>
+    <div id="stage"><button id="start">Start</button></div>
+    <div id="debug"><video id="video" muted playsinline></video><div id="stats"></div></div>
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>
