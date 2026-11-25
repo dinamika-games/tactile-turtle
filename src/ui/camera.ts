@@ -23,6 +23,9 @@ export class CameraScanner {
   private busy = false;
   private running = false;
   private started = false;
+  private looping = false;
+  /** Counts the stops: a start that is still waiting for the camera when stop() is called gives up. */
+  private generation = 0;
   /** Called for every frame read while scanning. */
   onUpdate: (update: ScanUpdate) => void = () => {};
 
@@ -34,24 +37,45 @@ export class CameraScanner {
 
   /** Start the camera (once); it asks for 1280 x 720, without which browsers give 640 x 480. */
   async start(): Promise<void> {
+    const generation = this.generation;
     if (!this.started) {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: { width: { ideal: 1280 }, height: { ideal: 720 }, facingMode: "user" },
         audio: false,
       });
+      if (generation !== this.generation) {
+        // The level was left while the camera was starting: switch it off again.
+        stream.getTracks().forEach((track) => track.stop());
+        return;
+      }
       this.video.srcObject = stream;
       await this.video.play();
+      if (generation !== this.generation) return;
       this.started = true;
-      this.loop();
+      if (!this.looping) {
+        this.looping = true;
+        this.loop();
+      }
     }
     this.hold.reset();
     this.running = true;
   }
 
-  /** Stop scanning (the camera stays on, so that the next level starts at once). */
+  /** Stop scanning (the camera stays on: e.g. while the turtle runs the program). */
   pause(): void {
     this.running = false;
     this.hold.reset();
+  }
+
+  /** Switch the camera off (leaving a level): its light goes out. start() turns it on again. */
+  stop(): void {
+    this.generation++;
+    this.onUpdate = () => {};
+    this.pause();
+    const stream = this.video.srcObject as MediaStream | null;
+    stream?.getTracks().forEach((track) => track.stop());
+    this.video.srcObject = null;
+    this.started = false;
   }
 
   private received(reply: ScanReply): void {

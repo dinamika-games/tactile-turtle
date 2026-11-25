@@ -103,7 +103,7 @@ export class App {
   private render(screen: Screen): void {
     // Leaving a level: stop scanning, give the webcam's room back to the stage.
     if (screen.name !== "level") {
-      this.context.scanner.pause();
+      this.context.scanner.stop();
       document.body.classList.remove("camera");
     }
     switch (screen.name) {
@@ -161,22 +161,22 @@ export class App {
 
   chooseJourney(): void {
     const all = this.journeys.list();
-    const card = (journey: Journey) =>
-      `<span class="name">${escape(journey.name)}</span><span class="meta">${t("ui.points", { n: totalPoints(journey) })}</span>`;
-    const last = all[0];
+    // One row per journey: the journey (the last one first, to continue), and Delete beside it.
+    const rows = all
+      .map(
+        (journey, i) =>
+          `<div class="row"><button class="${i === 0 ? "" : "secondary"} journey" data-id="${journey.id}">` +
+          `<span class="name">${i === 0 ? `${t("ui.continue")}: ` : ""}${escape(journey.name)}</span>` +
+          `<span class="meta">${t("ui.points", { n: totalPoints(journey) })}</span></button>` +
+          `<button class="small danger" data-delete="${journey.id}" title="${t("ui.delete")}">🗑 ${t("ui.delete")}</button></div>`,
+      )
+      .join("");
     const root = this.menu(
       `<h2>${t("ui.journeys")}</h2>` +
-        (last !== undefined ? `<button data-id="${last.id}">${t("ui.continue")}: ${card(last)}</button>` : "") +
+        `<div class="list">${rows}</div>` +
         `<div class="new"><input id="journey-name" value="${escape(defaultName())}" aria-label="${t("ui.journey_name")}">` +
         `<button data-action="new">+ ${t("ui.new_journey")}</button></div>` +
-        `<div class="list">` +
-        all
-          .slice(1)
-          .map((journey) => `<div class="row"><button class="secondary" data-id="${journey.id}">${card(journey)}</button>` +
-            `<button class="small danger" data-delete="${journey.id}">${t("ui.delete")}</button></div>`)
-          .join("") +
-        (last !== undefined ? `<div class="row"><button class="small danger" data-delete="${last.id}">${t("ui.delete")}: ${escape(last.name)}</button></div>` : "") +
-        `</div><button class="small" data-action="back">${backArrow()} ${t("ui.back")}</button>`,
+        `<button class="small" data-action="back">${backArrow()} ${t("ui.back")}</button>`,
     );
     root.querySelectorAll<HTMLButtonElement>("[data-id]").forEach((button) => {
       button.onclick = () => {

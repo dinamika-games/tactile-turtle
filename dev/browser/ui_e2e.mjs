@@ -109,10 +109,21 @@ try {
   await evaluate("history.back()");
   check(await waitFor(async () => (await text()).includes("Wählt ein Level")), "the browser's Back leaves the level for the levels");
   check((await evaluate("document.body.classList.contains('camera')")) === false, "leaving the level hides the webcam");
+  check((await evaluate("document.getElementById('video').srcObject === null")) === true, "leaving the level switches the camera off");
   await evaluate("history.back()");
   check(await waitFor(async () => (await text()).includes("Wählt eine Welt")), "Back again: the worlds");
   await click('[data-action="home"]');
   check(await waitFor(async () => (await text()).includes("Spielen")), "🏠 leads to the main menu");
+  await click('[data-action="play"]');
+  await waitFor(async () => (await text()).includes("Eure Reisen"));
+  await evaluate(`document.getElementById('journey-name').value = 'Klasse 4b'`);
+  await click('[data-action="new"]');
+  await waitFor(async () => (await text()).includes("Wählt eine Welt"));
+  await evaluate("history.back()");
+  check(await waitFor(async () => (await text()).includes("Klasse 4b")), "back at the journeys, with the second one");
+  check((await evaluate("document.querySelectorAll('[data-delete]').length")) === 2, "two journeys, one Delete each");
+  check((await evaluate("document.querySelectorAll('[data-id]').length")) === 2, "each journey once");
+  await shot("journeys-two");
   if (errors.length > 0) { console.log("ERRORS:\n" + errors.join("\n")); failures++; }
   ws.close();
 } finally {
