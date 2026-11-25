@@ -226,17 +226,18 @@ Measured with the virtual webcam (section 13), which renders a 65° webcam with 
 
 **Focus:** laptop webcams have fixed-focus lenses, sharp from about 50 cm. With a typical lens (2.5 mm, f/2.2, focused at 60 cm), the defocus at 30–35 cm is a blur disk of 3.4–4.7 µm, σ ≈ 0.24–0.34 px at 640 × 480 (0.5–0.7 px at 720p): less than the blur of the lens itself. At 25 cm it is σ ≈ 0.5 px (VGA). So focus is not the limit at arm's length; resolution is. To be confirmed with real cameras (milestone 1).
 
-## 6. Screens
+## 6. Screens (built: `src/ui/`)
 
-1. **Start:** the turtle on the beach; Play, Levels, Print Tiles, How to Play, Settings.
-2. **Language** (the first time).
-3. **Journeys:** Continue, + New journey, and the other recent journeys (section 8).
-4. **Camera check** (each start, skippable): how well the anchors are seen, light, resolution.
-5. **The island map:** the ten worlds, the levels as numbered stones with stars; locked ones dim.
-6. **The level:** the task (section 4), which stays on the screen while the children program, the scanning ring over it, the run.
-7. **The reward:** points, stars, golden shell, Next.
+1. **Language**, on every load of the page: big buttons, each language named in itself, in alphabetical order; the last choice is marked (one tap). The choice is kept in local storage.
+2. **Start:** the title, Play, and 🌐 with the language (to change it).
+3. **Journeys** (section 8): Continue the last one, + New journey (named with the date and time, or typed), the others, and Delete (with a question).
+4. **Worlds:** the ten worlds with the stars collected; a world is open when one of its levels is.
+5. **Levels of the world:** open ones with their stars, locked ones with 🔒, open ones without a map yet "In preparation".
+6. **The level:** the board with the name and the goal; the webcam beside it (a column on the right in landscape, a strip at the bottom in portrait, never over the level); the scanning ring over the dimmed level; the run; the **reward** (stars, points, Next level, Try again, Levels).
 
-**Without a camera** (development, testing, groups without a kit): an on-screen plate where tiles are dragged into the slots; same parser and rules.
+Every screen is a step in the browser's history: Back (the button, or the browser's, or a swipe on a tablet) goes to the previous screen; 🏠 leads to the start from the worlds and the levels. Buttons are large for tablets, and lift under the mouse where there is one. Everything is fitted to the screen (tested on emulated tablets in both orientations).
+
+**The demo** (`?demo`, not linked from the game) plays imaginary plates without a camera; **`?unlock`** opens every level for trying the game.
 
 ## 7. The 100 levels (`data/levels.json`)
 
@@ -272,17 +273,17 @@ Every level has a reference solution. Levels 1, 10, 45 and 92 have their maps an
 ### World 10: The Great Crossing (algorithms, olympiad tasks)
 91 Hand on the wall (right-hand rule) · 92 Follow the line (`COLOUR`) · 93 The snake (scanning a field) · 94 Bar chart (count, report; A3 plate) · 95 The sorting yard (three colours to three zones) · 96 Five mazes · 97 The rescue (find the hatchlings, bring them home) · 98 Currents and beams · 99 The storm · 100 Home
 
-## 8. Journeys
+## 8. Journeys (built: `src/ui/journeys.ts`)
 
-A **journey** is one playthrough of a group (like the journeys of The Steppe Rescue and the voyages of Bird Dog): a name (the date and time by default), the times it was created and changed, and per level the best time, points, stars and golden shell. Many journeys per device; Continue, + New journey, and Delete in three steps. JSON in `localStorage` with a format version; export and import as a file, to move a class's work between devices. Unlocking is derived from the results.
+A **journey** is one playthrough of a group (like the journeys of The Steppe Rescue and the voyages of Bird Dog): a name, the times it was created and changed, and per level the best time, points and stars. Many journeys per device, kept in the browser's local storage (`tactile-turtle/journeys`, with a format version; a broken save starts afresh instead of breaking the game). **Unlocking** is derived from the results: level 1 is open, then every level up to two beyond the highest won one. **Points:** within the par time (3 minutes in world 1, a minute more per world) 300 points and three stars, down to 100 points at three times the par. Export and import of journeys as files is still to do.
 
 ## 9. Languages
 
-`i18n/<lang>.json` per language: English `en`, German `de`, Serbian `sr` and `sr-Latn`, Albanian `sq`, Tibetan `bo`. The words on the tiles are `tile.<KEY>`; all but English are drafts to be reviewed by native speakers (marked in the files). The UI language and the language of a kit are independent. Fonts are bundled (Noto Sans, Noto Serif Tibetan).
+Sixteen, in `i18n/<code>.json`: Arabic (`ar`, right to left: the menus turn round, the programs stay left to right), Bosanski / Hrvatski / Srpski (`hbs`, Latin script, ijekavian), German, English, Spanish, French, Hindi, Italian, Japanese, Korean, Portuguese (Brazilian), Russian, Albanian, Tibetan, Turkish and Chinese (simplified). Each has the words of the tiles, the texts of the screens, the goals, the names of the worlds and of all 100 levels; `tests/i18n.test.ts` checks that none is missing. All but English are drafts, to be reviewed by native speakers (marked in the files). The UI language and the language of a kit are independent: tiles are recognised by id only.
 
 ## 10. Printing the tiles (`dev/print/generate_stickers.py`)
 
-* `tactile-turtle-tiles-<lang>.pdf`: the kit, 8 × 11 tiles per A4 sheet, grouped by kind, with dashed cut lines;
+* `tactile-turtle-tiles-<lang>.pdf`: the kit, 8 × 11 tiles per A4 sheet, grouped by kind, with dashed cut lines (Chinese, Japanese and Korean with Noto Sans CJK, Hindi with Noto Sans Devanagari, Arabic with Noto Sans Arabic); `--worlds 1` makes a smaller kit for some worlds;
 * `tactile-turtle-plate-a4.pdf`, `tactile-turtle-plate-a3.pdf`: the plate stickers.
 
 The pages are HTML rendered by WeasyPrint (HarfBuzz/Pango: Tibetan stacks correctly). Labels are fitted to their tile by measuring the shaped word; the script refuses substituted fonts and missing glyphs. The marker codes come from `data/markers.json`, the same file the detector uses. `npm run verify:print` reads every PDF back with the game's detector and checks that the whole kit and every anchor is found.

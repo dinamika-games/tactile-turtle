@@ -94,7 +94,7 @@ async function playScenario(
       // 1. The task: the level stays on the screen while the children
       //    study it and set the tiles on the plate.
       const board = renderBoard(parseMap(level.days[0].map), {
-        caption: `Level ${level.id}: ${level.name}. ${goalSentence(level)}`,
+        caption: `Level ${level.id}: ${level.name}\n${goalSentence(level)}`,
         skin,
       });
       show(board, `Level ${level.id}. The children study the level and set the tiles on the plate. ${scenario.about}`);

@@ -1,13 +1,14 @@
 // A fake camera for Chrome: an MJPEG file of the virtual webcam, a while
-// without the plate, then the plate with the solution of level 45 held up at
-// 52 cm. Usage: node dev/browser/fake_camera.ts <out.mjpeg>
+// without the plate, then the plate with the solution of a level (default 45)
+// held up at 52 cm. Usage: node dev/browser/fake_camera.ts <out.mjpeg> [level]
 import { writeFileSync } from "node:fs";
 import levels from "../../data/levels.json" with { type: "json" };
 import { layoutProgram } from "../../src/lang/layout.ts";
 import { PLATES } from "../../src/scan/plate.ts";
 import { mulberry32, placeByHand, render, toJpeg, trembling, WEBCAM_720P } from "../../tests/virtual-webcam.ts";
 
-const program = levels.levels.find((l) => l.id === 45)!.solution.join("\n");
+const levelId = Number(process.argv[3] ?? 45);
+const program = levels.levels.find((l) => l.id === levelId)!.solution.join("\n");
 const plate = PLATES[0];
 const scene = placeByHand(plate, layoutProgram(program, plate.columns, plate.rows)!, 5);
 const random = mulberry32(42);

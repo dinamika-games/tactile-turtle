@@ -42,6 +42,8 @@ export interface AnimationOptions {
   readonly endSteps?: number;
   /** Draw with sprites (the turtle walks and turns in frames) instead of vectors. */
   readonly skin?: Skin;
+  /** The word on a tile in the picture of the program (default: English). */
+  readonly word?: (token: Token) => string;
 }
 
 /** The share of a step spent standing still before moving. */
@@ -175,7 +177,7 @@ const GROUP_STROKE: Record<string, string> = {
   value: "#2f6fd6",
 };
 
-function chipLabel(token: Token): string {
+function englishWord(token: Token): string {
   return token.kind.group === "number" ? String(token.value) : (token.kind.symbol ?? token.kind.key.replace("_", " "));
 }
 
@@ -189,6 +191,7 @@ export function renderRunAnimation(
   options: AnimationOptions = {},
 ): string {
   const stepMs = options.stepMs ?? 700;
+  const chipLabel = (token: Token) => (token.kind.group === "number" ? String(token.value) : (options.word ?? englishWord)(token));
   const timeline = new Timeline(frames.length - 1, stepMs, options.endSteps ?? 3, options.loop ?? true);
   const first = frames[0].world;
   const boardWidth = first.width * CELL;

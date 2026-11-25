@@ -50,8 +50,21 @@ export interface Played {
   readonly world: World;
 }
 
+/** The words of a run, in the language of the game (English by default). */
+export interface RunWords {
+  caption(token: Token): string;
+  readonly wellDone: string;
+  readonly notQuite: string;
+}
+
+export const ENGLISH_WORDS: RunWords = {
+  caption: (token) => token.kind.symbol ?? token.kind.key.replace("_", " "),
+  wellDone: "Well done!",
+  notQuite: "Not quite: try again",
+};
+
 /** Run the tokens on the level; a parse or run error ends the run with its message. */
-export function play(level: Level, tokens: readonly Token[]): Played {
+export function play(level: Level, tokens: readonly Token[], words: RunWords = ENGLISH_WORDS): Played {
   const world = parseMap(level.days[0].map);
   const frames: AnimationFrame[] = [{ world: cloneWorld(world), token: null, caption: level.name }];
   let ending: string;
@@ -59,10 +72,10 @@ export function play(level: Level, tokens: readonly Token[]): Played {
   try {
     const program = parse(tokens);
     for (const { token } of run(program, world)) {
-      frames.push({ world: cloneWorld(world), token, caption: token.kind.symbol ?? token.kind.key.replace("_", " ") });
+      frames.push({ world: cloneWorld(world), token, caption: words.caption(token) });
     }
     won = level.goals.every((goal) => goalMet(goal, world));
-    ending = won ? "Well done!" : "Not quite: try again";
+    ending = won ? words.wellDone : words.notQuite;
   } catch (error) {
     ending = error instanceof ParseError || error instanceof RunError ? error.message : String(error);
   }

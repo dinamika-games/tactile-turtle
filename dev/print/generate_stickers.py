@@ -150,14 +150,27 @@ def resolve_font(family: str, weight: int) -> FontChoice:
         raise SystemExit(
             f"The font {family!r} is not installed (fontconfig offers "
             f"{families_line!r} instead). On Debian or Ubuntu: "
-            "sudo apt-get install fonts-noto-core fonts-dejavu-core fonts-tibetan-machine"
+            "sudo apt-get install fonts-noto-core fonts-noto-cjk fonts-dejavu-core fonts-tibetan-machine"
         )
     return FontChoice(family=family, weight=weight, path=pathlib.Path(file_line))
+
+
+# Fonts for scripts beyond Latin, Cyrillic and Greek (Noto Sans covers those).
+# Chinese, Japanese and Korean: fonts-noto-cjk; Hindi and Arabic: fonts-noto-core.
+CJK_FONTS = {
+    "zh": "Noto Sans CJK SC",
+    "ja": "Noto Sans CJK JP",
+    "ko": "Noto Sans CJK KR",
+    "hi": "Noto Sans Devanagari",
+    "ar": "Noto Sans Arabic",
+}
 
 
 def font_for(language: Language, tile: Tile) -> FontChoice:
     if tile.symbol is not None:
         return resolve_font("DejaVu Sans", 700)
+    if language.code in CJK_FONTS:
+        return resolve_font(CJK_FONTS[language.code], 700)
     if language.code == "bo":
         # Its stacks are more compact than those of Noto Serif Tibetan: the
         # same strip holds the words about half again as large.

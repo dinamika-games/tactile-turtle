@@ -97,7 +97,7 @@ venv/bin/python dev/print/generate_stickers.py      # print/*.pdf
 npm run verify:print                                # read them back with the detector
 ```
 
-On Debian/Ubuntu the PDFs need `fonts-noto-core fonts-dejavu-core fonts-tibetan-machine`, and the check needs `poppler-utils`.
+On Debian/Ubuntu the PDFs need `fonts-noto-core fonts-noto-cjk fonts-dejavu-core fonts-tibetan-machine`, and the check needs `poppler-utils`.
 
 Pushing a tag `v*` builds the game and the PDFs in every language and attaches them to the GitHub Release.
 

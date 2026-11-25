@@ -315,14 +315,15 @@ const CAPTION_LINE = 27;
 const CAPTION_PAD = 12;
 
 /**
- * Break a caption into lines that fit the width. The first sentence (e.g.
- * "Level 45: Red left, blue right.") is the title; the rest (the goal) starts
- * on a new line.
+ * Break a caption into lines that fit the width. A caption may have a title
+ * and more text, separated by a line break (e.g. "Level 45: Red left, blue
+ * right" and its goal): the title is bold, the rest starts on a new line.
  */
 export function captionLines(text: string, width: number): { text: string; bold: boolean }[] {
   const perLine = Math.max(10, Math.floor((width - 2 * CAPTION_PAD) / (CAPTION_FONT * 0.56)));
-  const split = /^(Level \d+: [^.]*\.)\s+(.*)$/.exec(text);
-  const parts = split ? [{ text: split[1], bold: true }, { text: split[2], bold: false }] : [{ text, bold: true }];
+  // "Title\nmore": the title in bold, the rest below it.
+  const [title, ...rest] = text.split("\n");
+  const parts = [{ text: title, bold: true }, ...(rest.length > 0 ? [{ text: rest.join(" "), bold: false }] : [])];
   const lines: { text: string; bold: boolean }[] = [];
   for (const part of parts) {
     let line = "";

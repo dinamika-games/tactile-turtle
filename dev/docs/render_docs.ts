@@ -37,7 +37,7 @@ function write(path: string, content: string): void {
 // The screens: the level stays on the screen while the children program;
 // while the plate is read, the ring is over the dimmed level.
 const level45 = levelsData.levels.find((candidate) => candidate.id === 45) as unknown as { name: string; days: { map: string[] }[] };
-const board = renderBoard(parseMap(level45.days[0].map), { caption: `Level 45: ${level45.name}. Put every box on its colour.`, skin });
+const board = renderBoard(parseMap(level45.days[0].map), { caption: `Level 45: ${level45.name}\nPut every box on its colour.`, skin });
 function overBoard(progress: number, hint?: string): string {
   return scanningOverlay(board, { progress, label: "Scanning", hint, spanner: skin.href("spanner") });
 }
