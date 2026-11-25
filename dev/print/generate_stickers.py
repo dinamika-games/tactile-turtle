@@ -507,12 +507,49 @@ COMMON_CSS = """
 """
 
 
+# The text form of the solutions (src/lang/tokens.ts): symbols for some keys.
+_SYMBOL_KEYS = {
+    "←": "ASSIGN", "<-": "ASSIGN", "★": "STAR", "●": "DOT", "+": "PLUS", "−": "MINUS", "-": "MINUS",
+    "×": "TIMES", "*": "TIMES", "=": "EQUAL", "==": "EQUAL", "≠": "NOT_EQUAL", "!=": "NOT_EQUAL",
+    "<": "LESS", ">": "GREATER",
+}
+
+# Spare tiles in a kit for some worlds: the children try more than one idea.
+_SPARES = {"FORWARD": 2, "LEFT": 2, "RIGHT": 2}
+
+
+def kit_for_worlds(tiles: List[Tile], worlds: Sequence[int]) -> Dict[str, int]:
+    """
+    The tiles the levels of these worlds need (per kind, the most any of their
+    reference solutions uses), with a few spares.
+    """
+    levels = load_json(REPO / "data" / "levels.json")["levels"]
+    need: Dict[str, int] = {}
+    for level in levels:
+        if level["world"] not in worlds:
+            continue
+        counts: Dict[str, int] = {}
+        for word in " ".join(level["solution"]).split():
+            keys = list(word) if word.isdigit() else [_SYMBOL_KEYS.get(word, word)]
+            for key in keys:
+                counts[key] = counts.get(key, 0) + 1
+        for key, count in counts.items():
+            need[key] = max(need.get(key, 0), count)
+    known = {tile.key for tile in tiles}
+    unknown = set(need) - known
+    if unknown:
+        raise SystemExit(f"Unknown words in the solutions: {sorted(unknown)}")
+    return {key: count + _SPARES.get(key, 1) for key, count in need.items()}
+
+
 def render_tiles_pdf(
     language: Language,
     tiles: List[Tile],
     catalogue: Dict[str, Any],
     output: pathlib.Path,
+    counts: Optional[Dict[str, int]] = None,
 ) -> List[str]:
+    """Render a kit: the standard kit, or ``counts`` (tile key: how many)."""
     geometry = catalogue["geometry_mm"]
     groups = catalogue["groups"]
 
@@ -521,7 +558,7 @@ def render_tiles_pdf(
         for group in GROUP_ORDER
         for tile in tiles
         if tile.group == group
-        for _ in range(tile.kit)
+        for _ in range(tile.kit if counts is None else counts.get(tile.key, 0))
     ]
 
     per_page = COLUMNS * ROWS
@@ -649,6 +686,13 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         default=REPO / "print",
         help="Output directory (default: print/)",
     )
+    parser.add_argument(
+        "--worlds",
+        help=(
+            "Make a smaller kit for these worlds only, e.g. 1 or 1-3 (the tiles "
+            "their levels need, with spares); written as ...-world-1.pdf"
+        ),
+    )
     args = parser.parse_args(argv)
 
     catalogue = load_json(REPO / "data" / "tiles.json")
@@ -661,11 +705,23 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
 
     args.output.mkdir(parents=True, exist_ok=True)
 
+    counts: Optional[Dict[str, int]] = None
+    suffix = ""
+    if args.worlds:
+        first, _, last = args.worlds.partition("-")
+        worlds = list(range(int(first), int(last or first) + 1))
+        counts = kit_for_worlds(tiles, worlds)
+        suffix = f"-world-{args.worlds}"
+        print(f"The kit for world {args.worlds}: {sum(counts.values())} tiles: {counts}")
+
     for language in languages:
-        pdf = args.output / f"tactile-turtle-tiles-{language.code}.pdf"
-        for warning in render_tiles_pdf(language, tiles, catalogue, pdf):
+        pdf = args.output / f"tactile-turtle-tiles-{language.code}{suffix}.pdf"
+        for warning in render_tiles_pdf(language, tiles, catalogue, pdf, counts):
             print(f"Warning: {warning}", file=sys.stderr)
         print(f"Wrote {pdf}")
+
+    if args.worlds:
+        return 0
 
     for plate in plates["plates"]:
         pdf = args.output / f"tactile-turtle-plate-{plate['name']}.pdf"

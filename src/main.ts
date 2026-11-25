@@ -9,6 +9,7 @@ import levelsData from "../data/levels.json" with { type: "json" };
 import { parse, ParseError } from "./lang/parser.ts";
 import { tokenize } from "./lang/tokens.ts";
 import { renderRunAnimation, type AnimationFrame } from "./render/animation.ts";
+import { skinFrom } from "./render/skin.ts";
 import { blackScreen, scanningScreen } from "./render/screens.ts";
 import { PlateHold } from "./scan/hold.ts";
 import { fromData } from "./scan/plate.ts";
@@ -20,6 +21,12 @@ import { cloneWorld, parseMap } from "./world/world.ts";
 const stage = document.getElementById("stage")!;
 const video = document.getElementById("video") as HTMLVideoElement;
 const stats = document.getElementById("stats")!;
+
+// The sprites (assets/sprites/), as URLs of the built site.
+const spriteUrls = import.meta.glob("../assets/sprites/*.png", { eager: true, query: "?url", import: "default" }) as Record<string, string>;
+const skin = skinFrom(
+  Object.fromEntries(Object.entries(spriteUrls).map(([path, url]) => [path.replace(/^.*\/(.*)\.png$/, "$1"), url])),
+);
 
 /** Anchors smaller than this (pixels) are hard to read: ask to come closer. */
 const SMALL_ANCHOR_PX = 26;
@@ -74,6 +81,7 @@ worker.onmessage = (event: MessageEvent<ScanReply>) => {
       height: 720,
       progress: state.progress,
       label: "Scanning",
+      spanner: skin.href("spanner"),
       hint: small ? "Come a little closer" : partial ? "Show all of the plate" : undefined,
     }),
   );
@@ -115,7 +123,7 @@ async function runProgram(rows: Parameters<typeof tokenize>[0]): Promise<void> {
 
   // The whole run as one smooth animation (src/render/animation.ts), played once.
   const stepMs = 600;
-  show(renderRunAnimation(tokens, frames, { stepMs, loop: false }));
+  show(renderRunAnimation(tokens, frames, { stepMs, loop: false, skin }));
   await new Promise((resolve) => setTimeout(resolve, (frames.length + 4) * stepMs));
   show(blackScreen(1280, 720));
   mode = "scanning";

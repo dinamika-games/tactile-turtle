@@ -7,6 +7,7 @@
 // soft shadows under the things, glowing lamps and a vignette.
 
 import type { Colour, Thing, World } from "../world/world.ts";
+import { THING_EXTENT, TURTLE_EXTENT, variant, type Skin } from "./skin.ts";
 
 export const CELL = 64;
 
@@ -90,8 +91,26 @@ export function floorFill(floor: World["cells"][number][number]["floor"]): strin
   return PALETTE[floor];
 }
 
+/** A sprite, centred at (cx, cy), with the thing (not the square) ``size`` wide. */
+export function spriteImage(skin: Skin, name: string, size: number, cx = 0, cy = 0, extent = THING_EXTENT): string {
+  const side = size / extent;
+  return `<image href="${skin.href(name)}" x="${(cx - side / 2).toFixed(1)}" y="${(cy - side / 2).toFixed(1)}" width="${side.toFixed(1)}" height="${side.toFixed(1)}"/>`;
+}
+
 /** The ground: sand everywhere (with grain), then the sea (with caustics). */
-export function drawGround(world: World): string {
+export function drawGround(world: World, skin?: Skin): string {
+  if (skin !== undefined) {
+    // Sprites: a tile of sand or sea per cell, the variants chosen by position.
+    const tiles: string[] = [];
+    for (let y = 0; y < world.height; y++) {
+      for (let x = 0; x < world.width; x++) {
+        const sea = world.cells[y][x].floor === "SEA";
+        const name = sea ? `sea-${variant(x * 31 + y * 17, 8)}` : `sand-${variant(x * 13 + y * 29, 4)}`;
+        tiles.push(`<image href="${skin.href(name)}" x="${x * CELL}" y="${y * CELL}" width="${CELL + 0.5}" height="${CELL + 0.5}"/>`);
+      }
+    }
+    return tiles.join("");
+  }
   const width = world.width * CELL;
   const height = world.height * CELL;
   const sea: string[] = [];
@@ -109,9 +128,12 @@ export function drawGround(world: World): string {
 }
 
 /** A coloured cell (coral painted on the sand), with its symbol. */
-export function drawColourCell(colour: Colour, x: number, y: number, opacity = 1): string {
+export function drawColourCell(colour: Colour, x: number, y: number, opacity = 1, skin?: Skin): string {
   const px = x * CELL;
   const py = y * CELL;
+  if (skin !== undefined) {
+    return `<g opacity="${opacity}"><image href="${skin.href(`cell-${colour.toLowerCase()}`)}" x="${px}" y="${py}" width="${CELL + 0.5}" height="${CELL + 0.5}"/></g>`;
+  }
   return (
     `<g opacity="${opacity}"><rect x="${px + 3}" y="${py + 3}" width="${CELL - 6}" height="${CELL - 6}" rx="10" ` +
     `fill="${PALETTE[colour]}" fill-opacity="0.6"/>` +
@@ -133,8 +155,29 @@ export function drawGrid(world: World): string {
   return `<g stroke="#c9ad74" stroke-width="1" opacity="0.35">${parts.join("")}</g>`;
 }
 
+/** How large each kind of thing is drawn as a sprite (the thing itself, in pixels). */
+const SPRITE_SIZES: Record<Thing["kind"], number> = { ROCK: 60, HATCHLING: 40, BOX: 46, LAMP: 44, GATE: 60 };
+
+/** A thing as a sprite, centred at (0, 0). */
+export function drawThingSprite(thing: Thing, skin: Skin): string {
+  const size = SPRITE_SIZES[thing.kind];
+  switch (thing.kind) {
+    case "ROCK":
+      return spriteImage(skin, `rock-${variant(thing.id, 6)}`, size);
+    case "HATCHLING":
+      return spriteImage(skin, `hatchling-${variant(thing.id, 8)}`, size);
+    case "BOX":
+      return spriteImage(skin, `box-${thing.colour.toLowerCase()}`, size);
+    case "LAMP":
+      return spriteImage(skin, thing.on ? "lamp-4" : "lamp-0", size);
+    case "GATE":
+      return spriteImage(skin, thing.open ? "gate-5" : "gate-0", size);
+  }
+}
+
 /** A thing, centred at (0, 0); place it with a transform. */
-export function drawThingShape(thing: Thing): string {
+export function drawThingShape(thing: Thing, skin?: Skin): string {
+  if (skin !== undefined) return drawThingSprite(thing, skin);
   switch (thing.kind) {
     case "ROCK":
       return (
@@ -213,6 +256,14 @@ export function turnPose(frame: number, direction: "left" | "right"): TurtlePose
     : { frontLeft: paddle, frontRight: -calm, backLeft: -paddle * 0.6, backRight: calm, head: 0 };
 }
 
+/** The length of the turtle on the board, in pixels. */
+export const TURTLE_LENGTH = 58;
+
+/** The robot turtle as a sprite (e.g. "turtle", "turtle-walk-3"), facing north, centred at (0, 0). */
+export function drawTurtleSprite(skin: Skin, name = "turtle"): string {
+  return spriteImage(skin, name, TURTLE_LENGTH, 0, 0, TURTLE_EXTENT);
+}
+
 /** The robot turtle, seen from above, facing north, centred at (0, 0). */
 export function drawTurtleShape(pose: TurtlePose = REST_POSE): string {
   const flipper = (x: number, y: number, angle: number) =>
@@ -252,6 +303,8 @@ export const CARRIED_SCALE = 0.45;
 export interface BoardOptions {
   /** A caption below the board (e.g. the statement just run). */
   readonly caption?: string;
+  /** Draw with sprites instead of the vector shapes. */
+  readonly skin?: Skin;
 }
 
 export const CAPTION_HEIGHT = 40;
@@ -266,14 +319,15 @@ export function drawCaption(text: string, width: number, top: number, opacity = 
 
 /** A still picture of the board. */
 export function renderBoard(world: World, options: BoardOptions = {}): string {
+  const skin = options.skin;
   const width = world.width * CELL;
   const captionHeight = options.caption ? CAPTION_HEIGHT : 0;
   const height = world.height * CELL + captionHeight;
-  const parts: string[] = [boardDefs(), drawGround(world)];
+  const parts: string[] = [boardDefs(), drawGround(world, skin)];
   for (let y = 0; y < world.height; y++) {
     for (let x = 0; x < world.width; x++) {
       const floor = world.cells[y][x].floor;
-      if (floor !== "SAND" && floor !== "SEA") parts.push(drawColourCell(floor, x, y));
+      if (floor !== "SAND" && floor !== "SEA") parts.push(drawColourCell(floor, x, y, 1, skin));
     }
   }
   parts.push(drawGrid(world));
@@ -282,16 +336,18 @@ export function renderBoard(world: World, options: BoardOptions = {}): string {
       const thing = world.cells[y][x].thing;
       if (thing === null) continue;
       const at = `translate(${x * CELL + CELL / 2} ${y * CELL + CELL / 2})`;
-      if (thing.kind === "LAMP" && thing.on) parts.push(`<g transform="${at}">${drawLampGlow()}</g>`);
-      parts.push(`<g transform="${at}" filter="url(#shadow)">${drawThingShape(thing)}</g>`);
+      if (skin === undefined && thing.kind === "LAMP" && thing.on) parts.push(`<g transform="${at}">${drawLampGlow()}</g>`);
+      const shadow = skin === undefined ? ' filter="url(#shadow)"' : "";
+      parts.push(`<g transform="${at}"${shadow}>${drawThingShape(thing, skin)}</g>`);
     }
   }
   const t = world.turtle;
   const cx = t.x * CELL + CELL / 2;
   const cy = t.y * CELL + CELL / 2;
-  parts.push(`<g transform="translate(${cx} ${cy}) rotate(${t.direction * 90})" filter="url(#shadow)">${drawTurtleShape()}</g>`);
+  const turtle = skin === undefined ? `<g filter="url(#shadow)">${drawTurtleShape()}</g>` : drawTurtleSprite(skin);
+  parts.push(`<g transform="translate(${cx} ${cy}) rotate(${t.direction * 90})">${turtle}</g>`);
   t.carrying.forEach((thing, i) =>
-    parts.push(`<g transform="translate(${cx} ${cy + 2 - i * 5}) scale(${CARRIED_SCALE})">${drawThingShape(thing)}</g>`),
+    parts.push(`<g transform="translate(${cx} ${cy + 2 - i * 5}) scale(${CARRIED_SCALE})">${drawThingShape(thing, skin)}</g>`),
   );
   parts.push(`<rect width="${width}" height="${world.height * CELL}" fill="url(#vignette)" pointer-events="none"/>`);
   if (options.caption) parts.push(drawCaption(options.caption, width, world.height * CELL));

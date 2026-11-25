@@ -56,7 +56,7 @@ WHILE HERE ≠ YELLOW
 END
 ```
 
-Moving, turning, picking up and dropping are smooth; the look (grain in the sand, caustics in the sea, soft shadows, glowing lamps) comes from SVG filters, and the animations are SMIL, so the same picture plays in the game, in any browser and here. The drawings are vectors for now; generated sprites will replace them later.
+Moving, turning, picking up and dropping are smooth; the look (grain in the sand, caustics in the sea, soft shadows, glowing lamps) comes from SVG filters, and the animations are SMIL, so the same picture plays in the game, in any browser and here. The sprites were generated with GenAI from the prompts in `dev/sprites/export_prompts.ts` and cut by `dev/sprites/import_sprites.py`; the turtle walks and turns in frames.
 
 ## The plate seen through a webcam
 

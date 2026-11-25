@@ -19,6 +19,8 @@ export interface ScanningOptions {
   readonly label: string;
   /** A hint, e.g. "Come closer" or "Show the right side too". */
   readonly hint?: string;
+  /** The URL of the spanner sprite (else the vector spanner is drawn). */
+  readonly spanner?: string;
 }
 
 /** The scanning screen as SVG: black, a turning spanner, a ring, the word. */
@@ -36,8 +38,10 @@ export function scanningScreen(options: ScanningOptions): string {
     `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#ffb703" stroke-width="10" stroke-linecap="round" ` +
     `stroke-dasharray="${(circumference * progress).toFixed(1)} ${circumference.toFixed(1)}" ` +
     `transform="rotate(-90 ${cx} ${cy})"/>` +
-    `<g transform="translate(${cx - spannerSize / 2} ${cy - spannerSize / 2}) scale(${spannerSize / 100})">` +
-    `<path d="${spannerPath()}" fill="#e6e6e6"/></g>` +
+    (options.spanner !== undefined
+      ? `<image href="${options.spanner}" x="${cx - spannerSize / 2}" y="${cy - spannerSize / 2}" width="${spannerSize}" height="${spannerSize}"/>`
+      : `<g transform="translate(${cx - spannerSize / 2} ${cy - spannerSize / 2}) scale(${spannerSize / 100})">` +
+        `<path d="${spannerPath()}" fill="#e6e6e6"/></g>`) +
     `<text x="${cx}" y="${cy + r + 70}" font-family="Noto Sans, sans-serif" font-size="44" font-weight="700" ` +
     `fill="#fff" text-anchor="middle">${escapeXml(options.label)}</text>` +
     (options.hint

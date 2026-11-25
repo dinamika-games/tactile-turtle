@@ -46,7 +46,10 @@ function readPdf(pdf: string, dpi: number): number[] {
 }
 
 describe.skipIf(!available)("the printable PDFs", () => {
-  const tilePdfs = available ? readdirSync(PRINT).filter((name) => name.startsWith("tactile-turtle-tiles-")) : [];
+  // The full kits (the smaller kits for some worlds, "...-world-1.pdf", are left out).
+  const tilePdfs = available
+    ? readdirSync(PRINT).filter((name) => name.startsWith("tactile-turtle-tiles-") && !name.includes("-world-"))
+    : [];
 
   it.each(tilePdfs)("%s holds the whole kit", (name) => {
     const expected = TILE_KINDS.flatMap((kind) => Array.from({ length: kind.kit }, () => kind.id)).sort((a, b) => a - b);

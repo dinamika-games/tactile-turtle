@@ -8,6 +8,7 @@
 import type { Token } from "../lang/tokens.ts";
 import type { Colour, Thing, World } from "../world/world.ts";
 import { frontOf } from "../world/world.ts";
+import type { Skin } from "./skin.ts";
 import {
   boardDefs,
   CAPTION_HEIGHT,
@@ -20,7 +21,9 @@ import {
   drawLampGlow,
   drawThingShape,
   drawTurtleShape,
+  drawTurtleSprite,
   escapeXml,
+  SPRITE_FRAMES,
 } from "./board.ts";
 
 export interface AnimationFrame {
@@ -37,6 +40,8 @@ export interface AnimationOptions {
   readonly loop?: boolean;
   /** How long the end is shown, in steps. */
   readonly endSteps?: number;
+  /** Draw with sprites (the turtle walks and turns in frames) instead of vectors. */
+  readonly skin?: Skin;
 }
 
 /** The share of a step spent standing still before moving. */
@@ -81,6 +86,29 @@ class Timeline {
     return (
       `<${element} attributeName="${attribute}"${typeAttribute} values="${values.join(";")}" keyTimes="${keyTimes}" ` +
       `calcMode="spline" keySplines="${splines}" ${this.timing()}/>`
+    );
+  }
+
+  /** The time when step i (from 1) starts moving, and when it arrives. */
+  motion(i: number): { start: number; end: number } {
+    return { start: this.starts[i - 1], end: this.ends[i - 1] };
+  }
+
+  /** Discrete, at explicit times (seconds, from 0): ``values[k]`` holds from ``times[k]``. */
+  discreteAt(attribute: string, times: readonly number[], values: readonly string[], type?: "rotate"): string {
+    const keyTimes: string[] = [];
+    const kept: string[] = [];
+    times.forEach((time, k) => {
+      if (kept.length > 0 && kept[kept.length - 1] === values[k]) return;
+      keyTimes.push((time / this.duration).toFixed(5));
+      kept.push(values[k]);
+    });
+    if (kept.length === 1) return "";
+    const element = type === undefined ? "animate" : "animateTransform";
+    const typeAttribute = type === undefined ? "" : ` type="${type}"`;
+    return (
+      `<${element} attributeName="${attribute}"${typeAttribute} values="${kept.join(";")}" keyTimes="${keyTimes.join(";")}" ` +
+      `calcMode="discrete" ${this.timing()}/>`
     );
   }
 
@@ -165,7 +193,8 @@ export function renderRunAnimation(
   const first = frames[0].world;
   const boardWidth = first.width * CELL;
   const boardHeight = first.height * CELL;
-  const parts: string[] = [boardDefs(), drawGround(first)];
+  const skin = options.skin;
+  const parts: string[] = [boardDefs(), drawGround(first, skin)];
 
   // The coloured cells; those that change (PAINT) fade from one colour to the next.
   for (let y = 0; y < first.height; y++) {
@@ -174,7 +203,7 @@ export function renderRunAnimation(
       const colours = [...new Set(floors)].filter((floor) => floor !== "SAND" && floor !== "SEA") as Colour[];
       for (const colour of colours) {
         const states = floors.map((floor) => (floor === colour ? "1" : "0"));
-        const group = drawColourCell(colour, x, y, Number(states[0]));
+        const group = drawColourCell(colour, x, y, Number(states[0]), skin);
         parts.push(group.replace("</g>", `${timeline.smooth("opacity", states)}</g>`));
       }
     }
@@ -213,12 +242,15 @@ export function renderRunAnimation(
       `<g transform="scale(${sequence[0].scale})">${scale}`;
     const close = `</g></g>`;
 
+    // Sprites bring their own shadows; the vector shapes get one from a filter.
+    const shadow = skin === undefined ? ' filter="url(#shadow)"' : "";
     if (thing.kind === "LAMP") {
       const on = sequence.map((p) => (p.thing.kind === "LAMP" && p.thing.on ? "1" : "0"));
+      const glow = skin === undefined ? drawLampGlow() : "";
       parts.push(
         open +
-          `<g filter="url(#shadow)">${drawThingShape({ ...thing, on: false })}</g>` +
-          `<g opacity="${on[0]}">${timeline.smooth("opacity", on)}${drawLampGlow()}${drawThingShape({ ...thing, on: true })}</g>` +
+          `<g${shadow}>${drawThingShape({ ...thing, on: false }, skin)}</g>` +
+          `<g opacity="${on[0]}">${timeline.smooth("opacity", on)}${glow}${drawThingShape({ ...thing, on: true }, skin)}</g>` +
           close,
       );
     } else if (thing.kind === "GATE") {
@@ -226,14 +258,16 @@ export function renderRunAnimation(
       const closed = states.map((state) => (state === "1" ? "0" : "1"));
       parts.push(
         open +
-          `<g opacity="${states[0]}">${timeline.smooth("opacity", states)}${drawThingShape({ ...thing, open: true })}</g>` +
-          `<g opacity="${closed[0]}" filter="url(#shadow)">${timeline.smooth("opacity", closed)}${drawThingShape({ ...thing, open: false })}</g>` +
+          `<g opacity="${states[0]}">${timeline.smooth("opacity", states)}${drawThingShape({ ...thing, open: true }, skin)}</g>` +
+          `<g opacity="${closed[0]}"${shadow}>${timeline.smooth("opacity", closed)}${drawThingShape({ ...thing, open: false }, skin)}</g>` +
           close,
       );
     } else if (thing.kind === "ROCK") {
-      parts.push(`<g transform="translate(${at(sequence[0])})" filter="url(#shadow)">${drawThingShape(thing)}</g>`);
+      parts.push(`<g transform="translate(${at(sequence[0])})"${shadow}>${drawThingShape(thing, skin)}</g>`);
     } else {
-      movable.push(open + `<g filter="url(#shadow)">${drawThingShape(thing)}</g>` + close);
+      // A hatchling or a box: picked up, it floats onto the turtle's back (the
+      // real thing, in its own colour), and back down when dropped.
+      movable.push(open + `<g${shadow}>${drawThingShape(thing, skin)}</g>` + close);
     }
   }
 
@@ -249,11 +283,19 @@ export function renderRunAnimation(
   const positions = frames.map(
     (frame) => `${frame.world.turtle.x * CELL + CELL / 2} ${frame.world.turtle.y * CELL + CELL / 2}`,
   );
-  parts.push(
-    `<g transform="translate(${positions[0]})">${timeline.smooth("transform", positions, "translate")}` +
-      `<g transform="rotate(${turns[0]})">${timeline.smooth("transform", turns, "rotate")}` +
-      `<g filter="url(#shadow)">${drawTurtleShape()}</g></g></g>`,
-  );
+  if (skin === undefined) {
+    parts.push(
+      `<g transform="translate(${positions[0]})">${timeline.smooth("transform", positions, "translate")}` +
+        `<g transform="rotate(${turns[0]})">${timeline.smooth("transform", turns, "rotate")}` +
+        `<g filter="url(#shadow)">${drawTurtleShape()}</g></g></g>`,
+    );
+  } else {
+    parts.push(
+      `<g transform="translate(${positions[0]})">${timeline.smooth("transform", positions, "translate")}` +
+        turtleSprites(frames, turns, timeline, skin) +
+        `</g>`,
+    );
+  }
   // Things carried are drawn above the turtle.
   parts.push(...movable);
   parts.push(`<rect width="${boardWidth}" height="${boardHeight}" fill="url(#vignette)"/>`);
@@ -295,5 +337,52 @@ export function renderRunAnimation(
   return (
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}">` +
     `<rect width="${width}" height="${height}" fill="#fffaf0"/>${parts.join("")}</svg>`
+  );
+}
+
+/**
+ * The turtle drawn with sprites: while it moves, the walk frames play; while
+ * it turns, the turn frames play (they are drawn turned), and at the end of
+ * the turn the whole turtle is turned by 90° at once, back to the standing
+ * sprite, which looks the same as the last turn frame.
+ */
+function turtleSprites(frames: readonly AnimationFrame[], turns: readonly string[], timeline: Timeline, skin: Skin): string {
+  const events: { time: number; sprite: string }[] = [{ time: 0, sprite: "turtle" }];
+  const turnTimes = [0];
+  const turnValues = [turns[0]];
+  for (let i = 1; i < frames.length; i++) {
+    const { start, end } = timeline.motion(i);
+    const key = frames[i].token?.kind.key;
+    const from = frames[i - 1].world.turtle;
+    const to = frames[i].world.turtle;
+    const moved = from.x !== to.x || from.y !== to.y;
+    const turned = from.direction !== to.direction;
+    const sequence =
+      moved && key === "FORWARD" ? "turtle-walk" : turned && key === "LEFT" ? "turtle-turn-left" : turned && key === "RIGHT" ? "turtle-turn-right" : null;
+    if (sequence !== null) {
+      for (let k = 0; k < SPRITE_FRAMES; k++) {
+        events.push({ time: start + ((end - start) * k) / SPRITE_FRAMES, sprite: `${sequence}-${k + 1}` });
+      }
+      events.push({ time: end, sprite: "turtle" });
+    }
+    if (turned) {
+      turnTimes.push(end);
+      turnValues.push(turns[i]);
+    }
+  }
+
+  const names = [...new Set(events.map((event) => event.sprite))];
+  const images = names.map((name) => {
+    const times = [0, ...events.map((event) => event.time)];
+    const values = ["0", ...events.map((event) => (event.sprite === name ? "1" : "0"))];
+    // The value at time 0 is the first event's (the standing turtle).
+    values[1] = events[0].sprite === name ? "1" : "0";
+    const opacity = timeline.discreteAt("opacity", times.slice(1), values.slice(1));
+    return `<g opacity="${name === "turtle" ? 1 : 0}">${opacity}${drawTurtleSprite(skin, name)}</g>`;
+  });
+  return (
+    `<g transform="rotate(${turnValues[0]})">${timeline.discreteAt("transform", turnTimes, turnValues, "rotate")}` +
+    images.join("") +
+    `</g>`
   );
 }
