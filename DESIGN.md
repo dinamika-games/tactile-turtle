@@ -1,7 +1,7 @@
 # Tactile Turtle: Design
 
 **Tactile Turtle is a programming puzzle game for children of about eight to fourteen. They write the programs by hand, with magnetic tiles on a metal plate, and a robot turtle on the screen carries them out.**
-Every tile carries one word of the language: `FORWARD`, `PICK UP`, `REPEAT`, `IF`, `END`, `3`, `RED`, `a`, `TIDE`, and so on. The children set the tiles on the plate row by row, the way a typesetter sets type. While they program, the screen stays black. When they are ready, they hold the plate up to the webcam: the screen shows a spanner and "Scanning", the game reads the plate, and the turtle runs the program.
+Every tile carries one word of the language: `FORWARD`, `PICK UP`, `REPEAT`, `IF`, `END`, `3`, `RED`, `a`, `TIDE`, and so on. The children set the tiles on the plate row by row, the way a typesetter sets type. While they program, the level stays on the screen, so that they can study it. When they are ready, they hold the plate up to the webcam: the screen shows a spanner and "Scanning", the game reads the plate, and the turtle runs the program.
 
 A level is a small scene on an island: rocks, hatchlings to rescue, boxes to sort, lamps to switch on, gates, coloured coral and a lighthouse. Each level is a robot task like those of the robotics olympiads (sorting, delivering, following a line, finding the way through a maze), and it needs real programming: sequences, loops, conditions, variables, `FOR` loops and procedures. The game runs in the browser, on an iPad or any laptop, so a class needs no installation. The tiles are printed from PDFs in any language, so the same game works in English, German, Serbian, Albanian or Tibetan.
 
@@ -9,7 +9,7 @@ A level is a small scene on an island: rocks, hatchlings to rescue, boxes to sor
 
 ## 1. Pillars
 
-1. **Programming with the hands.** The program is a thing you can touch. Children pass tiles to each other, argue about a row, and slide a block one step to the right. The screen shows only what the program did; while they program, it is black.
+1. **Programming with the hands.** The program is a thing you can touch. Children pass tiles to each other, argue about a row, and slide a block one step to the right. The screen shows the level and what the program did; the program itself lives on the plate.
 2. **Proper programming, not cards.** We use real constructs with real syntax: `REPEAT`, `WHILE`, `IF`/`ELSE`, `FOR … TO`, variables, arithmetic, comparisons and procedures, each block closed by `END`. What children learn here carries over to a text language.
 3. **A robot with a job.** The turtle is a little robot: it picks things up, drops them, switches things on, uses tools, reads colours. The puzzles are the tasks of robotics competitions, made to fit a grid.
 4. **A group at one plate.** One child fetches tiles from the type case, one sets them, one holds the plate up. The whole group wins a level together (Manifesto, rules 1, 2 and 6).
@@ -122,7 +122,7 @@ A plate with a parse error is never run.
 ### The structure (about 3–10 minutes)
 
 1. **The task.** The board appears with the turtle, the goal (a glowing outline and one sentence: "Put every box on its colour.") and the **type case**: the tiles this level allows, each with how many may be used. A new tile is introduced with a short animated hint.
-2. **Programming: the screen goes black.** The children set the tiles. The screen stays black, so that all eyes are on the plate and on each other; the task can be shown again by holding up an empty plate.
+2. **Programming: the level stays on the screen.** The children study the board and set the tiles. (An earlier idea was a black screen, to keep all eyes on the plate; but children need to look at the level to plan.)
 3. **Scanning.** They hold the plate up. The screen shows a spanner, the word "Scanning" and a ring that fills (section 5).
 4. **The run.** The turtle runs the program; the tile being run lights up in a picture of the plate.
 5. **The days.** If the first day succeeds, the turtle runs the same program on the other variants of the level, faster. The level is won when every day succeeds.
@@ -206,8 +206,8 @@ So the program is uniquely reconstructed from overlapping parts. A program is ac
 
 ### The screens while scanning (`src/render/screens.ts`)
 
-* No plate: **black**.
-* A plate: a **spanner**, "**Scanning**" and a ring: the first half fills with the coverage of the plate, the second half while it stays the same. Hints: "Come a little closer" (when the anchors are smaller than 26 px) and "Show all of the plate".
+* No plate: **the level**, with its name and goal.
+* A plate: the level dimmed, and over it a **spanner**, "**Scanning**" and a ring: the first half fills with the coverage of the plate, the second half while it stays the same. Hints: "Come a little closer" (when the anchors are smaller than 26 px) and "Show all of the plate".
 * Read: a chime, the picture of the read program, and the run.
 
 ### Cameras, distances and focus
@@ -233,7 +233,7 @@ Measured with the virtual webcam (section 13), which renders a 65° webcam with 
 3. **Journeys:** Continue, + New journey, and the other recent journeys (section 8).
 4. **Camera check** (each start, skippable): how well the anchors are seen, light, resolution.
 5. **The island map:** the ten worlds, the levels as numbered stones with stars; locked ones dim.
-6. **The level:** the task (section 4), then black while programming, the scanning screen, the run.
+6. **The level:** the task (section 4), which stays on the screen while the children program, the scanning ring over it, the run.
 7. **The reward:** points, stars, golden shell, Next.
 
 **Without a camera** (development, testing, groups without a kit): an on-screen plate where tiles are dragged into the slots; same parser and rules.
@@ -338,7 +338,7 @@ tests/      unit tests, the virtual webcam, the end-to-end tests
 
 1. **The scanner** (built: the detector, the plate, the hold, the page): try it with real cameras and printed tiles; tune the hints.
 2. **The language and the interpreter** (built), with the maps of all levels.
-3. **The level screen:** the task, the black screen, the scan, the run with the lit tiles, the days, the reward.
+3. **The level screen:** the task, the scan, the run with the lit tiles, the days, the reward. (A first version, with a demo of imaginary plates, is built: `?demo`.)
 4. **Print Tiles** in the game, the camera check, the on-screen plate.
 5. **Journeys, points, stars, unlocking**, the island map.
 6. **Play-testing with a class** (worlds 1–3), then tuning the kit, the par times and the hints.

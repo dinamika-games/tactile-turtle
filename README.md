@@ -8,7 +8,7 @@ It runs in the browser (iPad or any laptop), the tiles are printed from PDFs in 
 
 ```mermaid
 flowchart LR
-    A["The task<br/>(the level on the screen)"] --> B["Programming<br/>tiles on the plate,<br/>the screen is black"]
+    A["The task<br/>(the level on the screen)"] --> B["Programming<br/>tiles on the plate,<br/>the level on the screen"]
     B --> C["Holding up<br/>the plate to the webcam"]
     C --> D["Scanning<br/>spanner + ring"]
     D --> E["Markers<br/>js-aruco2 in a worker"]
@@ -25,7 +25,7 @@ flowchart LR
 
 | While the children program | When they hold the plate up | When it is too small |
 |---|---|---|
-| ![black](docs/screens/programming.svg) | ![scanning](docs/screens/scanning.svg) | ![closer](docs/screens/scanning-closer.svg) |
+| ![the level](docs/screens/programming.svg) | ![scanning](docs/screens/scanning.svg) | ![closer](docs/screens/scanning-closer.svg) |
 
 ## A program running
 

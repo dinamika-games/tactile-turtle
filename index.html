@@ -7,16 +7,21 @@
     <link rel="icon" href="data:," />
     <style>
       html, body { margin: 0; height: 100%; background: #000; color: #fff; font-family: "Noto Sans", system-ui, sans-serif; }
-      #stage { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; }
-      #stage svg { max-width: 100vw; max-height: 100vh; }
+      /* Every picture is fitted to the screen (src/main.ts, fitToScreen), with room at the bottom. */
+      #stage { position: fixed; inset: 0; padding: 2vh 2vw 7vh; box-sizing: border-box; display: flex; align-items: center; justify-content: center; }
+      #stage svg { display: block; height: auto; }
+      .pair { display: flex; gap: 2vw; align-items: center; justify-content: center; }
+      @media (orientation: portrait) { .pair { flex-direction: column; gap: 2vh; } }
       #start { font-size: 2rem; padding: 1rem 2.5rem; border-radius: 1rem; border: 0; background: #ffb703; color: #000; font-weight: 700; cursor: pointer; }
       #debug { position: fixed; right: 0.5rem; bottom: 0.5rem; display: none; text-align: right; font-size: 0.8rem; color: #8f8; }
       #debug video { width: 320px; transform: scaleX(-1); display: block; }
       body.debug #debug { display: block; }
+      #narration { position: fixed; left: 0; right: 0; bottom: 1rem; text-align: center; color: #777; font-size: 1.1rem; }
     </style>
   </head>
   <body>
     <div id="stage"><button id="start">Start</button></div>
+    <div id="narration"></div>
     <div id="debug"><video id="video" muted playsinline></video><div id="stats"></div></div>
     <script type="module" src="./src/main.ts"></script>
   </body>

@@ -11,7 +11,7 @@ import { frontOf } from "../world/world.ts";
 import type { Skin } from "./skin.ts";
 import {
   boardDefs,
-  CAPTION_HEIGHT,
+  captionHeight,
   CARRIED_SCALE,
   CELL,
   drawCaption,
@@ -300,11 +300,12 @@ export function renderRunAnimation(
   parts.push(...movable);
   parts.push(`<rect width="${boardWidth}" height="${boardHeight}" fill="url(#vignette)"/>`);
 
-  // The captions, one after the other.
+  // The captions, one after the other (all as tall as the tallest).
+  const captionSpace = Math.max(...frames.map((frame) => captionHeight(frame.caption, boardWidth)));
   frames.forEach((frame, i) => {
     const states = frames.map((_, j) => (j === i ? "1" : "0"));
     parts.push(
-      drawCaption(frame.caption, boardWidth, boardHeight, i === 0 ? 1 : 0).replace(
+      drawCaption(frame.caption, boardWidth, boardHeight, i === 0 ? 1 : 0, captionSpace).replace(
         "</g>",
         `${timeline.discrete("opacity", states)}</g>`,
       ),
@@ -332,7 +333,7 @@ export function renderRunAnimation(
   }
   const rows = tokens.length === 0 ? 0 : Math.max(...tokens.map((token) => token.row)) + 1;
   const width = x0 + panelWidth + 16;
-  const height = Math.max(boardHeight + CAPTION_HEIGHT, rows * (CHIP_HEIGHT + ROW_GAP) + 20);
+  const height = Math.max(boardHeight + captionSpace, rows * (CHIP_HEIGHT + ROW_GAP) + 20);
 
   return (
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}">` +
@@ -341,48 +342,34 @@ export function renderRunAnimation(
 }
 
 /**
- * The turtle drawn with sprites: while it moves, the walk frames play; while
- * it turns, the turn frames play (they are drawn turned), and at the end of
- * the turn the whole turtle is turned by 90° at once, back to the standing
- * sprite, which looks the same as the last turn frame.
+ * The turtle drawn with sprites. While it moves, the walk frames play; while
+ * it turns, it turns smoothly and the same frames play (it paddles round).
+ * All frames come from one sprite sheet, the same as the standing turtle: the
+ * generated turn sheets were drawn a little differently (outline, shell,
+ * centre), and switching between sheets made the turtle flicker at every turn.
  */
 function turtleSprites(frames: readonly AnimationFrame[], turns: readonly string[], timeline: Timeline, skin: Skin): string {
   const events: { time: number; sprite: string }[] = [{ time: 0, sprite: "turtle" }];
-  const turnTimes = [0];
-  const turnValues = [turns[0]];
   for (let i = 1; i < frames.length; i++) {
     const { start, end } = timeline.motion(i);
-    const key = frames[i].token?.kind.key;
     const from = frames[i - 1].world.turtle;
     const to = frames[i].world.turtle;
     const moved = from.x !== to.x || from.y !== to.y;
     const turned = from.direction !== to.direction;
-    const sequence =
-      moved && key === "FORWARD" ? "turtle-walk" : turned && key === "LEFT" ? "turtle-turn-left" : turned && key === "RIGHT" ? "turtle-turn-right" : null;
-    if (sequence !== null) {
+    if (moved || turned) {
       for (let k = 0; k < SPRITE_FRAMES; k++) {
-        events.push({ time: start + ((end - start) * k) / SPRITE_FRAMES, sprite: `${sequence}-${k + 1}` });
+        events.push({ time: start + ((end - start) * k) / SPRITE_FRAMES, sprite: `turtle-walk-${k + 1}` });
       }
       events.push({ time: end, sprite: "turtle" });
-    }
-    if (turned) {
-      turnTimes.push(end);
-      turnValues.push(turns[i]);
     }
   }
 
   const names = [...new Set(events.map((event) => event.sprite))];
   const images = names.map((name) => {
-    const times = [0, ...events.map((event) => event.time)];
-    const values = ["0", ...events.map((event) => (event.sprite === name ? "1" : "0"))];
-    // The value at time 0 is the first event's (the standing turtle).
-    values[1] = events[0].sprite === name ? "1" : "0";
-    const opacity = timeline.discreteAt("opacity", times.slice(1), values.slice(1));
-    return `<g opacity="${name === "turtle" ? 1 : 0}">${opacity}${drawTurtleSprite(skin, name)}</g>`;
+    const times = events.map((event) => event.time);
+    const values = events.map((event) => (event.sprite === name ? "1" : "0"));
+    const opacity = timeline.discreteAt("opacity", times, values);
+    return `<g opacity="${values[0]}">${opacity}${drawTurtleSprite(skin, name)}</g>`;
   });
-  return (
-    `<g transform="rotate(${turnValues[0]})">${timeline.discreteAt("transform", turnTimes, turnValues, "rotate")}` +
-    images.join("") +
-    `</g>`
-  );
+  return `<g transform="rotate(${turns[0]})">${timeline.smooth("transform", turns, "rotate")}${images.join("")}</g>`;
 }

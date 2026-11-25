@@ -9,7 +9,8 @@ import { parse } from "../../src/lang/parser.ts";
 import { tokenizeText } from "../../src/lang/tokens.ts";
 import { renderRunAnimation, type AnimationFrame } from "../../src/render/animation.ts";
 import { skinFrom } from "../../src/render/skin.ts";
-import { blackScreen, scanningScreen } from "../../src/render/screens.ts";
+import { renderBoard } from "../../src/render/board.ts";
+import { scanningOverlay } from "../../src/render/screens.ts";
 import { run } from "../../src/world/run.ts";
 import { cloneWorld, parseMap } from "../../src/world/world.ts";
 
@@ -33,12 +34,17 @@ function write(path: string, content: string): void {
   console.log(`Wrote docs/${path}`);
 }
 
-write("screens/programming.svg", blackScreen(640, 400));
-write("screens/scanning.svg", scanningScreen({ width: 640, height: 400, progress: 0.62, label: "Scanning", spanner: skin.href("spanner") }));
-write(
-  "screens/scanning-closer.svg",
-  scanningScreen({ width: 640, height: 400, progress: 0.2, label: "Scanning", hint: "Come a little closer", spanner: skin.href("spanner") }),
-);
+// The screens: the level stays on the screen while the children program;
+// while the plate is read, the ring is over the dimmed level.
+const level45 = levelsData.levels.find((candidate) => candidate.id === 45) as unknown as { name: string; days: { map: string[] }[] };
+const board = renderBoard(parseMap(level45.days[0].map), { caption: `Level 45: ${level45.name}. Put every box on its colour.`, skin });
+function overBoard(progress: number, hint?: string): string {
+  return scanningOverlay(board, { progress, label: "Scanning", hint, spanner: skin.href("spanner") });
+}
+
+write("screens/programming.svg", board);
+write("screens/scanning.svg", overBoard(0.62));
+write("screens/scanning-closer.svg", overBoard(0.2, "Come a little closer"));
 
 /** An animated run of a level's solution on its first day. */
 function animation(levelId: number): string {

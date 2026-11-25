@@ -1,22 +1,22 @@
 // The scanner page (milestone 1 of DESIGN.md): the camera, the five-second
 // hold, and a run of the read program on a level.
 //
-// The screen stays black while the children set the tiles. When they hold
-// the plate up, it shows a spanner and "Scanning"; when the plate is read,
-// the turtle runs the program. Press D to see the camera and the numbers.
+// The level stays on the screen while the children set the tiles, so that
+// they can study it. When they hold the plate up, the spanner and
+// "Scanning" appear over it; when the plate is read, the turtle runs the
+// program. Press D to see the camera and the numbers.
 
-import levelsData from "../data/levels.json" with { type: "json" };
-import { parse, ParseError } from "./lang/parser.ts";
 import { tokenize } from "./lang/tokens.ts";
-import { renderRunAnimation, type AnimationFrame } from "./render/animation.ts";
+import { playDemo } from "./demo.ts";
+import { goalSentence, levelById, play } from "./play.ts";
+import { renderRunAnimation } from "./render/animation.ts";
 import { skinFrom } from "./render/skin.ts";
-import { blackScreen, scanningScreen } from "./render/screens.ts";
+import { renderBoard } from "./render/board.ts";
+import { scanningOverlay } from "./render/screens.ts";
+import { parseMap } from "./world/world.ts";
 import { PlateHold } from "./scan/hold.ts";
 import { fromData } from "./scan/plate.ts";
 import type { ScanReply } from "./scan/worker.ts";
-import { run, RunError } from "./world/run.ts";
-import { goalMet, type Goal } from "./world/goals.ts";
-import { cloneWorld, parseMap } from "./world/world.ts";
 
 const stage = document.getElementById("stage")!;
 const video = document.getElementById("video") as HTMLVideoElement;
@@ -32,18 +32,45 @@ const skin = skinFrom(
 const SMALL_ANCHOR_PX = 26;
 const SCAN_INTERVAL_MS = 100;
 
-const level = levelsData.levels.find((candidate) => candidate.id === 45) as unknown as {
-  name: string;
-  days: { map: string[] }[];
-  goals: Goal[];
-};
+const level = levelById(45);
+
+/** The level as the children study it while they set the tiles. */
+function levelBoard(): string {
+  return renderBoard(parseMap(level.days[0].map), {
+    caption: `Level ${level.id}: ${level.name}. ${goalSentence(level)}`,
+    skin,
+  });
+}
 
 type Mode = "scanning" | "running";
 let mode: Mode = "scanning";
 
 function show(svg: string): void {
   stage.innerHTML = svg;
+  fitToScreen(stage);
 }
+
+/**
+ * Size the pictures of the stage to the screen (tablets in landscape and
+ * portrait, laptops): as large as possible, keeping their proportions. Two
+ * pictures side by side (the demo's plate and screen) share the space; in
+ * portrait they stand one above the other.
+ */
+export function fitToScreen(root: HTMLElement): void {
+  const pictures = [...root.querySelectorAll<SVGSVGElement>(":scope > svg, :scope > .pair > svg")];
+  const portrait = innerHeight > innerWidth;
+  const share = pictures.length > 1 ? 0.5 : 1;
+  const availableWidth = 96 * (portrait ? 1 : share) - (pictures.length > 1 && !portrait ? 2 : 0);
+  const availableHeight = 90 * (portrait ? share : 1) - (pictures.length > 1 && portrait ? 2 : 0);
+  for (const picture of pictures) {
+    const box = picture.viewBox.baseVal;
+    const aspect = box && box.width > 0 ? box.width / box.height : 1.6;
+    picture.style.width = `min(${availableWidth}vw, ${(availableHeight * aspect).toFixed(2)}vh)`;
+    picture.style.height = "auto";
+  }
+}
+
+addEventListener("resize", () => fitToScreen(stage));
 
 async function startCamera(): Promise<void> {
   // Ask for 1280 x 720 explicitly: without it, browsers give 640 x 480.
@@ -70,15 +97,13 @@ worker.onmessage = (event: MessageEvent<ScanReply>) => {
 
   const state = hold.add(performance.now(), reply.reading === null ? null : fromData(reply.reading));
   if (state.phase === "idle") {
-    show(blackScreen(1280, 720));
+    show(levelBoard());
     return;
   }
   const small = reply.reading !== null && reply.reading.anchorPixels < SMALL_ANCHOR_PX;
   const partial = state.merged !== null && !state.merged.complete && state.merged.coverage > 0;
   show(
-    scanningScreen({
-      width: 1280,
-      height: 720,
+    scanningOverlay(levelBoard(), {
       progress: state.progress,
       label: "Scanning",
       spanner: skin.href("spanner"),
@@ -107,25 +132,12 @@ function scanLoop(): void {
 async function runProgram(rows: Parameters<typeof tokenize>[0]): Promise<void> {
   mode = "running";
   const tokens = tokenize(rows);
-  const world = parseMap(level.days[0].map);
-  const frames: AnimationFrame[] = [{ world: cloneWorld(world), token: null, caption: level.name }];
-  let ending: string;
-  try {
-    const program = parse(tokens);
-    for (const { token } of run(program, world)) {
-      frames.push({ world: cloneWorld(world), token, caption: token.kind.symbol ?? token.kind.key.replace("_", " ") });
-    }
-    ending = level.goals.every((goal) => goalMet(goal, world)) ? "Well done!" : "Not quite: try again";
-  } catch (error) {
-    ending = error instanceof ParseError || error instanceof RunError ? error.message : String(error);
-  }
-  frames.push({ world: cloneWorld(world), token: null, caption: ending });
-
+  const played = play(level, tokens);
   // The whole run as one smooth animation (src/render/animation.ts), played once.
   const stepMs = 600;
-  show(renderRunAnimation(tokens, frames, { stepMs, loop: false, skin }));
-  await new Promise((resolve) => setTimeout(resolve, (frames.length + 4) * stepMs));
-  show(blackScreen(1280, 720));
+  show(renderRunAnimation(tokens, played.frames, { stepMs, loop: false, skin }));
+  await new Promise((resolve) => setTimeout(resolve, (played.frames.length + 4) * stepMs));
+  show(levelBoard());
   mode = "scanning";
 }
 
@@ -136,13 +148,26 @@ async function start(): Promise<void> {
     stage.textContent = `The camera did not start: ${String(error)}`;
     return;
   }
-  show(blackScreen(1280, 720));
+  show(levelBoard());
   scanLoop();
 }
 
-document.getElementById("start")!.addEventListener("click", () => void start());
+document.getElementById("start")!.addEventListener("click", () => void spritesReady.then(start));
+// Decode every sprite before anything is shown: a sprite decoded only when it
+// first appears leaves its frame empty for a moment (a flicker).
+const spritesReady = Promise.all(
+  Object.values(spriteUrls).map((url) => {
+    const image = new Image();
+    image.src = url;
+    return image.decode().catch(() => undefined);
+  }),
+);
+
+const params = new URLSearchParams(location.search);
 // ?autostart: start without the button (a kiosk, or a test with a fake camera).
-if (new URLSearchParams(location.search).has("autostart")) void start();
+if (params.has("autostart")) void spritesReady.then(start);
+// ?demo: imaginary plates, without a camera (src/demo.ts).
+if (params.has("demo")) void spritesReady.then(() => playDemo(stage, document.getElementById("narration")!, skin, fitToScreen));
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "d" || event.key === "D") document.body.classList.toggle("debug");

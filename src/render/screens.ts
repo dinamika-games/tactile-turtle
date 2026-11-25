@@ -51,7 +51,30 @@ export function scanningScreen(options: ScanningOptions): string {
   );
 }
 
-/** The screen while the children program: black. */
+/**
+ * The level with the scanning ring over it, as one picture: while the plate
+ * is read, the children still see the level (dimmed), with the spanner, the
+ * ring and the word in the middle, the ring scaled to fit the board.
+ */
+export function scanningOverlay(board: string, options: Omit<ScanningOptions, "width" | "height">): string {
+  const [boardWidth, boardHeight] = (/viewBox="0 0 ([\d.]+) ([\d.]+)"/.exec(board) ?? ["", "640", "400"]).slice(1).map(Number);
+  const ring = scanningScreen({ ...options, width: 560, height: 400 }).replace(
+    '<rect width="560" height="400" fill="#000"/>',
+    '<rect width="560" height="400" rx="28" fill="#000" fill-opacity="0.78"/>',
+  );
+  const scale = Math.min(0.7, (0.92 * boardHeight) / 400, (0.92 * boardWidth) / 560);
+  const x = (boardWidth - 560 * scale) / 2;
+  const y = (boardHeight - 400 * scale) / 2;
+  return (
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${boardWidth} ${boardHeight}" width="${boardWidth}" height="${boardHeight}">` +
+    board.replace("<svg ", '<svg x="0" y="0" ') +
+    `<rect width="${boardWidth}" height="${boardHeight}" fill="#000" fill-opacity="0.35"/>` +
+    ring.replace("<svg ", `<svg x="${x.toFixed(1)}" y="${y.toFixed(1)}" `).replace(/ width="560" height="400"/, ` width="${(560 * scale).toFixed(1)}" height="${(400 * scale).toFixed(1)}"`) +
+    `</svg>`
+  );
+}
+
+/** A black screen (between scenes). */
 export function blackScreen(width: number, height: number): string {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}"><rect width="${width}" height="${height}" fill="#000"/></svg>`;
 }

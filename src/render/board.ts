@@ -307,13 +307,57 @@ export interface BoardOptions {
   readonly skin?: Skin;
 }
 
-export const CAPTION_HEIGHT = 40;
+/** The height of a caption of one line (a statement during a run). */
+export const CAPTION_HEIGHT = 44;
 
-export function drawCaption(text: string, width: number, top: number, opacity = 1): string {
+const CAPTION_FONT = 20;
+const CAPTION_LINE = 27;
+const CAPTION_PAD = 12;
+
+/**
+ * Break a caption into lines that fit the width. The first sentence (e.g.
+ * "Level 45: Red left, blue right.") is the title; the rest (the goal) starts
+ * on a new line.
+ */
+export function captionLines(text: string, width: number): { text: string; bold: boolean }[] {
+  const perLine = Math.max(10, Math.floor((width - 2 * CAPTION_PAD) / (CAPTION_FONT * 0.56)));
+  const split = /^(Level \d+: [^.]*\.)\s+(.*)$/.exec(text);
+  const parts = split ? [{ text: split[1], bold: true }, { text: split[2], bold: false }] : [{ text, bold: true }];
+  const lines: { text: string; bold: boolean }[] = [];
+  for (const part of parts) {
+    let line = "";
+    for (const word of part.text.split(" ")) {
+      if (line !== "" && (line + " " + word).length > perLine) {
+        lines.push({ text: line, bold: part.bold });
+        line = word;
+      } else {
+        line = line === "" ? word : `${line} ${word}`;
+      }
+    }
+    if (line !== "") lines.push({ text: line, bold: part.bold });
+  }
+  return lines;
+}
+
+export function captionHeight(text: string, width: number): number {
+  return Math.max(CAPTION_HEIGHT, captionLines(text, width).length * CAPTION_LINE + 2 * CAPTION_PAD - 8);
+}
+
+/** A caption below the board; ``height`` keeps captions of one run the same size. */
+export function drawCaption(text: string, width: number, top: number, opacity = 1, height?: number): string {
+  const lines = captionLines(text, width);
+  const box = height ?? captionHeight(text, width);
+  const first = top + (box - lines.length * CAPTION_LINE) / 2 + CAPTION_FONT;
   return (
-    `<g opacity="${opacity}"><rect x="0" y="${top}" width="${width}" height="${CAPTION_HEIGHT}" fill="#1d2b36"/>` +
-    `<text x="${width / 2}" y="${top + 27}" font-family="Noto Sans, DejaVu Sans, sans-serif" font-size="20" ` +
-    `font-weight="700" fill="#fff" text-anchor="middle">${escapeXml(text)}</text></g>`
+    `<g opacity="${opacity}"><rect x="0" y="${top}" width="${width}" height="${box}" fill="#1d2b36"/>` +
+    lines
+      .map(
+        (line, i) =>
+          `<text x="${width / 2}" y="${(first + i * CAPTION_LINE).toFixed(1)}" font-family="Noto Sans, DejaVu Sans, sans-serif" ` +
+          `font-size="${CAPTION_FONT}" font-weight="${line.bold ? 700 : 400}" fill="#fff" text-anchor="middle">${escapeXml(line.text)}</text>`,
+      )
+      .join("") +
+    `</g>`
   );
 }
 
@@ -321,8 +365,8 @@ export function drawCaption(text: string, width: number, top: number, opacity = 
 export function renderBoard(world: World, options: BoardOptions = {}): string {
   const skin = options.skin;
   const width = world.width * CELL;
-  const captionHeight = options.caption ? CAPTION_HEIGHT : 0;
-  const height = world.height * CELL + captionHeight;
+  const captionSpace = options.caption ? captionHeight(options.caption, width) : 0;
+  const height = world.height * CELL + captionSpace;
   const parts: string[] = [boardDefs(), drawGround(world, skin)];
   for (let y = 0; y < world.height; y++) {
     for (let x = 0; x < world.width; x++) {
