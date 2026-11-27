@@ -293,7 +293,7 @@ Sixteen, in `i18n/<code>.json`: Arabic (`ar`, right to left: the menus turn roun
 
 The pages are HTML rendered by WeasyPrint (HarfBuzz/Pango: Tibetan stacks correctly). Labels are fitted to their tile by measuring the shaped word; the script refuses substituted fonts and missing glyphs. The marker codes come from `data/markers.json`, the same file the detector uses. `npm run verify:print` reads every PDF back with the game's detector and checks that the whole kit and every anchor is found.
 
-**Releases:** pushing a tag `v*` runs `.github/workflows/release.yml`: it builds the game, generates the PDFs, verifies them, and attaches them to the GitHub Release.
+**Releases:** pushing a tag `v*` runs `.github/workflows/release.yml`: it builds the game, generates the PDFs, verifies them, attaches them to the GitHub Release and deploys the game and the PDFs (with a page listing them, `dev/print/build_print_page.py`) to GitHub Pages.
 
 **Printing:** printable magnetic paper, or sticky paper on a magnetic sheet; matte paper against glare; at 100 % (each sheet has a 50 mm test bar).
 

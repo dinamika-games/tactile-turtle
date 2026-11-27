@@ -3,7 +3,8 @@ name: Release
 # Pushing a tag v* builds the game and the printable PDFs (the tiles in every
 # language, the smaller kits for worlds 1, 1-2 and 1-3, and the plates), checks
 # the PDFs with the game's own detector, and attaches everything to the GitHub
-# Release of that tag. Running the workflow by hand only builds, as an artifact.
+# Release of that tag. Both a tag and a run by hand deploy the game and the PDFs
+# to GitHub Pages: the game at the root, the PDFs under print/.
 
 on:
   push:
@@ -13,6 +14,12 @@ on:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
 jobs:
   release:
@@ -81,3 +88,24 @@ jobs:
           gh release view "$TAG" >/dev/null 2>&1 \
             || gh release create "$TAG" --title "Tactile Turtle $TAG" --generate-notes
           gh release upload "$TAG" print/*.pdf build/tactile-turtle-web.zip --clobber
+
+      - name: Put the site together
+        run: |
+          mkdir -p build/site/print
+          cp -r dist/. build/site/
+          cp print/*.pdf build/site/print/
+          python dev/print/build_print_page.py build/site/print
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/site
+
+  pages:
+    needs: release
+    runs-on: ubuntu-24.04
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

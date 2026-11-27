@@ -1,8 +1,16 @@
 # Tactile Turtle
 
+> **▶ Play: <https://dinamika-games.github.io/tactile-turtle/>**
+>
+> Open it in a browser with a webcam (an iPad, or any laptop) and allow the camera. Nothing to install.
+>
+> **🖨 Tiles to print: <https://dinamika-games.github.io/tactile-turtle/print/>** (every language, the plates; also attached to every [release](https://github.com/dinamika-games/tactile-turtle/releases))
+
 A programming puzzle game for children: they write programs with **magnetic tiles on a metal plate**, hold the plate up to the webcam, and a **robot turtle** on the screen carries the program out: picking up, dropping, switching on, sorting by colour, following lines, finding the way through mazes.
 
-It runs in the browser (iPad or any laptop), the tiles are printed from PDFs in any language, and the language is real: `REPEAT`, `WHILE`, `IF`/`ELSE`, `FOR`, variables and procedures. See [DESIGN.md](DESIGN.md) for the whole design, and the [Manifesto](../MANIFESTO.md) for why.
+It runs in the browser (iPad or any laptop), the tiles are printed from PDFs in any language. 
+The language includes common programming commands: `REPEAT`, `WHILE`, `IF`/`ELSE`, `FOR`, variables and procedures.
+See [DESIGN.md](DESIGN.md) for the whole design.
 
 ## How it works
 
@@ -112,7 +120,7 @@ npm run verify:print                                # read them back with the de
 
 On Debian/Ubuntu the PDFs need `fonts-noto-core fonts-noto-cjk fonts-dejavu-core fonts-tibetan-machine`, and the check needs `poppler-utils`.
 
-Pushing a tag `v*` builds the game and the PDFs in every language (the full kit and the smaller kits for worlds 1, 1-2 and 1-3) and attaches them to the GitHub Release.
+Pushing a tag `v*` builds the game and the PDFs in every language (the full kit and the smaller kits for worlds 1, 1-2 and 1-3) and attaches them to the GitHub Release. The same run deploys the game and the PDFs to GitHub Pages; running the workflow by hand deploys without a release.
 
 ## License
 
