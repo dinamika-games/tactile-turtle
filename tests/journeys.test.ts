@@ -38,29 +38,29 @@ describe("journeys", () => {
     expect(new JourneyStore(storage).list()).toEqual([]);
   });
 
-  it("open level 1, then up to two levels beyond the highest won", () => {
+  it("open level 1, then the level after the highest won one", () => {
     const store = new JourneyStore(memory());
     const journey = store.create("Us");
     expect(isOpen(journey, 1)).toBe(true);
     expect(isOpen(journey, 2)).toBe(false);
     store.record(journey.id, 1, 60);
     const after = store.get(journey.id)!;
-    expect([2, 3, 4].map((id) => isOpen(after, id))).toEqual([true, true, false]);
+    expect([2, 3, 4].map((id) => isOpen(after, id))).toEqual([true, false, false]);
     expect(isWorldOpen(after, 1)).toBe(true);
     expect(isWorldOpen(after, 2)).toBe(false);
     expect(starsIn(after, 1)).toBe(3);
   });
 
-  it("skip the levels without maps: the next two levels with maps open too", () => {
+  it("skip the levels without maps: the next level with a map opens too", () => {
     const store = new JourneyStore(memory());
     const journey = store.create("Us");
     const playable = Array.from({ length: 100 }, (_, i) => i + 1).filter(isPlayable);
     expect(playable.filter((id) => isOpen(journey, id))).toEqual([1]);
     store.record(journey.id, 1, 60);
     const after = store.get(journey.id)!;
-    expect(playable.filter((id) => isOpen(after, id))).toEqual(playable.slice(0, 3));
+    expect(playable.filter((id) => isOpen(after, id))).toEqual(playable.slice(0, 2));
     expect(nextPlayable(after, 1)).toBe(playable[1]);
-    expect(isWorldOpen(after, Math.ceil(playable[2] / 10))).toBe(true);
+    expect(isWorldOpen(after, Math.ceil(playable[1] / 10))).toBe(true);
   });
 
   it("score by the par time: 3 stars within it, down to 100 points at three times it", () => {

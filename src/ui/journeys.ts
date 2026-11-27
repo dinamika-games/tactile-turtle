@@ -134,18 +134,16 @@ export function score(levelId: number, seconds: number): LevelResult {
 }
 
 /**
- * Is the level open? Level 1 always; then every level up to two beyond the
- * highest won one. Levels without a map yet are skipped: the next two levels
- * with maps beyond the highest won one are open too.
+ * Is the level open? Level 1 always; then every level up to the one after the
+ * highest won one: a level opens only once the last open one is won. Levels
+ * without a map yet are skipped: the next level with a map beyond the highest
+ * won one is open too.
  */
 export function isOpen(journey: Journey, levelId: number): boolean {
   const won = Object.keys(journey.results).map(Number);
   const highest = won.length === 0 ? 0 : Math.max(...won);
-  if (levelId === 1 || (highest > 0 && levelId <= highest + 2)) return true;
-  return playableLevels()
-    .filter((id) => id > highest)
-    .slice(0, highest === 0 ? 1 : 2)
-    .includes(levelId);
+  if (levelId === 1 || levelId <= highest + 1) return true;
+  return playableLevels().find((id) => id > highest) === levelId;
 }
 
 /** The first open level with a map after this one (the "Next level"), if any. */

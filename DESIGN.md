@@ -168,7 +168,7 @@ Failed runs cost nothing but the time they take. Replays keep the best result. T
 
 ### Unlocking
 
-Derived, not stored: level 1 is always open, and every level up to two beyond the highest won level is open too. Levels without a map yet are skipped: the next two levels with maps beyond the highest won one are open as well, and "Next level" leads to the next open level with a map. After a win, the next level opens by itself after 15 seconds (a spanner in an emptying ring and the seconds on the button), unless a button is pressed.
+Derived, not stored: level 1 is always open, and every level up to the one after the highest won level is open too: a level opens only once the last open one is won. Levels without a map yet are skipped: the next level with a map beyond the highest won one is open as well, and "Next level" leads to the next open level with a map. After a win, the next level opens by itself after 15 seconds (a spanner in an emptying ring and the seconds on the button), unless a button is pressed.
 
 ## 5. The plate and the scanning
 
@@ -280,7 +280,7 @@ Every level has a reference solution, its maps (one per day) and its goals; `tes
 
 ## 8. Journeys (built: `src/ui/journeys.ts`)
 
-A **journey** is one playthrough of a group (like the journeys of The Steppe Rescue and the voyages of Bird Dog): a name, the times it was created and changed, and per level the best time, points and stars. Many journeys per device, kept in the browser's local storage (`tactile-turtle/journeys`, with a format version; a broken save starts afresh instead of breaking the game). **Unlocking** is derived from the results: level 1 is open, then every level up to two beyond the highest won one. **Points:** within the par time (3 minutes in world 1, a minute more per world) 300 points and three stars, down to 100 points at three times the par. Export and import of journeys as files is still to do.
+A **journey** is one playthrough of a group (like the journeys of The Steppe Rescue and the voyages of Bird Dog): a name, the times it was created and changed, and per level the best time, points and stars. Many journeys per device, kept in the browser's local storage (`tactile-turtle/journeys`, with a format version; a broken save starts afresh instead of breaking the game). **Unlocking** is derived from the results: level 1 is open, then every level up to the one after the highest won one. **Points:** within the par time (3 minutes in world 1, a minute more per world) 300 points and three stars, down to 100 points at three times the par. Export and import of journeys as files is still to do.
 
 ## 9. Languages
 
