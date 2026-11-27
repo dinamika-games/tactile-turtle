@@ -58,6 +58,19 @@ END
 
 Moving, turning, picking up and dropping are smooth; the look (grain in the sand, caustics in the sea, soft shadows, glowing lamps) comes from SVG filters, and the animations are SMIL, so the same picture plays in the game, in any browser and here. The sprites were generated with GenAI from the prompts in `dev/sprites/export_prompts.ts` and cut by `dev/sprites/import_sprites.py`; the turtle walks and turns in frames.
 
+## Points and stars
+
+A won level scores by the time the group took, from the level appearing to the scan of the winning plate. Every world has a par time: 3 minutes in world 1, a minute more in each world after, 12 minutes in world 10.
+
+| Time | Points | Stars |
+|---|---|---|
+| up to the par | 300 | ★★★ |
+| up to twice the par | from 300 down, in a straight line | ★★ |
+| up to three times the par | on down to 100 | ★ |
+| longer | 100 | ★ |
+
+With a par of 3 minutes, a win after 6 minutes gives 200 points and two stars. Failed runs cost nothing but the time they take; a replay keeps the better result. A journey's points are the sum of its levels' best, and every world shows its stars. There is no leaderboard. The scoring is `score` in `src/ui/journeys.ts`.
+
 ## The plate seen through a webcam
 
 The end-to-end tests set a program on a plate and hold it up to a **virtual webcam**: a 720p (or 640 × 480) camera with a 65° lens, barrel distortion, defocus, uneven light and glare, trembling hands, motion blur, sensor noise, salt and pepper, and JPEG compression, like a laptop webcam sending MJPEG. The program must be read back exactly. Green: tiles found; blue: the anchors at the ends of the rows; cyan: the rows as the game understood them.

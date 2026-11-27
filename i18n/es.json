@@ -184,7 +184,7 @@
     "level.98": "Corrientes y haces de luz",
     "level.99": "La tormenta",
     "level.100": "A casa",
-    "error.bump": "¡Pum! Algo está en el camino.",
+    "error.bump": "¡Pum! Hay algo en el camino.",
     "error.tired": "Vuestra tortuga está cansada: ¿hay un bucle que nunca termina?",
     "error.nothing_to_pick": "No hay nada que recoger delante.",
     "error.full": "La tortuga ya lleva todo lo que puede.",
@@ -211,7 +211,7 @@
     "error.compare_types": "No puedo comparar: {left} y {right}.",
     "error.need_comparison": "Después de {tile}, necesito una comparación, p. ej. DELANTE = ROCA.",
     "error.value_after": "Después de {tile}, necesito un valor.",
-    "error.undefined_procedure": "{tile} se llama pero nunca se define.",
+    "error.undefined_procedure": "{tile} se usa, pero no está definido.",
     "type.number": "número",
     "type.colour": "color",
     "type.thing": "cosa"

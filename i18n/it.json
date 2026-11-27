@@ -191,7 +191,7 @@
     "error.empty": "La tartaruga non porta niente.",
     "error.no_room": "Davanti non c'è posto.",
     "error.nothing_to_switch": "Davanti non c'è niente da accendere o spegnere.",
-    "error.nothing_to_use": "Non va: una chiave apre un cancello, il carburante accende una lampada.",
+    "error.nothing_to_use": "Non va: una chiave apre un cancello, il combustibile accende una lampada.",
     "error.too_deep": "La tartaruga si è persa nei suoi aiutanti.",
     "error.unexpected_close": "Questo {tile} non chiude niente: non è aperto nessun RIPETI, FINCHÉ, SE, PER o DEFINISCI.",
     "error.defined_twice": "{tile} è definito due volte.",
