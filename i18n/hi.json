@@ -67,6 +67,7 @@
     "ui.not_quite": "अभी नहीं: फिर से कोशिश करें",
     "ui.next_level": "अगला स्तर",
     "ui.try_again": "फिर से",
+    "ui.reset": "शुरुआत दिखाओ",
     "ui.camera_failed": "कैमरा शुरू नहीं हुआ: {error}",
     "goal.reach": "समुद्र तक चलिए।",
     "goal.reach_colour": "रेखा के साथ {colour} खाने तक जाइए।",

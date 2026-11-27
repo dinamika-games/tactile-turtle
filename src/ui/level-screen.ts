@@ -1,7 +1,8 @@
 // A level: the board stays on the screen while the children set the tiles;
 // the scanning ring appears over it when they hold the plate up; then the
 // turtle runs the program. A run that fails stays on the screen (at its end)
-// until the children hold up the next program. A win is recorded in the journey (time, points,
+// until the children hold up the next program, or press "Show the start" to
+// see where the level begins. A win is recorded in the journey (time, points,
 // stars) and opens the next levels.
 
 import { ParseError } from "../lang/parser.ts";
@@ -108,10 +109,18 @@ export async function openLevel(level: Level, context: LevelContext): Promise<vo
   showOn(stage, board);
   overlay.innerHTML =
     `<div class="bar"><button class="small" data-action="back">${backArrow()} ${t("ui.back")}</button>` +
+    `<button class="small" data-action="reset" hidden>↺ ${t("ui.reset")}</button>` +
     `<span class="hint">${t("ui.hold_up")}</span></div>`;
   overlay.querySelector<HTMLButtonElement>("[data-action=back]")!.onclick = () => {
     scanner.pause();
     leave();
+  };
+  // After a failed run: back to the board as the level begins.
+  const resetButton = overlay.querySelector<HTMLButtonElement>("[data-action=reset]")!;
+  resetButton.onclick = () => {
+    resetButton.hidden = true;
+    resting = board;
+    if (!running) showResting(board);
   };
 
   scanner.onUpdate = ({ state, small }) => {
@@ -139,6 +148,7 @@ export async function openLevel(level: Level, context: LevelContext): Promise<vo
 
   async function run(rows: Parameters<typeof tokenize>[0]): Promise<void> {
     scanner.pause();
+    resetButton.hidden = true;
     const tokens = tokenize(rows);
     const played = play(level, tokens, runWords());
     const stepMs = 600;
@@ -151,6 +161,7 @@ export async function openLevel(level: Level, context: LevelContext): Promise<vo
     } else {
       // The failed run stays on the screen until the next program is shown.
       resting = animation;
+      resetButton.hidden = false;
       await scanner.start();
     }
   }

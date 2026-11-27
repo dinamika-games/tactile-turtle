@@ -67,6 +67,7 @@
     "ui.not_quite": "아직이에요: 다시 해 보세요",
     "ui.next_level": "다음 레벨",
     "ui.try_again": "다시",
+    "ui.reset": "처음으로",
     "ui.camera_failed": "카메라가 시작되지 않았어요: {error}",
     "goal.reach": "바다까지 걸어가세요.",
     "goal.reach_colour": "선을 따라 {colour} 칸까지 가세요.",

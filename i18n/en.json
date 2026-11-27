@@ -67,6 +67,7 @@
     "ui.not_quite": "Not quite: try again",
     "ui.next_level": "Next level",
     "ui.try_again": "Try again",
+    "ui.reset": "Show the start",
     "ui.camera_failed": "The camera did not start: {error}",
     "goal.reach": "Walk to the sea.",
     "goal.reach_colour": "Follow the line to the {colour} cell.",

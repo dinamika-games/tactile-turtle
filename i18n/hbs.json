@@ -67,6 +67,7 @@
     "ui.not_quite": "Još ne: pokušajte ponovo",
     "ui.next_level": "Sljedeći nivo",
     "ui.try_again": "Ponovo",
+    "ui.reset": "Na početak",
     "ui.camera_failed": "Kamera se nije pokrenula: {error}",
     "goal.reach": "Idite do mora.",
     "goal.reach_colour": "Pratite liniju do polja {colour}.",

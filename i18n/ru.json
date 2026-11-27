@@ -67,6 +67,7 @@
     "ui.not_quite": "Пока нет: попробуйте ещё раз",
     "ui.next_level": "Следующий уровень",
     "ui.try_again": "Ещё раз",
+    "ui.reset": "К началу",
     "ui.camera_failed": "Камера не запустилась: {error}",
     "goal.reach": "Дойдите до моря.",
     "goal.reach_colour": "Следуйте по линии до клетки {colour}.",

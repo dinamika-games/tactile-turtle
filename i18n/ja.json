@@ -67,6 +67,7 @@
     "ui.not_quite": "おしい：もういちど",
     "ui.next_level": "つぎのレベル",
     "ui.try_again": "もういちど",
+    "ui.reset": "さいしょにもどす",
     "ui.camera_failed": "カメラがうごきません：{error}",
     "goal.reach": "うみまであるこう。",
     "goal.reach_colour": "せんにそって{colour}のマスまでいこう。",

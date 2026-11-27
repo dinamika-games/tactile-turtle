@@ -67,6 +67,7 @@
     "ui.not_quite": "ليس تمامًا: حاولوا مجددًا",
     "ui.next_level": "المستوى التالي",
     "ui.try_again": "مرة أخرى",
+    "ui.reset": "إلى البداية",
     "ui.camera_failed": "لم تبدأ الكاميرا: {error}",
     "goal.reach": "امشوا إلى البحر.",
     "goal.reach_colour": "اتبعوا الخط حتى الخانة {colour}.",
