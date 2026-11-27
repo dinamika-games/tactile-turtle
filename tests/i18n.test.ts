@@ -24,6 +24,13 @@ describe("the languages", () => {
     }
   });
 
+  it("have a sentence for every error of a run", () => {
+    const source = readFileSync(new URL("../src/world/run.ts", import.meta.url), "utf-8");
+    const codes = [...source.matchAll(/new RunError\("(\w+)"/g)].map((m) => m[1]);
+    expect(codes.length).toBeGreaterThan(5);
+    for (const code of codes) expect(english[`error.${code}`], code).toBeTypeOf("string");
+  });
+
   it("have the names of all 100 levels, the English ones as in data/levels.json", () => {
     for (const level of levelsData.levels) {
       expect(english[`level.${level.id}`]).toBe(level.name);

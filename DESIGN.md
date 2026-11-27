@@ -284,7 +284,7 @@ A **journey** is one playthrough of a group (like the journeys of The Steppe Res
 
 ## 9. Languages
 
-Sixteen, in `i18n/<code>.json`: Arabic (`ar`, right to left: the menus turn round, the programs stay left to right), Bosanski / Hrvatski / Srpski (`hbs`, Latin script, ijekavian), German, English, Spanish, French, Hindi, Italian, Japanese, Korean, Portuguese (Brazilian), Russian, Albanian, Tibetan, Turkish and Chinese (simplified). Each has the words of the tiles, the texts of the screens, the goals, the names of the worlds and of all 100 levels; `tests/i18n.test.ts` checks that none is missing. All but English are drafts, to be reviewed by native speakers (marked in the files). The UI language and the language of a kit are independent: tiles are recognised by id only.
+Sixteen, in `i18n/<code>.json`: Arabic (`ar`, right to left: the menus turn round, the programs stay left to right), Bosanski / Hrvatski / Srpski (`hbs`, Latin script, ijekavian), German, English, Spanish, French, Hindi, Italian, Japanese, Korean, Portuguese (Brazilian), Russian, Albanian, Tibetan, Turkish and Chinese (simplified). Each has the words of the tiles, the texts of the screens, the goals, the errors of a program and of a run, the names of the worlds and of all 100 levels; `tests/i18n.test.ts` checks that none is missing. All but English are drafts, to be reviewed by native speakers (marked in the files). The UI language and the language of a kit are independent: tiles are recognised by id only.
 
 ## 10. Printing the tiles (`dev/print/generate_stickers.py`)
 

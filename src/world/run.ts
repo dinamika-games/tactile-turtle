@@ -116,7 +116,7 @@ class Interpreter {
             // A key opens a gate, fuel lights a lamp (the last thing picked up is used).
             const thing = front.cell?.thing ?? null;
             const item = turtle.carrying.at(-1);
-            if (item === undefined) throw new RunError("empty", "The turtle carries nothing to use.", token);
+            if (item === undefined) throw new RunError("empty", "The turtle carries nothing.", token);
             if (thing?.kind === "GATE" && item.kind === "KEY") thing.open = true;
             else if (thing?.kind === "LAMP" && item.kind === "FUEL") thing.on = true;
             else throw new RunError("nothing_to_use", "That does not fit: a key opens a gate, fuel lights a lamp.", token);

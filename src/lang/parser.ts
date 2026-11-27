@@ -65,19 +65,39 @@ export interface Program {
 
 /**
  * An error, with the token to point at (null: the end of the program).
- * The message is in English; ``code`` and ``params`` let the game translate it.
+ * The message is in English; ``text`` (the key of its sentence, ``error.<text>``
+ * in i18n/) and ``params`` let the game translate it. A ``tile`` param is the
+ * key of a tile (or a number); ``left`` and ``right`` are types.
  */
 export class ParseError extends Error {
   readonly code: string;
+  readonly text: string;
   readonly params: Record<string, string>;
   readonly token: Token | null;
 
-  constructor(code: string, message: string, token: Token | null, params: Record<string, string> = {}) {
+  constructor(code: string, message: string, token: Token | null, params: Record<string, string> = {}, text: string = code) {
     super(message);
     this.code = code;
+    this.text = text;
     this.params = params;
     this.token = token;
   }
+}
+
+/** What is missing where a value is needed: its English sentence, and its key and params to translate it. */
+interface Need {
+  readonly message: string;
+  readonly text: string;
+  readonly params: Record<string, string>;
+}
+
+/** The tile as a param of an error: its key, or the number. */
+function tileParam(token: Token): string {
+  return token.kind.group === "number" ? String(token.value) : token.kind.key;
+}
+
+function numberAfter(token: Token): Need {
+  return { message: `After ${describe(token)}, I need a number.`, text: "number_after", params: { tile: tileParam(token) } };
 }
 
 const ACTIONS = new Set<string>(["FORWARD", "LEFT", "RIGHT", "PICK_UP", "DROP", "SWITCH", "USE", "WAIT"]);
@@ -165,7 +185,7 @@ class Parser {
           "unexpected_close",
           `This ${describe(token)} closes nothing: there is no REPEAT, WHILE, IF, FOR or DEFINE open.`,
           token,
-          { tile: describe(token) },
+          { tile: tileParam(token) },
         );
       }
       statements.push(this.parseStatement(true));
@@ -179,6 +199,7 @@ class Parser {
             "defined_twice",
             `${describe(statement.token)} is defined twice.`,
             statement.token,
+            { tile: tileParam(statement.token) },
           );
         }
         procedures.set(statement.name, { parameter: statement.parameter, body: statement.body });
@@ -198,7 +219,7 @@ class Parser {
           "missing_end",
           `This ${describe(opener)} needs an END.`,
           opener,
-          { tile: describe(opener) },
+          { tile: tileParam(opener) },
         );
       }
       if (this.isKey(token, "END", "ELSE")) return body;
@@ -213,7 +234,7 @@ class Parser {
         "missing_end",
         `This ${describe(opener)} needs an END.`,
         token ?? opener,
-        { tile: describe(opener) },
+        { tile: tileParam(opener) },
       );
     }
   }
@@ -228,7 +249,7 @@ class Parser {
 
     switch (key) {
       case "PAINT": {
-        const colour = this.parseExpr(token, "PAINT needs a colour.");
+        const colour = this.parseExpr(token, { message: "PAINT needs a colour.", text: "paint_colour", params: {} });
         const type = typeOf(colour);
         if (type !== "colour") {
           throw new ParseError("paint_colour", "PAINT needs a colour.", colour.token);
@@ -238,7 +259,11 @@ class Parser {
       case "STAR":
       case "DOT": {
         const argument = this.withParameter.has(key)
-          ? this.parseNumber(token, `${describe(token)} needs a number.`)
+          ? this.parseNumber(token, {
+              message: `${describe(token)} needs a number.`,
+              text: "call_number",
+              params: { tile: tileParam(token) },
+            })
           : null;
         return { kind: "call", name: key, argument, token };
       }
@@ -254,11 +279,11 @@ class Parser {
             { variable: key },
           );
         }
-        const expr = this.parseNumber(arrow!, `After ←, I need a number.`);
+        const expr = this.parseNumber(arrow!, numberAfter(arrow!));
         return { kind: "assign", variable: key, expr, token };
       }
       case "REPEAT": {
-        const count = this.parseNumber(token, "After REPEAT, I need a number.");
+        const count = this.parseNumber(token, numberAfter(token));
         const body = this.parseBlock(token);
         this.expectEnd(token);
         return { kind: "repeat", count, body, token };
@@ -287,14 +312,16 @@ class Parser {
         }
         const arrow = this.next();
         if (!this.isKey(arrow, "ASSIGN")) {
-          throw new ParseError("for_assign", `After FOR ${variable.kind.key}, I need ←.`, arrow ?? variable);
+          throw new ParseError("for_assign", `After FOR ${variable.kind.key}, I need ←.`, arrow ?? variable, {
+            variable: variable.kind.key,
+          });
         }
-        const from = this.parseNumber(arrow!, "After ←, I need a number.");
+        const from = this.parseNumber(arrow!, numberAfter(arrow!));
         const to = this.next();
         if (!this.isKey(to, "TO")) {
           throw new ParseError("for_to", "FOR needs TO and the last number.", to ?? token);
         }
-        const last = this.parseNumber(to!, "After TO, I need a number.");
+        const last = this.parseNumber(to!, numberAfter(to!));
         const body = this.parseBlock(token);
         this.expectEnd(token);
         return { kind: "for", variable: variable.kind.key, from, to: last, body, token };
@@ -319,34 +346,34 @@ class Parser {
       "unexpected",
       `A statement cannot start with ${describe(token)}.`,
       token,
-      { tile: describe(token) },
+      { tile: tileParam(token) },
     );
   }
 
-  private parseNumber(after: Token, message: string): Expr {
-    const expr = this.parseExpr(after, message);
+  private parseNumber(after: Token, need: Need): Expr {
+    const expr = this.parseExpr(after, need);
     if (typeOf(expr) !== "number") {
-      throw new ParseError("need_number", message, expr.token);
+      throw new ParseError("need_number", need.message, expr.token, need.params, need.text);
     }
     return expr;
   }
 
-  private parseExpr(after: Token, message: string): Expr {
-    let left = this.parseTerm(after, message);
+  private parseExpr(after: Token, need: Need): Expr {
+    let left = this.parseTerm(after, need);
     while (this.isKey(this.peek(), "PLUS", "MINUS")) {
       const op = this.next()!;
-      const right = this.parseTerm(op, `After ${describe(op)}, I need a number.`);
+      const right = this.parseTerm(op, numberAfter(op));
       this.checkArithmetic(left, right, op);
       left = { kind: "arithmetic", op: op.kind.key as "PLUS" | "MINUS", left, right, token: op };
     }
     return left;
   }
 
-  private parseTerm(after: Token, message: string): Expr {
-    let left = this.parseAtom(after, message);
+  private parseTerm(after: Token, need: Need): Expr {
+    let left = this.parseAtom(after, need);
     while (this.isKey(this.peek(), "TIMES")) {
       const op = this.next()!;
-      const right = this.parseAtom(op, `After ×, I need a number.`);
+      const right = this.parseAtom(op, numberAfter(op));
       this.checkArithmetic(left, right, op);
       left = { kind: "arithmetic", op: "TIMES", left, right, token: op };
     }
@@ -355,13 +382,13 @@ class Parser {
 
   private checkArithmetic(left: Expr, right: Expr, op: Token): void {
     if (typeOf(left) !== "number" || typeOf(right) !== "number") {
-      throw new ParseError("arithmetic_type", `${describe(op)} works only with numbers.`, op);
+      throw new ParseError("arithmetic_type", `${describe(op)} works only with numbers.`, op, { tile: tileParam(op) });
     }
   }
 
-  private parseAtom(after: Token, message: string): Expr {
+  private parseAtom(after: Token, need: Need): Expr {
     const token = this.peek();
-    if (token === null) throw new ParseError("need_value", message, after);
+    if (token === null) throw new ParseError("need_value", need.message, after, need.params, need.text);
     switch (token.kind.group) {
       case "number":
         this.next();
@@ -376,7 +403,7 @@ class Parser {
         this.next();
         return { kind: "value", name: token.kind.key, token };
     }
-    throw new ParseError("need_value", message, token);
+    throw new ParseError("need_value", need.message, token, need.params, need.text);
   }
 
   private parseCond(opener: Token): Cond {
@@ -404,20 +431,28 @@ class Parser {
       const token = this.next()!;
       return { kind: "not", cond: this.parseNot(token), token };
     }
-    const message = `After ${describe(opener)}, I need a comparison, e.g. FRONT = ROCK.`;
-    const left = this.parseExpr(opener, message);
+    const need: Need = {
+      message: `After ${describe(opener)}, I need a comparison, e.g. FRONT = ROCK.`,
+      text: "need_comparison",
+      params: { tile: tileParam(opener) },
+    };
+    const left = this.parseExpr(opener, need);
     const op = this.peek();
     if (op === null || !COMPARISONS.has(op.kind.key)) {
-      throw new ParseError("need_comparison", message, op ?? left.token);
+      throw new ParseError("need_comparison", need.message, op ?? left.token, need.params);
     }
     this.next();
-    const right = this.parseExpr(op, `After ${describe(op)}, I need a value.`);
+    const right = this.parseExpr(op, {
+      message: `After ${describe(op)}, I need a value.`,
+      text: "value_after",
+      params: { tile: tileParam(op) },
+    });
     const opKey = op.kind.key as "EQUAL" | "NOT_EQUAL" | "LESS" | "GREATER";
     const leftType = typeOf(left);
     const rightType = typeOf(right);
     if (opKey === "LESS" || opKey === "GREATER") {
       if (leftType !== "number" || rightType !== "number") {
-        throw new ParseError("order_type", `${describe(op)} works only with numbers.`, op);
+        throw new ParseError("order_type", `${describe(op)} works only with numbers.`, op, { tile: tileParam(op) });
       }
     } else if (!comparable(leftType, rightType)) {
       throw new ParseError(
@@ -454,6 +489,7 @@ function checkCalls(statements: readonly Statement[], procedures: Map<string, Pr
             "undefined_procedure",
             `${describe(statement.token)} is called but never defined.`,
             statement.token,
+            { tile: tileParam(statement.token) },
           );
         }
         break;

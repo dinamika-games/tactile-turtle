@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { parse, ParseError } from "../src/lang/parser.ts";
 import { tokenizeText } from "../src/lang/tokens.ts";
+import en from "../i18n/en.json" with { type: "json" };
 
 function parseText(text: string) {
   return parse(tokenizeText(text));
@@ -87,8 +88,21 @@ describe("the parser", () => {
     ["DEFINE ★ LEFT END DEFINE ★ RIGHT END", "defined_twice"],
     ["= 3", "unexpected"],
     ["DEFINE ★ a FORWARD END ★", "need_value"],
-  ])("explains %j with %s", (text, code) => {
-    expect(errorOf(text).code).toBe(code);
+    ["DEFINE ★ a FORWARD END ★ RED", "need_number"],
+    ["a ← 1 + RED", "arithmetic_type"],
+    ["FOR 3", "for_variable"],
+    ["FOR a 3", "for_assign"],
+    ["FOR a ← 1 3", "for_to"],
+    ["FOR a ← 1 TO", "need_value"],
+    ["DEFINE FORWARD END", "define_name"],
+    ["IF FRONT = LEFT END", "need_value"],
+  ])("explains %j with %s, in every language", (text, code) => {
+    const error = errorOf(text);
+    expect(error.code).toBe(code);
+    // The sentence to translate it, with a {placeholder} for every param.
+    const sentence = (en.texts as Record<string, string>)[`error.${error.text}`];
+    expect(sentence).toBeTypeOf("string");
+    expect([...sentence.matchAll(/\{(\w+)\}/g)].map((m) => m[1]).sort()).toEqual(Object.keys(error.params).sort());
   });
 
   it("points at the tile of the error", () => {

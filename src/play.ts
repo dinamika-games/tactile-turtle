@@ -72,12 +72,15 @@ export interface RunWords {
   caption(token: Token): string;
   readonly wellDone: string;
   readonly notQuite: string;
+  /** The sentence of a parse or run error. */
+  error(error: ParseError | RunError): string;
 }
 
 export const ENGLISH_WORDS: RunWords = {
   caption: (token) => token.kind.symbol ?? token.kind.key.replace("_", " "),
   wellDone: "Well done!",
   notQuite: "Not quite: try again",
+  error: (error) => error.message,
 };
 
 /** Run the tokens on the level, day by day; a parse or run error ends the run with its message. */
@@ -104,7 +107,7 @@ function playDay(level: Level, day: Day, tokens: readonly Token[], words: RunWor
     won = dayGoals(level, day).every((goal) => goalMet(goal, world));
     ending = won ? words.wellDone : words.notQuite;
   } catch (error) {
-    ending = error instanceof ParseError || error instanceof RunError ? error.message : String(error);
+    ending = error instanceof ParseError || error instanceof RunError ? words.error(error) : String(error);
   }
   frames.push({ world: cloneWorld(world), token: null, caption: ending });
   return { day, frames, ending, won, world };

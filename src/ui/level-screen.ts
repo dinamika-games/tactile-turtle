@@ -4,12 +4,14 @@
 // until the children hold up the next program. A win is recorded in the journey (time, points,
 // stars) and opens the next levels.
 
+import { ParseError } from "../lang/parser.ts";
 import { tokenize, type Token } from "../lang/tokens.ts";
 import { dayGoals, goalSentence, levelTargets, play, type Level, type RunWords } from "../play.ts";
 import { renderRunAnimation } from "../render/animation.ts";
 import { renderBoard } from "../render/board.ts";
 import { scanningOverlay } from "../render/screens.ts";
 import type { Skin } from "../render/skin.ts";
+import type { RunError } from "../world/run.ts";
 import { dayWorld } from "../world/world.ts";
 import type { CameraScanner } from "./camera.ts";
 import { backArrow, nextArrow, t, tileWord } from "./i18n.ts";
@@ -51,7 +53,20 @@ const runWords = (): RunWords => ({
   caption: (token: Token) => tileWord(token.kind.key),
   wellDone: t("ui.well_done"),
   notQuite: t("ui.not_quite"),
+  error: errorSentence,
 });
+
+/** A parse or run error in the chosen language: tiles by their words, types by their names. */
+function errorSentence(error: ParseError | RunError): string {
+  const params = error instanceof ParseError ? error.params : {};
+  const words = Object.fromEntries(
+    Object.entries(params).map(([name, value]) => [
+      name,
+      name === "tile" ? (/^\d+$/.test(value) ? value : tileWord(value)) : name === "variable" ? value : t(`type.${value}`),
+    ]),
+  );
+  return t(`error.${error instanceof ParseError ? error.text : error.code}`, words);
+}
 
 /** How long the reward stays before the next level opens by itself. */
 const AUTO_NEXT_SECONDS = 15;
