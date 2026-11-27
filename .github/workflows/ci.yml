@@ -1,0 +1,41 @@
+name: CI
+
+# Every push to main and every pull request: type-check and build the game, and
+# run the tests (unit tests, levels, markers, end-to-end scans). The slow tests
+# through the virtual webcam, the browser tests and the printable PDFs are left
+# to a run by hand (npm run test:webcam) and to the release (release.yml).
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Install the tools
+        run: npm ci
+
+      - name: Build the game
+        run: npm run build
+
+      - name: Test
+        run: npm test
