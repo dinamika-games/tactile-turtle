@@ -48,7 +48,7 @@ void spritesReady.then(() => {
     // ?autostart: straight into a level with the camera, outside any journey
     // (a kiosk, or the test with a fake camera, dev/browser/chrome_e2e.mjs).
     const level = levelById(Number(params.get("level") ?? 45));
-    void openLevel(level, { stage, overlay, skin, scanner, onWin: () => null, onLeave: () => location.reload(), onNext: null });
+    void openLevel(level, { stage, overlay, skin, scanner, onWin: () => null, onHome: () => location.assign(location.pathname), onLeave: () => location.reload(), next: () => null });
   } else {
     new App({ stage, overlay, skin, scanner, storage: localStorage }).begin();
   }

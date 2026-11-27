@@ -84,12 +84,13 @@ An expression ends where the next token is not an operator, so statements need n
 
 * `FORWARD` moves one cell ahead. A rock, a closed gate, a box, a lamp or the edge stops the program with a *bump*.
 * `LEFT` / `RIGHT` turn by 90° on the spot.
-* `PICK UP` takes the hatchling or box in front; the turtle carries as many as the level allows (one by default).
+* `PICK UP` takes the hatchling, box, key or fuel in front; the turtle carries as many as the level allows (one by default).
 * `DROP` puts the last thing carried in front. A hatchling dropped into the sea is home.
 * `SWITCH` turns the lamp or the gate in front on/off (open/closed).
-* `USE` uses the thing carried on what is in front: a key opens a gate, fuel lights a lamp.
+* `USE` uses the last thing picked up on what is in front: a key opens a gate, fuel lights a lamp (it is used up; anything else is an error).
 * `PAINT RED` paints the cell under the turtle.
 * `WAIT` does nothing for one tick.
+* Time: every statement that does something (an action, `PAINT`, `WAIT`) and every round of a `WHILE` takes one tick. With time, a crab in the way walks off, and gates may open and close by themselves (both set by the day, see "The days").
 * `REPEAT n` runs its block n times (n is computed once). `WHILE` checks before every round. After 1000 ticks the turtle is tired and stops ("is there a loop that never ends?").
 * `FOR a ← 1 TO 5` counts up, `FOR a ← 5 TO 1` counts down, both ends included.
 * `DEFINE ★` defines a procedure; `DEFINE ★ a` one with a **parameter**: `★ 4` sets `a` to 4 for the call, and `a` gets its old value back afterwards, so every call has its own (`DEFINE ★ a IF a > 0 … ★ a − 1 END END` is a proper recursion). Procedures may call themselves, up to a depth of 50.
@@ -98,7 +99,7 @@ An expression ends where the next token is not an operator, so statements need n
 
 | Tile | Value |
 |---|---|
-| `FRONT` | the thing in the cell ahead: `ROCK` (also the edge), `HATCHLING`, `BOX`, `LAMP`, `GATE` (closed), or `FREE` |
+| `FRONT` | the thing in the cell ahead: `ROCK` (also the edge), `HATCHLING`, `BOX`, `LAMP`, `GATE` (closed), a key, fuel or a crab, or `FREE` |
 | `HERE` | the colour of the cell under the turtle, or `NONE` (for lines and zones) |
 | `COLOUR` | the colour of what is ahead: of a box, of a lamp (`YELLOW` when lit, `NONE` when not), else of the cell ahead, else `NONE` (for sorting and line following) |
 | `CARRYING` | how many things the turtle carries |
@@ -132,9 +133,13 @@ A plate with a parse error is never run.
 
 A level which teaches `IF` or `WHILE` is pointless if one fixed path solves it. So from world 4 on every level has two to five days: the same scene with small differences (where the boxes are and what colour, how long the corridor is, the `TIDE`). A program that only memorises the first day fails on the second, and the game shows it: "On Tuesday the boxes were different."
 
+The game runs the program on every day; the level is won when the goals are met on all of them. The run shown is the first day on which they were not (or the first day, when all were won).
+
+A day in `data/levels.json` is its map (`src/world/world.ts`: `.` sand, `#` rock, `~` sea, `R G B Y` coloured floor, `h` hatchling, `r g b y` boxes, `L` lamp, `D` gate, `k` key, `f` fuel, `c` crab, `> < ^ v` the turtle) and what else is different that day: `tide`, `light` (the beam, one letter per tick, repeated: `"RRRRGGGG"`), `capacity` (how much the turtle carries), `crab` (the tick at which the crabs walk off), `gates` (every so many ticks the gates open or close by themselves) and `goals`, when that day's goals differ from the level's (after counting, how much to paint).
+
 ### Goals (`src/world/goals.ts`)
 
-Reach a cell (or a cell of a colour); every box on the floor of its colour; so many hatchlings home; every lamp on; a pattern painted.
+Reach a cell (or a cell of a colour); every box on the floor of its colour; so many hatchlings home; every lamp on; a pattern painted (the cells to paint are shown as dashed frames in their colours).
 
 ### The kit and the type case
 
@@ -163,7 +168,7 @@ Failed runs cost nothing but the time they take. Replays keep the best result. T
 
 ### Unlocking
 
-Derived, not stored: level 1 is always open, and every level up to two beyond the highest won level is open too.
+Derived, not stored: level 1 is always open, and every level up to two beyond the highest won level is open too. Levels without a map yet are skipped: the next two levels with maps beyond the highest won one are open as well, and "Next level" leads to the next open level with a map. After a win, the next level opens by itself after 15 seconds (a spanner in an emptying ring and the seconds on the button), unless a button is pressed.
 
 ## 5. The plate and the scanning
 
@@ -192,7 +197,7 @@ Every row has an **anchor marker** (20 mm) at both ends, each with its own id; t
 
 1. **Markers** (`detector.ts`): js-aruco2 finds the candidate squares (adaptive threshold, contours, quadrilaterals). We read the cells ourselves: from the middle of each cell, allowing two of the 20 border cells to be wrong, and if that fails, with the outline slightly shrunk, grown or shifted (the corners come from a pixel contour and may be a pixel off; then only an exact code is accepted). At 1.4–2 px/mm a cell is only 4–6 pixels wide, and js-aruco2's own decoding rejected most markers.
 2. **The plate** (`plate.ts`): the anchors in view give the plate and a homography to plate millimetres (least squares over all anchor corners; an anchor that disagrees, i.e. a misread, is dropped).
-3. **The tiles**: each tile is placed outward from the anchors with a homography fitted to the *nearest* known points (anchor corners and tiles already placed): the lens distorts the picture, and one homography for the whole picture was a centimetre off far from the anchors. A tile goes into its slot; within 8 mm of the slot's middle it is *confident*, up to 11 mm *uncertain*.
+3. **The tiles**: each tile is placed outward from the anchors with a homography fitted to the *nearest* known points (anchor corners and tiles already placed): the lens distorts the picture, and one homography for the whole picture was a centimetre off far from the anchors. A tile goes into the slot whose middle is nearest to its centre, wherever it was set: the lines and ticks only help the children, and a tile set between two slots still counts. Within 8 mm of the slot's middle it is *confident*: it counts double when the frames are merged and helps to place the tiles beyond it.
 
 ### Holding up and stitching (`hold.ts`)
 
@@ -233,15 +238,15 @@ Measured with the virtual webcam (section 13), which renders a 65° webcam with 
 3. **Journeys** (section 8): Continue the last one, + New journey (named with the date and time, or typed), the others, and Delete (with a question).
 4. **Worlds:** the ten worlds with the stars collected; a world is open when one of its levels is.
 5. **Levels of the world:** open ones with their stars, locked ones with 🔒, open ones without a map yet "In preparation".
-6. **The level:** the board with the name and the goal; the webcam beside it (a column on the right in landscape, a strip at the bottom in portrait, never over the level); the scanning ring over the dimmed level; the run; the **reward** (stars, points, Next level, Try again, Levels).
+6. **The level:** the board with the name and the goal; the webcam beside it (a column on the right in landscape, a strip at the bottom in portrait, never over the level); the scanning ring over the dimmed level; the run; the **reward** (stars, points, Next level with its 15-second countdown, Try again, Levels, 🏠).
 
-Every screen is a step in the browser's history: Back (the button, or the browser's, or a swipe on a tablet) goes to the previous screen; 🏠 leads to the start from the worlds and the levels. Buttons are large for tablets, and lift under the mouse where there is one. Everything is fitted to the screen (tested on emulated tablets in both orientations).
+Every screen is a step in the browser's history: Back (the button, the browser's, Esc, or a swipe on a tablet) goes to the previous screen; 🏠 leads to the start from the worlds, the levels and the reward. Buttons are large for tablets, and lift under the mouse where there is one. Everything is fitted to the screen (tested on emulated tablets in both orientations).
 
 **The demo** (`?demo`, not linked from the game) plays imaginary plates without a camera; **`?unlock`** opens every level for trying the game.
 
 ## 7. The 100 levels (`data/levels.json`)
 
-Every level has a reference solution. Levels 1, 10, 45 and 92 have their maps and days already; the others are being written.
+Every level has a reference solution, its maps (one per day) and its goals; `tests/levels.test.ts` checks that every level has them and that the reference solution wins every day.
 
 ### World 1: The Nest Beach (sequences)
 1 First steps · 2 Around the rock · 3 The dunes · 4 The first hatchling (`PICK UP`, `DROP` into the sea) · 5 Two hatchlings · 6 The driftwood · 7 Facing the sunrise · 8 Turned around · 9 The shell path (carry three) · 10 Too few tiles (`REPEAT` appears)

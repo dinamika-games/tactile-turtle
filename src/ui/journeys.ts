@@ -133,16 +133,36 @@ export function score(levelId: number, seconds: number): LevelResult {
   return { seconds: Math.round(seconds), points, stars };
 }
 
-/** Is the level open? Level 1 always; then every level up to two beyond the highest won one. */
+/**
+ * Is the level open? Level 1 always; then every level up to two beyond the
+ * highest won one. Levels without a map yet are skipped: the next two levels
+ * with maps beyond the highest won one are open too.
+ */
 export function isOpen(journey: Journey, levelId: number): boolean {
   const won = Object.keys(journey.results).map(Number);
-  if (won.length === 0) return levelId === 1;
-  return levelId <= Math.max(...won) + 2;
+  const highest = won.length === 0 ? 0 : Math.max(...won);
+  if (levelId === 1 || (highest > 0 && levelId <= highest + 2)) return true;
+  return playableLevels()
+    .filter((id) => id > highest)
+    .slice(0, highest === 0 ? 1 : 2)
+    .includes(levelId);
+}
+
+/** The first open level with a map after this one (the "Next level"), if any. */
+export function nextPlayable(journey: Journey, levelId: number): number | null {
+  return playableLevels().find((id) => id > levelId && isOpen(journey, id)) ?? null;
 }
 
 /** Is the world open? When one of its levels is. */
 export function isWorldOpen(journey: Journey, world: number): boolean {
-  return isOpen(journey, (world - 1) * 10 + 1);
+  return Array.from({ length: 10 }, (_, i) => (world - 1) * 10 + 1 + i).some((id) => isOpen(journey, id));
+}
+
+function playableLevels(): number[] {
+  return levelsData.levels
+    .filter((level) => "days" in level)
+    .map((level) => level.id)
+    .sort((a, b) => a - b);
 }
 
 /** Does the level have its map yet (can it be played)? */

@@ -7,7 +7,11 @@
 //   R G B Y  floor of that colour
 //   h  a hatchling     r g b y  a box of that colour
 //   L  a lamp (off)    D  a gate (closed)
+//   k  a key (opens a gate with USE)    f  fuel (lights a lamp with USE)
+//   c  a crab (in the way until it walks off, see DayOptions.crab)
 //   > < ^ v  the turtle on sand, facing east, west, north, south
+
+import type { Goal } from "./goals.ts";
 
 export type Colour = "RED" | "GREEN" | "BLUE" | "YELLOW";
 export type Direction = 0 | 1 | 2 | 3; // north, east, south, west
@@ -19,6 +23,9 @@ export type Thing = { readonly id: number } & (
   | { kind: "BOX"; colour: Colour }
   | { kind: "LAMP"; on: boolean }
   | { kind: "GATE"; open: boolean }
+  | { kind: "KEY" }
+  | { kind: "FUEL" }
+  | { kind: "CRAB" }
 );
 
 export interface Cell {
@@ -43,6 +50,8 @@ export interface World {
   tick: number;
   readonly capacity: number;
   readonly globals: { TIDE: number; LIGHT: (tick: number) => Colour };
+  /** What happens by itself as time goes on (DayOptions). */
+  readonly clock: { readonly crab: number | null; readonly gates: number | null };
 }
 
 const COLOURS: Record<string, Colour> = { R: "RED", G: "GREEN", B: "BLUE", Y: "YELLOW" };
@@ -60,6 +69,42 @@ export interface WorldOptions {
   readonly capacity?: number;
   readonly tide?: number;
   readonly light?: (tick: number) => Colour;
+  /** The crabs walk off at this tick. */
+  readonly crab?: number;
+  /** Every this many ticks, the gates open or close by themselves. */
+  readonly gates?: number;
+}
+
+/**
+ * A day of a level, as written in data/levels.json: the map, and what is
+ * different on that day besides it.
+ */
+export interface Day {
+  readonly map: readonly string[];
+  /** The global TIDE (a number). */
+  readonly tide?: number;
+  /** The lighthouse beam, one letter per tick, repeated: "RRRRGGGG" is red for 4 ticks, then green for 4. */
+  readonly light?: string;
+  /** How many things the turtle can carry (1 if not given). */
+  readonly capacity?: number;
+  /** The tick at which the crabs walk off. */
+  readonly crab?: number;
+  /** Every this many ticks, the gates open or close by themselves. */
+  readonly gates?: number;
+  /** The goals of this day, when they differ from the level's (e.g. how much to paint after counting). */
+  readonly goals?: readonly Goal[];
+}
+
+/** The world of a day. */
+export function dayWorld(day: Day): World {
+  const light = day.light;
+  return parseMap(day.map, {
+    capacity: day.capacity,
+    tide: day.tide,
+    light: light === undefined ? undefined : (tick) => COLOURS[light[tick % light.length]],
+    crab: day.crab,
+    gates: day.gates,
+  });
 }
 
 export function parseMap(rows: readonly string[], options: WorldOptions = {}): World {
@@ -78,6 +123,9 @@ export function parseMap(rows: readonly string[], options: WorldOptions = {}): W
       else if (c in BOXES) cell.thing = { id: nextId++, kind: "BOX", colour: BOXES[c] };
       else if (c === "L") cell.thing = { id: nextId++, kind: "LAMP", on: false };
       else if (c === "D") cell.thing = { id: nextId++, kind: "GATE", open: false };
+      else if (c === "k") cell.thing = { id: nextId++, kind: "KEY" };
+      else if (c === "f") cell.thing = { id: nextId++, kind: "FUEL" };
+      else if (c === "c") cell.thing = { id: nextId++, kind: "CRAB" };
       else if (c in TURTLES) turtle = { x, y, direction: TURTLES[c], carrying: [] };
       else if (c !== ".") throw new Error(`Unknown map character ${JSON.stringify(c)} at ${x},${y}`);
       return cell;
@@ -93,6 +141,7 @@ export function parseMap(rows: readonly string[], options: WorldOptions = {}): W
     tick: 0,
     capacity: options.capacity ?? 1,
     globals: { TIDE: options.tide ?? 0, LIGHT: options.light ?? (() => "GREEN") },
+    clock: { crab: options.crab ?? null, gates: options.gates ?? null },
   };
 }
 
@@ -115,6 +164,23 @@ export function frontOf(world: World): { x: number; y: number; cell: Cell | null
   const x = world.turtle.x + dx;
   const y = world.turtle.y + dy;
   return { x, y, cell: cellAt(world, x, y) };
+}
+
+/** Can the turtle pick the thing up? */
+export function portable(thing: Thing | null): boolean {
+  return thing !== null && (thing.kind === "HATCHLING" || thing.kind === "BOX" || thing.kind === "KEY" || thing.kind === "FUEL");
+}
+
+/** Time goes on by one tick: what happens by itself (the crabs walk off, the gates open or close). */
+export function advanceClock(world: World): void {
+  const { crab, gates } = world.clock;
+  for (const row of world.cells) {
+    for (const cell of row) {
+      const thing = cell.thing;
+      if (thing?.kind === "CRAB" && crab !== null && world.tick >= crab) cell.thing = null;
+      if (thing?.kind === "GATE" && gates !== null && world.tick % gates === 0) thing.open = !thing.open;
+    }
+  }
 }
 
 /** Does the thing block the way? */

@@ -4,12 +4,12 @@
 // stars) and opens the next levels.
 
 import { tokenize, type Token } from "../lang/tokens.ts";
-import { goalSentence, play, type Level, type RunWords } from "../play.ts";
+import { dayGoals, goalSentence, levelTargets, play, type Level, type RunWords } from "../play.ts";
 import { renderRunAnimation } from "../render/animation.ts";
 import { renderBoard } from "../render/board.ts";
 import { scanningOverlay } from "../render/screens.ts";
 import type { Skin } from "../render/skin.ts";
-import { parseMap } from "../world/world.ts";
+import { dayWorld } from "../world/world.ts";
 import type { CameraScanner } from "./camera.ts";
 import { backArrow, nextArrow, t, tileWord } from "./i18n.ts";
 import type { LevelResult } from "./journeys.ts";
@@ -22,14 +22,16 @@ export interface LevelContext {
   readonly scanner: CameraScanner;
   /** Record a win (returns the result), or nothing outside a journey. */
   readonly onWin: (seconds: number) => LevelResult | null;
+  /** Go to the main menu. */
+  readonly onHome: () => void;
   /** Leave the level (back to the levels of the world). */
   readonly onLeave: () => void;
-  /** Go to the next level, if it is open and has its map. */
-  readonly onNext: (() => void) | null;
+  /** Going to the next level, if it is open and has its map (asked after the win, which may open it). */
+  readonly next: () => (() => void) | null;
 }
 
 export function goalText(level: Level): string {
-  return level.goals
+  return dayGoals(level, level.days[0])
     .map((goal) =>
       goal.kind === "reach_colour" ? t("goal.reach_colour", { colour: tileWord(goal.colour) }) : t(`goal.${goal.kind}`),
     )
@@ -37,7 +39,8 @@ export function goalText(level: Level): string {
 }
 
 export function levelBoard(level: Level, skin: Skin): string {
-  return renderBoard(parseMap(level.days[0].map), {
+  return renderBoard(dayWorld(level.days[0]), {
+    targets: levelTargets(level),
     caption: `${t("ui.level", { n: level.id })}: ${t(`level.${level.id}`)}\n${goalText(level) || goalSentence(level)}`,
     skin,
   });
@@ -48,6 +51,23 @@ const runWords = (): RunWords => ({
   wellDone: t("ui.well_done"),
   notQuite: t("ui.not_quite"),
 });
+
+/** How long the reward stays before the next level opens by itself. */
+const AUTO_NEXT_SECONDS = 15;
+
+/** The spanner in a ring that empties over the seconds before the next level. */
+function countdownRing(spanner: string, seconds: number): string {
+  const r = 42;
+  const circumference = (2 * Math.PI * r).toFixed(1);
+  return (
+    `<svg class="countdown-ring" viewBox="0 0 100 100" aria-hidden="true">` +
+    `<circle cx="50" cy="50" r="${r}" fill="none" stroke="rgba(16, 32, 42, 0.2)" stroke-width="9"/>` +
+    `<circle cx="50" cy="50" r="${r}" fill="none" stroke="#10202a" stroke-width="9" stroke-linecap="round" ` +
+    `stroke-dasharray="${circumference}" stroke-dashoffset="0" transform="rotate(-90 50 50)">` +
+    `<animate attributeName="stroke-dashoffset" from="0" to="${circumference}" dur="${seconds}s" fill="freeze"/></circle>` +
+    `<image href="${spanner}" x="24" y="24" width="52" height="52"/></svg>`
+  );
+}
 
 export async function openLevel(level: Level, context: LevelContext): Promise<void> {
   const { stage, overlay, skin, scanner } = context;
@@ -99,7 +119,7 @@ export async function openLevel(level: Level, context: LevelContext): Promise<vo
     const tokens = tokenize(rows);
     const played = play(level, tokens, runWords());
     const stepMs = 600;
-    showOn(stage, renderRunAnimation(tokens, played.frames, { stepMs, loop: false, skin, word: (token) => tileWord(token.kind.key) }));
+    showOn(stage, renderRunAnimation(tokens, played.frames, { stepMs, loop: false, skin, word: (token) => tileWord(token.kind.key), targets: levelTargets(level, played.day) }));
     await new Promise((resolve) => setTimeout(resolve, (played.frames.length + 3) * stepMs));
     if (played.won) {
       const result = context.onWin((performance.now() - started) / 1000);
@@ -111,21 +131,55 @@ export async function openLevel(level: Level, context: LevelContext): Promise<vo
   }
 
   function showReward(result: LevelResult | null): void {
+    const onNext = context.next();
     const stars = result === null ? "" : "★".repeat(result.stars) + "☆".repeat(3 - result.stars);
     overlay.innerHTML =
       `<div class="reward"><div class="stars">${stars}</div>` +
       `<div class="title">${t("ui.well_done")}</div>` +
       (result === null ? "" : `<div class="points">${t("ui.points", { n: result.points })}</div>`) +
       `<div class="buttons">` +
-      (context.onNext !== null ? `<button data-action="next">${t("ui.next_level")} ${nextArrow()}</button>` : "") +
+      (onNext !== null
+        ? `<button data-action="next">${countdownRing(skin.href("spanner"), AUTO_NEXT_SECONDS)}` +
+          `<span>${t("ui.next_level")} ${nextArrow()}</span><span class="countdown">${AUTO_NEXT_SECONDS}</span></button>`
+        : "") +
       `<button class="secondary" data-action="again">${t("ui.try_again")}</button>` +
-      `<button class="secondary" data-action="back">${t("ui.levels")}</button></div></div>`;
-    overlay.querySelector<HTMLButtonElement>("[data-action=next]")?.addEventListener("click", () => {
+      `<button class="secondary" data-action="back">${t("ui.levels")}</button>` +
+      `<button class="secondary" data-action="home" title="Tactile Turtle">🏠</button></div></div>`;
+    const nextButton = overlay.querySelector<HTMLButtonElement>("[data-action=next]");
+
+    // Without a click, the next level opens by itself after a while.
+    let timer: ReturnType<typeof setInterval> | undefined;
+    const stopCountdown = () => clearInterval(timer);
+    const goNext = () => {
+      stopCountdown();
       document.body.classList.remove("camera");
-      context.onNext?.();
-    });
-    overlay.querySelector<HTMLButtonElement>("[data-action=again]")!.onclick = () => void openLevel(level, context);
-    overlay.querySelector<HTMLButtonElement>("[data-action=back]")!.onclick = () => leave();
+      onNext?.();
+    };
+    if (nextButton !== null) {
+      const countdown = nextButton.querySelector<HTMLElement>(".countdown")!;
+      let left = AUTO_NEXT_SECONDS;
+      timer = setInterval(() => {
+        // The reward is gone (Back in the browser, another screen): no more counting.
+        if (!nextButton.isConnected) return stopCountdown();
+        left -= 1;
+        if (left <= 0) return goNext();
+        countdown.textContent = String(left);
+      }, 1000);
+      nextButton.onclick = goNext;
+    }
+    overlay.querySelector<HTMLButtonElement>("[data-action=again]")!.onclick = () => {
+      stopCountdown();
+      void openLevel(level, context);
+    };
+    overlay.querySelector<HTMLButtonElement>("[data-action=back]")!.onclick = () => {
+      stopCountdown();
+      leave();
+    };
+    overlay.querySelector<HTMLButtonElement>("[data-action=home]")!.onclick = () => {
+      stopCountdown();
+      document.body.classList.remove("camera");
+      context.onHome();
+    };
   }
 
   try {

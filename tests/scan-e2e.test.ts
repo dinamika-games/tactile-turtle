@@ -130,6 +130,26 @@ describe("reading a plate held up to a virtual webcam", () => {
   });
 });
 
+// The lines and ticks only help to set the tiles: a tile set between them
+// goes into the nearest slot. Here the rows are set 10 mm down, onto the row
+// line (the rows are 28 mm apart), and on A4 also 6 mm to the left or the
+// right (a slot is 25 mm wide). Before, a tile more than 8 mm off its slot was not
+// read unless some frame saw it nearer, and one more than 11 mm off never.
+describe("tiles set between the slots", () => {
+  it.each([
+    { name: "a4-off-the-lines", plate: "a4", program: A4_PROGRAM, seed: 8, dx: 6, pose: { distance: 500, roll: 4, yaw: -12, pitch: 8 } },
+    // On A3 the middle of a row is far from its anchors and found a few
+    // millimetres off, so there the tiles are set off only up or down.
+    { name: "a3-off-the-lines", plate: "a3", program: A3_PROGRAM, seed: 9, dx: 0, pose: { distance: 550, roll: -4, yaw: 10, pitch: -8 } },
+  ])("$name", ({ plate: plateName, program, pose, seed, dx }) => {
+    const result = holdUp(program, plateName, pose, WEBCAM_720P, seed, FRAMES, (row) => ({
+      dx: row % 2 === 0 ? dx : -dx,
+      dy: 10,
+    }));
+    checkReading(result, program, plateName);
+  });
+});
+
 // The plate is held too close to be seen whole, and moved about: the parts
 // are stitched by the anchors at the ends of the rows.
 const STITCH_CASES = [

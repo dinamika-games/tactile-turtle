@@ -19,6 +19,7 @@ import {
   drawGrid,
   drawGround,
   drawLampGlow,
+  drawTargets,
   drawThingShape,
   drawTurtleShape,
   drawTurtleSprite,
@@ -44,6 +45,8 @@ export interface AnimationOptions {
   readonly skin?: Skin;
   /** The word on a tile in the picture of the program (default: English). */
   readonly word?: (token: Token) => string;
+  /** The colours to paint (a "painted" goal), drawn as dashed frames. */
+  readonly targets?: readonly (readonly (Colour | null)[])[];
 }
 
 /** The share of a step spent standing still before moving. */
@@ -212,6 +215,7 @@ export function renderRunAnimation(
     }
   }
   parts.push(drawGrid(first));
+  parts.push(drawTargets(options.targets));
 
   // The things.
   const all = frames.map((frame) => placements(frame.world));
@@ -224,13 +228,15 @@ export function renderRunAnimation(
       if (placement !== undefined) {
         sequence.push(placement);
       } else {
-        // Gone (a hatchling dropped into the sea): it swims off in front of the turtle.
+        // Gone: a hatchling dropped into the sea swims off in front of the
+        // turtle (a key or fuel is used up there); a crab walks off where it was.
         const previous = sequence[i - 1];
         const front = frontOf(frames[i].world);
+        const inPlace = previous.thing.kind === "CRAB";
         sequence.push({
           ...previous,
-          x: front.x * CELL + CELL / 2,
-          y: front.y * CELL + CELL / 2,
+          x: inPlace ? previous.x : front.x * CELL + CELL / 2,
+          y: inPlace ? previous.y : front.y * CELL + CELL / 2,
           scale: 1,
           opacity: 0,
         });

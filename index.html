@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <title>Tactile Turtle</title>
-    <link rel="icon" href="data:," />
+    <link rel="icon" type="image/png" href="./assets/sprites/turtle.png" />
+    <link rel="apple-touch-icon" href="./assets/sprites/turtle.png" />
     <style>
       html, body { margin: 0; height: 100%; background: #0e1a22; color: #fff; overflow: hidden;
         font-family: "Noto Sans", system-ui, sans-serif; -webkit-tap-highlight-color: transparent; }
@@ -57,7 +58,11 @@
       .reward .stars { font-size: clamp(3rem, 10vw, 6rem); color: #ffd23f; text-shadow: 0 4px 16px #000; letter-spacing: 0.1em; }
       .reward .title { font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 700; text-shadow: 0 3px 12px #000; }
       .reward .points { font-size: clamp(1.2rem, 3vw, 1.8rem); }
-      .reward .buttons { display: flex; gap: 1.5vw; flex-wrap: wrap; justify-content: center; }
+      .reward .buttons { display: flex; gap: 1.5vw; flex-wrap: wrap; justify-content: center; align-items: center; }
+      .reward button[data-action=next] { flex-direction: row; gap: 0.5em; padding-left: 0.8em; }
+      .reward button[data-action=home] { min-width: 0; }
+      .reward .countdown-ring { width: 2.2em; height: 2.2em; flex: none; }
+      .reward .countdown { min-width: 1.4em; font-size: 1.3em; font-variant-numeric: tabular-nums; }
 
       #narration { position: fixed; left: 0; right: 0; bottom: 1rem; text-align: center; color: #8a99a3; font-size: 1.1rem; }
       #debug { position: fixed; right: 0.5rem; bottom: 0.5rem; display: none; text-align: right; font-size: 0.8rem; color: #8f8; }

@@ -88,7 +88,7 @@ export function mergeReadings(
       const centre = slotCentre(plate, row, column);
       const inView = same.filter((reading) => markerInView(reading, centre, VOTE_MARGIN)).length;
       const needed = Math.max(1, Math.ceil(options.minShare * Math.max(inView, sightings.length)));
-      if (sightings.length < needed || !sightings.some((tile) => tile.confident)) continue;
+      if (sightings.length < needed) continue;
       const votes = new Map<number, number>();
       for (const tile of sightings) votes.set(tile.id, (votes.get(tile.id) ?? 0) + (tile.confident ? 2 : 1));
       const id = [...votes].sort((a, b) => b[1] - a[1])[0][0];

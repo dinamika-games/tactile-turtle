@@ -9,6 +9,7 @@ import { PLATES, readPlate, type PlateReading } from "../src/scan/plate.ts";
 import {
   mulberry32,
   placeByHand,
+  type RowOffset,
   plateInView,
   render,
   trembling,
@@ -43,8 +44,9 @@ export function holdUp(
   camera: CameraSettings,
   seed: number,
   frames: number,
+  offset?: RowOffset,
 ): HoldResult {
-  return holdUpAlong(program, plateName, Array.from({ length: frames }, () => pose), camera, seed);
+  return holdUpAlong(program, plateName, Array.from({ length: frames }, () => pose), camera, seed, offset);
 }
 
 /**
@@ -57,13 +59,14 @@ export function holdUpAlong(
   poses: readonly Pose[],
   camera: CameraSettings,
   seed: number,
+  offset?: RowOffset,
 ): HoldResult {
   const plate = PLATES.find((candidate) => candidate.name === plateName)!;
   const expected =
     layoutProgram(program, plate.columns, plate.rows) ?? layoutProgram(program, plate.columns, plate.rows, true);
   if (expected === null) throw new Error(`The program does not fit on the plate ${plateName}.`);
 
-  const scene = placeByHand(plate, expected, seed);
+  const scene = placeByHand(plate, expected, seed, offset);
   const random = mulberry32(seed * 7919);
   const readings: (PlateReading | null)[] = [];
   const markersPerFrame: number[] = [];

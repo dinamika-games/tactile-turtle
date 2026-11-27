@@ -156,10 +156,12 @@ export function drawGrid(world: World): string {
 }
 
 /** How large each kind of thing is drawn as a sprite (the thing itself, in pixels). */
-const SPRITE_SIZES: Record<Thing["kind"], number> = { ROCK: 60, HATCHLING: 40, BOX: 46, LAMP: 44, GATE: 60 };
+const SPRITE_SIZES: Record<"ROCK" | "HATCHLING" | "BOX" | "LAMP" | "GATE", number> = { ROCK: 60, HATCHLING: 40, BOX: 46, LAMP: 44, GATE: 60 };
 
 /** A thing as a sprite, centred at (0, 0). */
 export function drawThingSprite(thing: Thing, skin: Skin): string {
+  // The key, the fuel and the crab have no sprites yet: they are drawn.
+  if (thing.kind === "KEY" || thing.kind === "FUEL" || thing.kind === "CRAB") return drawThingShape(thing);
   const size = SPRITE_SIZES[thing.kind];
   switch (thing.kind) {
     case "ROCK":
@@ -210,6 +212,37 @@ export function drawThingShape(thing: Thing, skin?: Skin): string {
         ? `<rect x="-28" y="-28" width="8" height="56" rx="2" fill="#6d4c2f"/><rect x="20" y="-28" width="8" height="56" rx="2" fill="#6d4c2f"/>`
         : `<rect x="-28" y="-28" width="56" height="56" rx="3" fill="#8b5e34" stroke="#4a3018" stroke-width="3"/>` +
             [-14, 0, 14].map((dx) => `<line x1="${dx}" y1="-28" x2="${dx}" y2="28" stroke="#4a3018" stroke-width="2"/>`).join("");
+    case "KEY":
+      return (
+        `<g transform="rotate(-35)">` +
+        `<circle cx="-11" cy="0" r="9" fill="none" stroke="#7a5a00" stroke-width="7"/>` +
+        `<circle cx="-11" cy="0" r="9" fill="none" stroke="#ffcf3a" stroke-width="4"/>` +
+        `<path d="M-2 0 H20 M13 0 V7 M19 0 V6" stroke="#7a5a00" stroke-width="7" stroke-linecap="round" fill="none"/>` +
+        `<path d="M-2 0 H20 M13 0 V7 M19 0 V6" stroke="#ffcf3a" stroke-width="4" stroke-linecap="round" fill="none"/>` +
+        `</g>`
+      );
+    case "FUEL":
+      return (
+        `<path d="M-14 -12 L4 -12 L14 -2 L14 20 L-14 20 Z" fill="#d8432f" stroke="#6e1c12" stroke-width="3" stroke-linejoin="round"/>` +
+        `<rect x="-11" y="-19" width="10" height="8" rx="2" fill="#4d4d4d"/>` +
+        `<path d="M-8 -4 L8 14 M8 -4 L-8 14" stroke="#6e1c12" stroke-width="2" opacity="0.5"/>` +
+        `<path d="M-1 0 C-6 7 -5 12 -1 12 C3 12 4 7 -1 0 Z" fill="#ffd23f"/>`
+      );
+    case "CRAB":
+      return (
+        [-1, 1]
+          .map(
+            (side) =>
+              [-6, 0, 6].map((dy) => `<path d="M${side * 10} ${dy} L${side * 22} ${dy + 4} L${side * 25} ${dy + 10}" stroke="#a8321f" stroke-width="3" fill="none" stroke-linecap="round"/>`).join("") +
+              `<path d="M${side * 9} -9 L${side * 15} -18" stroke="#a8321f" stroke-width="4" stroke-linecap="round"/>` +
+              `<path d="M${side * 13} -17 a7 7 0 1 0 ${side * 8} -6 l${side * -5} 4 Z" fill="#e8553d" stroke="#a8321f" stroke-width="2" stroke-linejoin="round"/>`,
+          )
+          .join("") +
+        `<ellipse cx="0" cy="2" rx="14" ry="11" fill="#e8553d" stroke="#a8321f" stroke-width="2.5"/>` +
+        `<line x1="-4" y1="-8" x2="-5" y2="-15" stroke="#a8321f" stroke-width="2"/><line x1="4" y1="-8" x2="5" y2="-15" stroke="#a8321f" stroke-width="2"/>` +
+        `<circle cx="-5" cy="-16" r="3" fill="#fff" stroke="#1a1a1a" stroke-width="1"/><circle cx="5" cy="-16" r="3" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>` +
+        `<circle cx="-5" cy="-16" r="1.4" fill="#1a1a1a"/><circle cx="5" cy="-16" r="1.4" fill="#1a1a1a"/>`
+      );
   }
 }
 
@@ -305,6 +338,24 @@ export interface BoardOptions {
   readonly caption?: string;
   /** Draw with sprites instead of the vector shapes. */
   readonly skin?: Skin;
+  /** The colours to paint (a "painted" goal), drawn as dashed frames. */
+  readonly targets?: readonly (readonly (Colour | null)[])[];
+}
+
+/** The cells to paint: a dashed frame in the colour, and a faint wash. */
+export function drawTargets(targets: readonly (readonly (Colour | null)[])[] | undefined): string {
+  if (targets === undefined) return "";
+  const parts: string[] = [];
+  targets.forEach((row, y) =>
+    row.forEach((colour, x) => {
+      if (colour === null) return;
+      parts.push(
+        `<rect x="${x * CELL + 6}" y="${y * CELL + 6}" width="${CELL - 12}" height="${CELL - 12}" rx="8" ` +
+          `fill="${PALETTE[colour]}" fill-opacity="0.18" stroke="${PALETTE[colour]}" stroke-width="4" stroke-dasharray="10 7"/>`,
+      );
+    }),
+  );
+  return `<g pointer-events="none">${parts.join("")}</g>`;
 }
 
 /** The height of a caption of one line (a statement during a run). */
@@ -376,6 +427,7 @@ export function renderBoard(world: World, options: BoardOptions = {}): string {
     }
   }
   parts.push(drawGrid(world));
+  parts.push(drawTargets(options.targets));
   for (let y = 0; y < world.height; y++) {
     for (let x = 0; x < world.width; x++) {
       const thing = world.cells[y][x].thing;

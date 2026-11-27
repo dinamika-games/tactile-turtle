@@ -75,8 +75,16 @@ export interface Scene {
   readonly tiles: readonly PlacedTileSpec[];
 }
 
+/** How far the tiles of a row were set off their slots (mm), beyond the little shift by hand. */
+export type RowOffset = (row: number) => { readonly dx: number; readonly dy: number };
+
 /** Place the rows of tile ids on the plate, each tile a little off, as by hand. */
-export function placeByHand(plate: PlateSpec, rows: readonly (readonly number[])[], seed: number): Scene {
+export function placeByHand(
+  plate: PlateSpec,
+  rows: readonly (readonly number[])[],
+  seed: number,
+  offset: RowOffset = () => ({ dx: 0, dy: 0 }),
+): Scene {
   const random = mulberry32(seed);
   const geometry = tilesData.geometry_mm;
   const tiles: PlacedTileSpec[] = [];
@@ -85,8 +93,8 @@ export function placeByHand(plate: PlateSpec, rows: readonly (readonly number[])
       const topLeft = slotTopLeft(plate, rowIndex, column);
       tiles.push({
         id,
-        cx: topLeft.x + geometry.tile_width / 2 + (random() - 0.5) * 2.4,
-        cy: topLeft.y + geometry.tile_height / 2 + (random() - 0.5) * 2.4,
+        cx: topLeft.x + geometry.tile_width / 2 + offset(rowIndex).dx + (random() - 0.5) * 2.4,
+        cy: topLeft.y + geometry.tile_height / 2 + offset(rowIndex).dy + (random() - 0.5) * 2.4,
         angle: ((random() - 0.5) * 5 * Math.PI) / 180,
       });
     }),

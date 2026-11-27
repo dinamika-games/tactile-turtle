@@ -1,10 +1,8 @@
 // Every level can be solved with the tiles of the standard kit, on its plate.
 //
 // "Solved" means: the reference solution of the level is a valid program, it
-// needs no more tiles of any kind than the kit holds, and it fits on the plate
-// of the level. For the levels whose maps exist already, the solution is also
-// run on every day and must reach the goals (DESIGN.md, section 13); the maps
-// of the other levels are being written.
+// needs no more tiles of any kind than the kit holds, it fits on the plate of
+// the level, and run on every day of the level it reaches the goals.
 
 import { describe, expect, it } from "vitest";
 
@@ -16,7 +14,7 @@ import { parse } from "../src/lang/parser.ts";
 import { textToRows, tokenizeText } from "../src/lang/tokens.ts";
 import { goalMet, type Goal } from "../src/world/goals.ts";
 import { run } from "../src/world/run.ts";
-import { parseMap } from "../src/world/world.ts";
+import { dayWorld, type Day } from "../src/world/world.ts";
 
 const levels = levelsData.levels;
 
@@ -67,27 +65,46 @@ describe("the kit", () => {
   });
 });
 
-describe("the levels with maps", () => {
-  const withMaps = levels.filter((level) => "days" in level) as unknown as {
+describe("the maps", () => {
+  const withMaps = levels as unknown as {
     id: number;
     name: string;
+    world: number;
     solution: string[];
-    days: { map: string[] }[];
-    goals: Goal[];
+    days?: Day[];
+    goals?: Goal[];
   }[];
 
-  it("include the first levels", () => {
-    expect(withMaps.length).toBeGreaterThan(0);
+  it("exist for every level", () => {
+    expect(withMaps.filter((level) => level.days === undefined || level.days.length === 0).map((level) => level.id)).toEqual([]);
+    expect(withMaps.filter((level) => level.goals === undefined || level.goals.length === 0).map((level) => level.id)).toEqual([]);
+  });
+
+  // From world 4 on, one fixed path must not solve a level (DESIGN.md, "The days").
+  it("have two to five days from world 4 on", () => {
+    const wrong = withMaps.filter((level) => level.world >= 4 && !(level.days!.length >= 2 && level.days!.length <= 5));
+    expect(wrong.map((level) => level.id)).toEqual([]);
   });
 
   describe.each(withMaps)("level $id: $name", (level) => {
-    it.each(level.days.map((day, index) => ({ day, index })))("is won on day $index", ({ day }) => {
+    it("fits on the screen (at most 16 x 11 cells, framed by rocks)", () => {
+      for (const day of level.days!) {
+        const world = dayWorld(day);
+        expect(world.width).toBeLessThanOrEqual(16);
+        expect(world.height).toBeLessThanOrEqual(11);
+        expect(day.map.every((row) => row.length === world.width), "every row as long").toBe(true);
+        const edge = [day.map[0], day.map.at(-1)!, ...day.map.map((row) => row[0] + row.at(-1))].join("");
+        expect(edge.replace(/#/g, ""), "the edge is rock").toBe("");
+      }
+    });
+
+    it.each((level.days ?? []).map((day, index) => ({ day, index })))("is won on day $index", ({ day }) => {
       const program = parse(tokenizeText(level.solution.join("\n")));
-      const world = parseMap(day.map);
+      const world = dayWorld(day);
       for (const _ of run(program, world)) {
         // Run to the end.
       }
-      for (const goal of level.goals) expect(goalMet(goal, world), JSON.stringify(goal)).toBe(true);
+      for (const goal of day.goals ?? level.goals!) expect(goalMet(goal, world), JSON.stringify(goal)).toBe(true);
     });
   });
 });

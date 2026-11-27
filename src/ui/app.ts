@@ -16,6 +16,7 @@ import {
   isPlayable,
   isWorldOpen,
   JourneyStore,
+  nextPlayable,
   starsIn,
   totalPoints,
   type Journey,
@@ -85,6 +86,13 @@ export class App {
   /** When the page is loaded: the language first (the last choice is marked, one tap). */
   begin(): void {
     addEventListener("popstate", (event: PopStateEvent) => this.render((event.state as Screen | null) ?? { name: "language" }));
+    // Esc goes one screen back, as the Back buttons (not past the first screen).
+    addEventListener("keydown", (event: KeyboardEvent) => {
+      if (event.key !== "Escape" || event.repeat) return;
+      if ((history.state as Screen | null)?.name === "language") return;
+      event.preventDefault();
+      this.back();
+    });
     history.replaceState({ name: "language" } satisfies Screen, "");
     this.render({ name: "language" });
   }
@@ -272,10 +280,12 @@ export class App {
 
   playLevel(levelId: number): void {
     const journey = this.refreshJourney();
-    const next = levelId + 1;
-    const nextOpen = () => {
+    // The next level with a map (levels still in preparation are skipped).
+    const nextLevel = (): number | null => {
       const now = this.refreshJourney();
-      return now !== null && next <= 100 && (isOpen(now, next) || unlockAll()) && isPlayable(next);
+      if (now === null) return null;
+      if (unlockAll()) return Array.from({ length: 100 - levelId }, (_, i) => levelId + 1 + i).find(isPlayable) ?? null;
+      return nextPlayable(now, levelId);
     };
     this.context.overlay.innerHTML = "";
     void openLevel(levelById(levelId), {
@@ -284,14 +294,18 @@ export class App {
       skin: this.context.skin,
       scanner: this.context.scanner,
       onWin: (seconds) => (journey === null ? null : this.journeys.record(journey.id, levelId, seconds)),
+      onHome: () => this.go({ name: "start" }),
       onLeave: () => this.back(),
       // The next level replaces this one in the history: Back still leads to the levels.
-      onNext: nextOpen()
-        ? () => {
-            history.replaceState({ name: "level", level: next } satisfies Screen, "");
-            this.render({ name: "level", level: next });
-          }
-        : null,
+      next: () => {
+        const next = nextLevel();
+        return next === null
+          ? null
+          : () => {
+              history.replaceState({ name: "level", level: next } satisfies Screen, "");
+              this.render({ name: "level", level: next });
+            };
+      },
     });
   }
 

@@ -3,7 +3,7 @@
 
 import type { Cond, Expr, Program, Statement } from "../lang/parser.ts";
 import type { Token } from "../lang/tokens.ts";
-import { blocks, frontOf, type World } from "./world.ts";
+import { advanceClock, blocks, frontOf, portable, type World } from "./world.ts";
 
 export type Value = number | string;
 
@@ -53,6 +53,7 @@ class Interpreter {
 
   private tick(token: Token): void {
     this.world.tick++;
+    advanceClock(this.world);
     if (this.world.tick > MAX_TICKS) {
       throw new RunError("tired", "Your turtle is tired: is there a loop that never ends?", token);
     }
@@ -83,13 +84,13 @@ class Interpreter {
             break;
           case "PICK_UP": {
             const thing = front.cell?.thing ?? null;
-            if (thing === null || (thing.kind !== "HATCHLING" && thing.kind !== "BOX")) {
+            if (!portable(thing)) {
               throw new RunError("nothing_to_pick", "There is nothing to pick up in front.", token);
             }
             if (turtle.carrying.length >= world.capacity) {
               throw new RunError("full", "The turtle carries as much as it can.", token);
             }
-            turtle.carrying.push(thing);
+            turtle.carrying.push(thing!);
             front.cell!.thing = null;
             break;
           }
@@ -112,15 +113,14 @@ class Interpreter {
             break;
           }
           case "USE": {
+            // A key opens a gate, fuel lights a lamp (the last thing picked up is used).
             const thing = front.cell?.thing ?? null;
-            const item = turtle.carrying.pop();
+            const item = turtle.carrying.at(-1);
             if (item === undefined) throw new RunError("empty", "The turtle carries nothing to use.", token);
-            if (thing?.kind === "LAMP") thing.on = true;
-            else if (thing?.kind === "GATE") thing.open = true;
-            else {
-              turtle.carrying.push(item);
-              throw new RunError("nothing_to_use", "There is nothing in front to use it on.", token);
-            }
+            if (thing?.kind === "GATE" && item.kind === "KEY") thing.open = true;
+            else if (thing?.kind === "LAMP" && item.kind === "FUEL") thing.on = true;
+            else throw new RunError("nothing_to_use", "That does not fit: a key opens a gate, fuel lights a lamp.", token);
+            turtle.carrying.pop();
             break;
           }
           case "WAIT":

@@ -1,6 +1,6 @@
 {
   "format": 1,
-  "note": "The reference solutions in the text form (src/lang/tokens.ts). tests/levels.test.ts checks that each parses and fits the kit and its plate, and, for the levels which have their maps (days) already, that it wins every day.",
+  "note": "The reference solutions in the text form (src/lang/tokens.ts), the days (a map each, and what else is different that day) and the goals. tests/levels.test.ts checks that each solution parses, fits the kit and its plate, and wins every day.",
   "levels": [
     {
       "id": 1,
@@ -39,6 +39,24 @@
       "plate": "a4",
       "solution": [
         "FORWARD LEFT FORWARD FORWARD RIGHT FORWARD"
+      ],
+      "days": [
+        {
+          "map": [
+            "#####",
+            "##.~#",
+            "##.##",
+            "#>.##",
+            "#####"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 3,
+          "y": 1
+        }
       ]
     },
     {
@@ -49,6 +67,24 @@
       "plate": "a4",
       "solution": [
         "FORWARD RIGHT FORWARD LEFT FORWARD RIGHT FORWARD LEFT FORWARD"
+      ],
+      "days": [
+        {
+          "map": [
+            "######",
+            "#>.###",
+            "##..##",
+            "###.~#",
+            "######"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 4,
+          "y": 3
+        }
       ]
     },
     {
@@ -59,6 +95,24 @@
       "plate": "a4",
       "solution": [
         "FORWARD FORWARD PICK_UP RIGHT FORWARD DROP"
+      ],
+      "days": [
+        {
+          "map": [
+            "#####",
+            "#h#~#",
+            "#..~#",
+            "#.#~#",
+            "#^#~#",
+            "#####"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "home",
+          "count": 1
+        }
       ]
     },
     {
@@ -71,6 +125,23 @@
         "PICK_UP LEFT FORWARD DROP",
         "LEFT LEFT FORWARD FORWARD PICK_UP",
         "RIGHT RIGHT FORWARD FORWARD DROP"
+      ],
+      "days": [
+        {
+          "map": [
+            "#######",
+            "#~#h###",
+            "#~.^.h#",
+            "#~#####",
+            "#######"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "home",
+          "count": 2
+        }
       ]
     },
     {
@@ -82,6 +153,27 @@
       "solution": [
         "FORWARD FORWARD RIGHT FORWARD FORWARD LEFT",
         "FORWARD FORWARD LEFT FORWARD RIGHT FORWARD"
+      ],
+      "days": [
+        {
+          "map": [
+            "#####",
+            "##~##",
+            "##..#",
+            "###.#",
+            "#...#",
+            "#.###",
+            "#^###",
+            "#####"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 2,
+          "y": 1
+        }
       ]
     },
     {
@@ -92,6 +184,24 @@
       "plate": "a4",
       "solution": [
         "FORWARD FORWARD LEFT FORWARD FORWARD RIGHT"
+      ],
+      "days": [
+        {
+          "map": [
+            "######",
+            "###~~#",
+            "###.##",
+            "#>..##",
+            "######"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 3,
+          "y": 1
+        }
       ]
     },
     {
@@ -102,6 +212,23 @@
       "plate": "a4",
       "solution": [
         "LEFT LEFT FORWARD FORWARD FORWARD RIGHT FORWARD"
+      ],
+      "days": [
+        {
+          "map": [
+            "######",
+            "#~####",
+            "#...>#",
+            "######"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 1,
+          "y": 1
+        }
       ]
     },
     {
@@ -113,6 +240,25 @@
       "solution": [
         "PICK_UP FORWARD PICK_UP FORWARD PICK_UP",
         "RIGHT FORWARD DROP DROP DROP"
+      ],
+      "days": [
+        {
+          "map": [
+            "#####",
+            "#h#~#",
+            "#h.~#",
+            "#h#~#",
+            "#^#~#",
+            "#####"
+          ],
+          "capacity": 3
+        }
+      ],
+      "goals": [
+        {
+          "kind": "home",
+          "count": 3
+        }
       ]
     },
     {
@@ -148,7 +294,25 @@
       "name": "Around the pool",
       "plate": "a4",
       "solution": [
-        "REPEAT 4 FORWARD FORWARD LEFT END"
+        "REPEAT 3 FORWARD FORWARD LEFT END"
+      ],
+      "days": [
+        {
+          "map": [
+            "#####",
+            "#~..#",
+            "##~.#",
+            "#>..#",
+            "#####"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 1,
+          "y": 1
+        }
       ]
     },
     {
@@ -158,7 +322,31 @@
       "name": "The long sandbar",
       "plate": "a4",
       "solution": [
-        "REPEAT 15 FORWARD END RIGHT REPEAT 12 FORWARD END"
+        "REPEAT 12 FORWARD END RIGHT REPEAT 8 FORWARD END"
+      ],
+      "days": [
+        {
+          "map": [
+            "###############",
+            "#>............#",
+            "#############.#",
+            "#############.#",
+            "#############.#",
+            "#############.#",
+            "#############.#",
+            "#############.#",
+            "#############.#",
+            "#############~#",
+            "###############"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 13,
+          "y": 9
+        }
       ]
     },
     {
@@ -169,6 +357,28 @@
       "plate": "a4",
       "solution": [
         "REPEAT 6 FORWARD LEFT FORWARD RIGHT END"
+      ],
+      "days": [
+        {
+          "map": [
+            "#########",
+            "#######~#",
+            "######..#",
+            "#####..##",
+            "####..###",
+            "###..####",
+            "##..#####",
+            "#>.######",
+            "#########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 7,
+          "y": 1
+        }
       ]
     },
     {
@@ -179,6 +389,22 @@
       "plate": "a4",
       "solution": [
         "REPEAT 4 PICK_UP LEFT DROP RIGHT FORWARD END"
+      ],
+      "days": [
+        {
+          "map": [
+            "#######",
+            "#~~~~~#",
+            "#>hhhh#",
+            "#######"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "home",
+          "count": 4
+        }
       ]
     },
     {
@@ -191,6 +417,24 @@
         "REPEAT 3 FORWARD END LEFT",
         "REPEAT 3 FORWARD RIGHT END",
         "REPEAT 5 FORWARD END"
+      ],
+      "days": [
+        {
+          "map": [
+            "########",
+            "###~~..#",
+            "#~>....#",
+            "###~~~##",
+            "########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 1,
+          "y": 2
+        }
       ]
     },
     {
@@ -201,9 +445,29 @@
       "plate": "a4",
       "solution": [
         "REPEAT 2",
-        "  REPEAT 6 FORWARD END LEFT",
-        "  REPEAT 3 FORWARD END LEFT",
+        "  REPEAT 6 FORWARD END PICK_UP LEFT",
+        "  REPEAT 3 FORWARD END DROP LEFT",
         "END"
+      ],
+      "days": [
+        {
+          "map": [
+            "###########",
+            "########~##",
+            "#h.......##",
+            "##.#####.##",
+            "##.#####.##",
+            "##>......h#",
+            "##~########",
+            "###########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "home",
+          "count": 2
+        }
       ]
     },
     {
@@ -213,10 +477,28 @@
       "name": "Rows of hatchlings",
       "plate": "a4",
       "solution": [
-        "REPEAT 3",
+        "REPEAT 2",
         "  REPEAT 4 PICK_UP LEFT DROP RIGHT FORWARD END",
         "  RIGHT FORWARD RIGHT",
         "END"
+      ],
+      "days": [
+        {
+          "map": [
+            "#######",
+            "#~~~~~#",
+            "#>hhhh#",
+            "#hhhh.#",
+            "#~~~~~#",
+            "#######"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "home",
+          "count": 8
+        }
       ]
     },
     {
@@ -226,7 +508,33 @@
       "name": "Twice around",
       "plate": "a4",
       "solution": [
-        "REPEAT 2 REPEAT 4 REPEAT 3 FORWARD END RIGHT END END"
+        "REPEAT 2",
+        "  REPEAT 3 FORWARD END RIGHT",
+        "  REPEAT 3 FORWARD END PICK_UP RIGHT",
+        "  REPEAT 3 FORWARD END RIGHT",
+        "  REPEAT 3 FORWARD END DROP RIGHT",
+        "  REPEAT 4 FORWARD END",
+        "END"
+      ],
+      "days": [
+        {
+          "map": [
+            "###########",
+            "#~###~#####",
+            "#>........#",
+            "#.##..##.##",
+            "#.##..##.##",
+            "#........##",
+            "####h###h##",
+            "###########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "home",
+          "count": 2
+        }
       ]
     },
     {
@@ -236,7 +544,30 @@
       "name": "The tight case",
       "plate": "a4",
       "solution": [
-        "REPEAT 4 REPEAT 2 FORWARD LEFT FORWARD RIGHT END RIGHT END"
+        "REPEAT 3",
+        "  REPEAT 2 FORWARD LEFT FORWARD RIGHT END",
+        "  RIGHT",
+        "END"
+      ],
+      "days": [
+        {
+          "map": [
+            "#######",
+            "###.###",
+            "##...##",
+            "#>.#..#",
+            "###..##",
+            "###~###",
+            "#######"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 3,
+          "y": 5
+        }
       ]
     },
     {
@@ -248,8 +579,26 @@
       "solution": [
         "REPEAT 3",
         "  REPEAT 5 FORWARD END PICK_UP RIGHT RIGHT",
-        "  REPEAT 5 FORWARD END DROP RIGHT RIGHT",
+        "  REPEAT 5 FORWARD END DROP LEFT FORWARD LEFT",
         "END"
+      ],
+      "days": [
+        {
+          "map": [
+            "##########",
+            "#~>.....h#",
+            "#~......h#",
+            "#~......h#",
+            "##......##",
+            "##########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "home",
+          "count": 3
+        }
       ]
     },
     {
@@ -260,6 +609,25 @@
       "plate": "a4",
       "solution": [
         "FORWARD PAINT RED"
+      ],
+      "days": [
+        {
+          "map": [
+            "#####",
+            "#>..#",
+            "#####"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "painted",
+          "pattern": [
+            ".....",
+            "..R..",
+            "....."
+          ]
+        }
       ]
     },
     {
@@ -270,6 +638,25 @@
       "plate": "a4",
       "solution": [
         "REPEAT 8 PAINT RED FORWARD END"
+      ],
+      "days": [
+        {
+          "map": [
+            "###########",
+            "#>........#",
+            "###########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "painted",
+          "pattern": [
+            "...........",
+            ".RRRRRRRR..",
+            "..........."
+          ]
+        }
       ]
     },
     {
@@ -280,6 +667,25 @@
       "plate": "a4",
       "solution": [
         "REPEAT 5 PAINT RED FORWARD PAINT BLUE FORWARD END"
+      ],
+      "days": [
+        {
+          "map": [
+            "#############",
+            "#>..........#",
+            "#############"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "painted",
+          "pattern": [
+            ".............",
+            ".RBRBRBRBRB..",
+            "............."
+          ]
+        }
       ]
     },
     {
@@ -290,6 +696,35 @@
       "plate": "a4",
       "solution": [
         "REPEAT 4 REPEAT 5 PAINT YELLOW FORWARD END RIGHT END"
+      ],
+      "days": [
+        {
+          "map": [
+            "########",
+            "#>.....#",
+            "#.####.#",
+            "#.####.#",
+            "#.####.#",
+            "#.####.#",
+            "#......#",
+            "########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "painted",
+          "pattern": [
+            "........",
+            ".YYYYYY.",
+            ".Y....Y.",
+            ".Y....Y.",
+            ".Y....Y.",
+            ".Y....Y.",
+            ".YYYYYY.",
+            "........"
+          ]
+        }
       ]
     },
     {
@@ -300,6 +735,33 @@
       "plate": "a4",
       "solution": [
         "REPEAT 4 FORWARD PAINT RED FORWARD PAINT RED LEFT LEFT FORWARD FORWARD RIGHT END"
+      ],
+      "days": [
+        {
+          "map": [
+            "#######",
+            "###.###",
+            "###.###",
+            "#..^..#",
+            "###.###",
+            "###.###",
+            "#######"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "painted",
+          "pattern": [
+            ".......",
+            "...R...",
+            "...R...",
+            ".RR.RR.",
+            "...R...",
+            "...R...",
+            "......."
+          ]
+        }
       ]
     },
     {
@@ -315,6 +777,37 @@
         "  REPEAT 3 PAINT BLUE FORWARD PAINT RED FORWARD END",
         "  LEFT FORWARD LEFT",
         "END"
+      ],
+      "days": [
+        {
+          "map": [
+            "#########",
+            "#>......#",
+            "#.......#",
+            "#.......#",
+            "#.......#",
+            "#.......#",
+            "#.......#",
+            "#.#######",
+            "#########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "painted",
+          "pattern": [
+            ".........",
+            ".RBRBRB..",
+            "..RBRBRB.",
+            ".RBRBRB..",
+            "..RBRBRB.",
+            ".RBRBRB..",
+            "..RBRBRB.",
+            ".........",
+            "........."
+          ]
+        }
       ]
     },
     {
@@ -327,6 +820,33 @@
         "REPEAT 5 PAINT GREEN FORWARD END",
         "RIGHT RIGHT FORWARD FORWARD FORWARD LEFT",
         "REPEAT 4 FORWARD PAINT GREEN END"
+      ],
+      "days": [
+        {
+          "map": [
+            "########",
+            "#>.....#",
+            "###.####",
+            "###.####",
+            "###.####",
+            "###.####",
+            "########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "painted",
+          "pattern": [
+            "........",
+            ".GGGGG..",
+            "...G....",
+            "...G....",
+            "...G....",
+            "...G....",
+            "........"
+          ]
+        }
       ]
     },
     {
@@ -339,6 +859,37 @@
         "REPEAT 4 REPEAT 6 PAINT BLUE FORWARD END RIGHT END",
         "FORWARD RIGHT FORWARD LEFT",
         "REPEAT 4 REPEAT 4 PAINT YELLOW FORWARD END RIGHT END"
+      ],
+      "days": [
+        {
+          "map": [
+            "#########",
+            "#>......#",
+            "#.......#",
+            "#..###..#",
+            "#..###..#",
+            "#..###..#",
+            "#.......#",
+            "#.......#",
+            "#########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "painted",
+          "pattern": [
+            ".........",
+            ".BBBBBBB.",
+            ".BYYYYYB.",
+            ".BY...YB.",
+            ".BY...YB.",
+            ".BY...YB.",
+            ".BYYYYYB.",
+            ".BBBBBBB.",
+            "........."
+          ]
+        }
       ]
     },
     {
@@ -350,6 +901,25 @@
       "solution": [
         "REPEAT 4 PAINT RED FORWARD END",
         "REPEAT 4 PAINT BLUE FORWARD END"
+      ],
+      "days": [
+        {
+          "map": [
+            "###########",
+            "#>........#",
+            "###########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "painted",
+          "pattern": [
+            "...........",
+            ".RRRRBBBB..",
+            "..........."
+          ]
+        }
       ]
     },
     {
@@ -365,6 +935,29 @@
         "  REPEAT 2 PAINT BLUE FORWARD END",
         "  RIGHT",
         "END"
+      ],
+      "days": [
+        {
+          "map": [
+            "#########",
+            "#>......#",
+            "#.#####.#",
+            "#.......#",
+            "#########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "painted",
+          "pattern": [
+            ".........",
+            ".RYRYRYB.",
+            ".B.....B.",
+            ".BYRYRYR.",
+            "........."
+          ]
+        }
       ]
     },
     {
@@ -375,6 +968,39 @@
       "plate": "a4",
       "solution": [
         "REPEAT 6 IF FRONT = ROCK LEFT FORWARD RIGHT ELSE FORWARD END END"
+      ],
+      "days": [
+        {
+          "map": [
+            "########",
+            "#.....~#",
+            "#>#....#",
+            "########"
+          ]
+        },
+        {
+          "map": [
+            "########",
+            "###...~#",
+            "#>..#..#",
+            "########"
+          ]
+        },
+        {
+          "map": [
+            "########",
+            "#####.~#",
+            "#>....##",
+            "########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 6,
+          "y": 1
+        }
       ]
     },
     {
@@ -385,6 +1011,48 @@
       "plate": "a4",
       "solution": [
         "REPEAT 8 IF FRONT = ROCK LEFT ELSE FORWARD END END"
+      ],
+      "days": [
+        {
+          "map": [
+            "########",
+            "######~#",
+            "######.#",
+            "######.#",
+            "######.#",
+            "###>...#",
+            "########"
+          ]
+        },
+        {
+          "map": [
+            "########",
+            "######~#",
+            "######.#",
+            "#>.....#",
+            "########",
+            "########",
+            "########"
+          ]
+        },
+        {
+          "map": [
+            "########",
+            "####v#~#",
+            "####.#.#",
+            "####...#",
+            "########",
+            "########",
+            "########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 6,
+          "y": 1
+        }
       ]
     },
     {
@@ -399,6 +1067,48 @@
         "  IF HERE = BLUE RIGHT END",
         "  FORWARD",
         "END"
+      ],
+      "days": [
+        {
+          "map": [
+            "#########",
+            "####B..~#",
+            "####.####",
+            "####.####",
+            "####.####",
+            "#>..R####",
+            "#########"
+          ]
+        },
+        {
+          "map": [
+            "#########",
+            "#######~#",
+            "#######.#",
+            "##B....R#",
+            "##.######",
+            "#>R######",
+            "#########"
+          ]
+        },
+        {
+          "map": [
+            "#########",
+            "######B~#",
+            "######.##",
+            "######.##",
+            "######.##",
+            "#>....R##",
+            "#########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 7,
+          "y": 1
+        }
       ]
     },
     {
@@ -412,6 +1122,63 @@
         "  IF HERE = RED LEFT ELSE IF HERE = BLUE RIGHT END END",
         "  FORWARD",
         "END"
+      ],
+      "days": [
+        {
+          "map": [
+            "#############",
+            "########B..~#",
+            "########.####",
+            "########.####",
+            "####B...R####",
+            "####.########",
+            "#>..R########",
+            "#############"
+          ]
+        },
+        {
+          "map": [
+            "#############",
+            "#######B...~#",
+            "#######.#####",
+            "#######.#####",
+            "#######.#####",
+            "#######.#####",
+            "#>.....R#####",
+            "#############"
+          ]
+        },
+        {
+          "map": [
+            "#############",
+            "#########B.~#",
+            "#########.###",
+            "##B......R###",
+            "##.##########",
+            "##.##########",
+            "#>R##########",
+            "#############"
+          ]
+        },
+        {
+          "map": [
+            "#############",
+            "#####B.B#B.~#",
+            "#####.#.#.###",
+            "#####.#R.R###",
+            "###>.R#######",
+            "#############",
+            "#############",
+            "#############"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 11,
+          "y": 1
+        }
       ]
     },
     {
@@ -426,6 +1193,39 @@
         "    RIGHT FORWARD LEFT FORWARD FORWARD LEFT FORWARD RIGHT",
         "  ELSE FORWARD END",
         "END"
+      ],
+      "days": [
+        {
+          "map": [
+            "################",
+            "#>..#.........~#",
+            "###...##########",
+            "################"
+          ]
+        },
+        {
+          "map": [
+            "################",
+            "#>......#.....~#",
+            "#######...######",
+            "################"
+          ]
+        },
+        {
+          "map": [
+            "################",
+            "#>..........#.~#",
+            "###########...##",
+            "################"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 14,
+          "y": 1
+        }
       ]
     },
     {
@@ -439,6 +1239,38 @@
         "  IF FRONT = HATCHLING PICK_UP LEFT DROP RIGHT END",
         "  FORWARD",
         "END"
+      ],
+      "days": [
+        {
+          "map": [
+            "#############",
+            "#~~~~~~~~~~~#",
+            "#>.h..h...h.#",
+            "#############"
+          ]
+        },
+        {
+          "map": [
+            "#############",
+            "#~~~~~~~~~~~#",
+            "#>h....hh...#",
+            "#############"
+          ]
+        },
+        {
+          "map": [
+            "#############",
+            "#~~~~~~~~~~~#",
+            "#>...h...h.h#",
+            "#############"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "home",
+          "count": 3
+        }
       ]
     },
     {
@@ -449,6 +1281,48 @@
       "plate": "a4",
       "solution": [
         "REPEAT 10 IF NOT FRONT = ROCK FORWARD ELSE RIGHT END END"
+      ],
+      "days": [
+        {
+          "map": [
+            "########",
+            "#>.....#",
+            "######.#",
+            "######.#",
+            "######.#",
+            "######~#",
+            "########"
+          ]
+        },
+        {
+          "map": [
+            "########",
+            "###....#",
+            "###^##.#",
+            "######.#",
+            "######.#",
+            "######~#",
+            "########"
+          ]
+        },
+        {
+          "map": [
+            "########",
+            "#####..#",
+            "#####..#",
+            "#####..#",
+            "#####^.#",
+            "######~#",
+            "########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 6,
+          "y": 5
+        }
       ]
     },
     {
@@ -462,6 +1336,48 @@
         "  IF HERE = RED OR HERE = BLUE LEFT END",
         "  FORWARD",
         "END"
+      ],
+      "days": [
+        {
+          "map": [
+            "#######",
+            "####~##",
+            "####.##",
+            "####.##",
+            "#>G.R##",
+            "#######",
+            "#######"
+          ]
+        },
+        {
+          "map": [
+            "#######",
+            "####~##",
+            "####.##",
+            "####.##",
+            "####.##",
+            "##>.B##",
+            "#######"
+          ]
+        },
+        {
+          "map": [
+            "#######",
+            "####~R#",
+            "#####.#",
+            "#####.#",
+            "###>.B#",
+            "#######",
+            "#######"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 4,
+          "y": 1
+        }
       ]
     },
     {
@@ -475,6 +1391,54 @@
         "  IF FRONT = ROCK LEFT IF FRONT = ROCK RIGHT RIGHT END END",
         "  FORWARD",
         "END"
+      ],
+      "days": [
+        {
+          "map": [
+            "###########",
+            "#########~#",
+            "#########.#",
+            "##........#",
+            "##.########",
+            "##....#####",
+            "#####.#####",
+            "#>....#####",
+            "###########"
+          ]
+        },
+        {
+          "map": [
+            "###########",
+            "#######..~#",
+            "###...#.###",
+            "###.#.#.###",
+            "###.#.#.###",
+            "###.#...###",
+            "###.#######",
+            "#>..#######",
+            "###########"
+          ]
+        },
+        {
+          "map": [
+            "###########",
+            "######...~#",
+            "######.####",
+            "#...##.####",
+            "#.#.##.####",
+            "#.#.##.####",
+            "#.#....####",
+            "#^#########",
+            "###########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 9,
+          "y": 1
+        }
       ]
     },
     {
@@ -489,6 +1453,57 @@
         "  ELSE IF HERE = GREEN LEFT ELSE RIGHT END END",
         "  IF FRONT = HATCHLING PICK_UP END",
         "END"
+      ],
+      "days": [
+        {
+          "map": [
+            "############",
+            "##########~#",
+            "##########h#",
+            "##........G#",
+            "##.#########",
+            "##....hG####",
+            "#######.####",
+            "#>..h..G####",
+            "############"
+          ],
+          "capacity": 3
+        },
+        {
+          "map": [
+            "############",
+            "#....##.h.~#",
+            "#.##.##.####",
+            "#.##.##.####",
+            "#h##h##.####",
+            "#.##.##.####",
+            "#.##G..G####",
+            "#^##########",
+            "############"
+          ],
+          "capacity": 3
+        },
+        {
+          "map": [
+            "############",
+            "##########~#",
+            "####..h..#.#",
+            "####.###.#.#",
+            "####.###.#h#",
+            "####.###.#.#",
+            "####.###.#.#",
+            "#>.hG###G.G#",
+            "############"
+          ],
+          "capacity": 3
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 10,
+          "y": 1
+        }
       ]
     },
     {
@@ -499,6 +1514,40 @@
       "plate": "a4",
       "solution": [
         "FORWARD FORWARD SWITCH RIGHT REPEAT 4 FORWARD END"
+      ],
+      "days": [
+        {
+          "map": [
+            "######",
+            "#>..L#",
+            "###.##",
+            "###.##",
+            "###.##",
+            "###~##",
+            "######"
+          ]
+        },
+        {
+          "map": [
+            "#######",
+            "#>..L.#",
+            "#.#.###",
+            "###.###",
+            "#h#.#~#",
+            "###~~~#",
+            "#######"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "lamps"
+        },
+        {
+          "kind": "reach",
+          "x": 3,
+          "y": 5
+        }
       ]
     },
     {
@@ -509,6 +1558,28 @@
       "plate": "a4",
       "solution": [
         "FORWARD PICK_UP RIGHT RIGHT FORWARD FORWARD DROP"
+      ],
+      "days": [
+        {
+          "map": [
+            "#######",
+            "#R.>.r#",
+            "#######"
+          ]
+        },
+        {
+          "map": [
+            "#######",
+            "###.###",
+            "#B.>.b#",
+            "#######"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "sorted"
+        }
       ]
     },
     {
@@ -519,6 +1590,36 @@
       "plate": "a4",
       "solution": [
         "REPEAT 6 IF FRONT = GATE SWITCH END FORWARD END"
+      ],
+      "days": [
+        {
+          "map": [
+            "##########",
+            "#>D.D.D~~#",
+            "##########"
+          ]
+        },
+        {
+          "map": [
+            "##########",
+            "#>.D.D.~~#",
+            "##########"
+          ]
+        },
+        {
+          "map": [
+            "##########",
+            "#>DD...~~#",
+            "##########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 7,
+          "y": 1
+        }
       ]
     },
     {
@@ -529,6 +1630,39 @@
       "plate": "a4",
       "solution": [
         "FORWARD PICK_UP RIGHT REPEAT 3 FORWARD END USE FORWARD FORWARD"
+      ],
+      "days": [
+        {
+          "map": [
+            "#####",
+            "#>.k#",
+            "##.##",
+            "##.##",
+            "##.##",
+            "##D##",
+            "##~##",
+            "#####"
+          ]
+        },
+        {
+          "map": [
+            "#######",
+            "#>.k..#",
+            "##.####",
+            "##.#h.#",
+            "##.####",
+            "##D####",
+            "#~~~~~#",
+            "#######"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 2,
+          "y": 6
+        }
       ]
     },
     {
@@ -584,6 +1718,34 @@
         "FORWARD PICK_UP LEFT FORWARD PICK_UP RIGHT",
         "REPEAT 4 FORWARD END",
         "IF CARRYING = 2 DROP DROP END"
+      ],
+      "days": [
+        {
+          "map": [
+            "#########",
+            "##h######",
+            "##.....~#",
+            "#>.h#####",
+            "#########"
+          ],
+          "capacity": 2
+        },
+        {
+          "map": [
+            "#########",
+            "##h#~~~~#",
+            "##.....~#",
+            "#>.h#.h.#",
+            "#########"
+          ],
+          "capacity": 2
+        }
+      ],
+      "goals": [
+        {
+          "kind": "home",
+          "count": 2
+        }
       ]
     },
     {
@@ -596,8 +1758,45 @@
         "REPEAT 3",
         "  PICK_UP RIGHT PICK_UP RIGHT",
         "  REPEAT 5 FORWARD END DROP LEFT DROP",
-        "  LEFT LEFT LEFT REPEAT 5 FORWARD END RIGHT RIGHT",
         "END"
+      ],
+      "days": [
+        {
+          "map": [
+            "##########",
+            "##~####h##",
+            "#~.####^h#",
+            "##.####.##",
+            "##.####.##",
+            "##.####.##",
+            "##.####.##",
+            "#........#",
+            "##.####.##",
+            "##########"
+          ],
+          "capacity": 2
+        },
+        {
+          "map": [
+            "##########",
+            "#~~####h##",
+            "#~.####^h#",
+            "##.####.##",
+            "##.##h#.##",
+            "##.####.##",
+            "##.##~~.##",
+            "#........#",
+            "##.####.##",
+            "##########"
+          ],
+          "capacity": 2
+        }
+      ],
+      "goals": [
+        {
+          "kind": "home",
+          "count": 2
+        }
       ]
     },
     {
@@ -608,6 +1807,38 @@
       "plate": "a4",
       "solution": [
         "FORWARD SWITCH FORWARD FORWARD SWITCH LEFT FORWARD FORWARD SWITCH RIGHT REPEAT 4 FORWARD END"
+      ],
+      "days": [
+        {
+          "map": [
+            "##########",
+            "####L#####",
+            "####....~#",
+            "####.#####",
+            "#>.D.L####",
+            "##########"
+          ]
+        },
+        {
+          "map": [
+            "##########",
+            "####L#~~~#",
+            "####....~#",
+            "#h.#.#####",
+            "#>.D.L####",
+            "##########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "lamps"
+        },
+        {
+          "kind": "reach",
+          "x": 8,
+          "y": 2
+        }
       ]
     },
     {
@@ -622,6 +1853,45 @@
         "  ELSE IF FRONT = BOX PICK_UP LEFT DROP RIGHT ELSE FORWARD END",
         "  END",
         "END"
+      ],
+      "days": [
+        {
+          "map": [
+            "###########",
+            "#..R..B...#",
+            "#>D.r.Db.~#",
+            "#~~~~~~~~~#",
+            "###########"
+          ]
+        },
+        {
+          "map": [
+            "###########",
+            "#R..G.....#",
+            "#>rD.g.D.~#",
+            "#~~~~~~~~~#",
+            "###########"
+          ]
+        },
+        {
+          "map": [
+            "###########",
+            "#BY...R...#",
+            "#>by.D.r.~#",
+            "#~~~~~~~~~#",
+            "###########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "sorted"
+        },
+        {
+          "kind": "reach",
+          "x": 9,
+          "y": 2
+        }
       ]
     },
     {
@@ -638,6 +1908,51 @@
         "  END",
         "  FORWARD",
         "END"
+      ],
+      "days": [
+        {
+          "map": [
+            "#######",
+            "#~~~~~#",
+            "#.RbB.#",
+            "#.R.B.#",
+            "#.RrB.#",
+            "#.RrB.#",
+            "#.R.B.#",
+            "#.R^B.#",
+            "#######"
+          ]
+        },
+        {
+          "map": [
+            "#######",
+            "#~~~~~#",
+            "#.RrB.#",
+            "#.RbB.#",
+            "#.R^B.#",
+            "#######"
+          ]
+        },
+        {
+          "map": [
+            "#######",
+            "#~~~~~#",
+            "#.RbB.#",
+            "#.RbB.#",
+            "#.R.B.#",
+            "#.RrB.#",
+            "#.RbB.#",
+            "#.R.B.#",
+            "#.RrB.#",
+            "#.R^B.#",
+            "#######"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "sorted"
+        }
       ]
     },
     {
@@ -648,6 +1963,37 @@
       "plate": "a4",
       "solution": [
         "WHILE FRONT = FREE FORWARD END"
+      ],
+      "days": [
+        {
+          "map": [
+            "##########",
+            "#>......~#",
+            "##########"
+          ]
+        },
+        {
+          "map": [
+            "##########",
+            "####>...~#",
+            "##########"
+          ]
+        },
+        {
+          "map": [
+            "##########",
+            "#..>....~#",
+            "#.h.######",
+            "##########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 8,
+          "y": 1
+        }
       ]
     },
     {
@@ -658,6 +2004,43 @@
       "plate": "a4",
       "solution": [
         "FORWARD WHILE LIGHT = RED WAIT END FORWARD FORWARD FORWARD"
+      ],
+      "days": [
+        {
+          "map": [
+            "#######",
+            "#>.D.~#",
+            "#######"
+          ],
+          "light": "RRRGGG",
+          "gates": 3
+        },
+        {
+          "map": [
+            "#######",
+            "#>.D.~#",
+            "#######"
+          ],
+          "light": "RRRRRRGGGGGG",
+          "gates": 6
+        },
+        {
+          "map": [
+            "#######",
+            "#>.D.~#",
+            "##.~~~#",
+            "#######"
+          ],
+          "light": "RRRRRRRRRGGGGGGGGG",
+          "gates": 9
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 5,
+          "y": 1
+        }
       ]
     },
     {
@@ -668,6 +2051,41 @@
       "plate": "a4",
       "solution": [
         "REPEAT 3 FORWARD END WHILE FRONT ≠ FREE WAIT END REPEAT 4 FORWARD END"
+      ],
+      "days": [
+        {
+          "map": [
+            "##########",
+            "#>...c..~#",
+            "##########"
+          ],
+          "crab": 6
+        },
+        {
+          "map": [
+            "##########",
+            "#>...c..~#",
+            "##~~~~~~~#",
+            "##########"
+          ],
+          "crab": 11
+        },
+        {
+          "map": [
+            "##########",
+            "#>...c..~#",
+            "#~~~~~...#",
+            "##########"
+          ],
+          "crab": 4
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 8,
+          "y": 1
+        }
       ]
     },
     {
@@ -678,6 +2096,45 @@
       "plate": "a4",
       "solution": [
         "WHILE HERE ≠ YELLOW IF FRONT = ROCK RIGHT ELSE FORWARD END END"
+      ],
+      "days": [
+        {
+          "map": [
+            "#########",
+            "#>~~~~~~#",
+            "#######~#",
+            "#######~#",
+            "#Y~~~~~~#",
+            "#########"
+          ]
+        },
+        {
+          "map": [
+            "#########",
+            "#>~~~~~~#",
+            "#######~#",
+            "#~~Y###~#",
+            "#~~~~~~~#",
+            "#########"
+          ]
+        },
+        {
+          "map": [
+            "##########",
+            "#>~~~~~~~#",
+            "########~#",
+            "#~~~~Y##~#",
+            "#~######~#",
+            "#~~~~~~~~#",
+            "##########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach_colour",
+          "colour": "YELLOW"
+        }
       ]
     },
     {
@@ -691,6 +2148,37 @@
         "  IF FRONT = HATCHLING PICK_UP END",
         "  FORWARD",
         "END"
+      ],
+      "days": [
+        {
+          "map": [
+            "##########",
+            "#>..h...~#",
+            "##########"
+          ]
+        },
+        {
+          "map": [
+            "##########",
+            "#>h....h~#",
+            "##########"
+          ],
+          "capacity": 2
+        },
+        {
+          "map": [
+            "##########",
+            "#>......~#",
+            "##########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 8,
+          "y": 1
+        }
       ]
     },
     {
@@ -701,6 +2189,42 @@
       "plate": "a4",
       "solution": [
         "WHILE FRONT = FREE LEFT IF FRONT = LAMP SWITCH END RIGHT FORWARD END"
+      ],
+      "days": [
+        {
+          "map": [
+            "##########",
+            "##L##L####",
+            "#>......~#",
+            "##########"
+          ]
+        },
+        {
+          "map": [
+            "##########",
+            "#L##L#L###",
+            "#>......~#",
+            "##########"
+          ]
+        },
+        {
+          "map": [
+            "##########",
+            "####L##L##",
+            "#>......~#",
+            "##########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "lamps"
+        },
+        {
+          "kind": "reach",
+          "x": 8,
+          "y": 2
+        }
       ]
     },
     {
@@ -713,6 +2237,47 @@
         "WHILE LIGHT = YELLOW WAIT END",
         "IF LIGHT = RED LEFT ELSE RIGHT END",
         "WHILE FRONT = FREE FORWARD END"
+      ],
+      "days": [
+        {
+          "map": [
+            "###########",
+            "#~...^....#",
+            "###########"
+          ],
+          "light": "YYYYRRRR"
+        },
+        {
+          "map": [
+            "###########",
+            "#~...v....#",
+            "###########"
+          ],
+          "light": "YYGGGG"
+        },
+        {
+          "map": [
+            "###########",
+            "#~...v....#",
+            "###########"
+          ],
+          "light": "YYYYYYGG"
+        },
+        {
+          "map": [
+            "###########",
+            "#~...^....#",
+            "###########"
+          ],
+          "light": "RRRRRRYY"
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 1,
+          "y": 1
+        }
       ]
     },
     {
@@ -723,6 +2288,49 @@
       "plate": "a4",
       "solution": [
         "WHILE HERE ≠ YELLOW WHILE FRONT = FREE FORWARD END LEFT END"
+      ],
+      "days": [
+        {
+          "map": [
+            "#########",
+            "#.......#",
+            "#.#####.#",
+            "#.#Y..#.#",
+            "#.###.#.#",
+            "#.....#.#",
+            "#######.#",
+            "#>......#",
+            "#########"
+          ]
+        },
+        {
+          "map": [
+            "###########",
+            "#.........#",
+            "#.#######.#",
+            "#......Y#.#",
+            "#########.#",
+            "#>........#",
+            "###########"
+          ]
+        },
+        {
+          "map": [
+            "#######",
+            "#.....#",
+            "#.###.#",
+            "#..Y#.#",
+            "#####.#",
+            "#>....#",
+            "#######"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach_colour",
+          "colour": "YELLOW"
+        }
       ]
     },
     {
@@ -733,6 +2341,37 @@
       "plate": "a4",
       "solution": [
         "PICK_UP RIGHT WHILE FRONT ≠ LAMP FORWARD END USE"
+      ],
+      "days": [
+        {
+          "map": [
+            "#######",
+            "#f#####",
+            "#^...L#",
+            "#######"
+          ]
+        },
+        {
+          "map": [
+            "##########",
+            "#f########",
+            "#^......L#",
+            "##########"
+          ]
+        },
+        {
+          "map": [
+            "########",
+            "#f######",
+            "#^....L#",
+            "########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "lamps"
+        }
       ]
     },
     {
@@ -747,6 +2386,53 @@
         "  ELSE IF LIGHT = RED OR FRONT ≠ FREE WAIT ELSE FORWARD END",
         "  END",
         "END"
+      ],
+      "days": [
+        {
+          "map": [
+            "#########",
+            "#######Y#",
+            "#######c#",
+            "#######.#",
+            "#>..D...#",
+            "#########"
+          ],
+          "light": "GGGGGGRRRR",
+          "gates": 4,
+          "crab": 14
+        },
+        {
+          "map": [
+            "#########",
+            "#######Y#",
+            "#######.#",
+            "#######c#",
+            "#>.D....#",
+            "#########"
+          ],
+          "light": "RRRGGGGG",
+          "gates": 6,
+          "crab": 20
+        },
+        {
+          "map": [
+            "#########",
+            "#######Y#",
+            "#######.#",
+            "#######.#",
+            "#>c...D.#",
+            "#########"
+          ],
+          "light": "GGGRRRRR",
+          "gates": 5,
+          "crab": 3
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach_colour",
+          "colour": "YELLOW"
+        }
       ]
     },
     {
@@ -757,6 +2443,37 @@
       "plate": "a4",
       "solution": [
         "a ← 3 REPEAT a FORWARD END LEFT REPEAT a FORWARD END"
+      ],
+      "days": [
+        {
+          "map": [
+            "#########",
+            "####.####",
+            "####~####",
+            "####.####",
+            "####.####",
+            "#>......#",
+            "#########"
+          ]
+        },
+        {
+          "map": [
+            "#########",
+            "#######.#",
+            "##..~...#",
+            "#######.#",
+            "#######.#",
+            "#######^#",
+            "#########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 4,
+          "y": 2
+        }
       ]
     },
     {
@@ -767,6 +2484,38 @@
       "plate": "a4",
       "solution": [
         "REPEAT TIDE FORWARD END PICK_UP RIGHT RIGHT REPEAT TIDE FORWARD END DROP"
+      ],
+      "days": [
+        {
+          "map": [
+            "##########",
+            "#~>..h.h.#",
+            "##########"
+          ],
+          "tide": 2
+        },
+        {
+          "map": [
+            "##########",
+            "#~>...h.h#",
+            "##########"
+          ],
+          "tide": 3
+        },
+        {
+          "map": [
+            "##########",
+            "#~>.....h#",
+            "##########"
+          ],
+          "tide": 5
+        }
+      ],
+      "goals": [
+        {
+          "kind": "home",
+          "count": 1
+        }
       ]
     },
     {
@@ -778,7 +2527,55 @@
       "solution": [
         "a ← 0",
         "WHILE FRONT = FREE FORWARD a ← a + 1 END",
-        "RIGHT RIGHT REPEAT a FORWARD END"
+        "RIGHT REPEAT a FORWARD END"
+      ],
+      "days": [
+        {
+          "map": [
+            "#########",
+            "#########",
+            "#########",
+            "####>...#",
+            "#######.#",
+            "#######.#",
+            "#######~#",
+            "#######.#",
+            "#########"
+          ]
+        },
+        {
+          "map": [
+            "#########",
+            "##>.....#",
+            "#######.#",
+            "#######.#",
+            "#######.#",
+            "#######.#",
+            "#######~#",
+            "#######.#",
+            "#########"
+          ]
+        },
+        {
+          "map": [
+            "#########",
+            "#########",
+            "#########",
+            "#########",
+            "#####>..#",
+            "#######.#",
+            "#######~#",
+            "#######.#",
+            "#########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 7,
+          "y": 6
+        }
       ]
     },
     {
@@ -794,6 +2591,87 @@
         "  RIGHT FORWARD LEFT",
         "END",
         "LEFT REPEAT a PAINT RED FORWARD END"
+      ],
+      "days": [
+        {
+          "map": [
+            "#############",
+            "#..h..h..####",
+            "#^.....~..###",
+            "#############"
+          ],
+          "goals": [
+            {
+              "kind": "painted",
+              "pattern": [
+                ".............",
+                ".............",
+                "........RR...",
+                "............."
+              ]
+            },
+            {
+              "kind": "reach",
+              "x": 7,
+              "y": 2
+            }
+          ]
+        },
+        {
+          "map": [
+            "#############",
+            "###h.hh..h.##",
+            "###^...~....#",
+            "#############"
+          ],
+          "goals": [
+            {
+              "kind": "painted",
+              "pattern": [
+                ".............",
+                ".............",
+                "........RRRR.",
+                "............."
+              ]
+            },
+            {
+              "kind": "reach",
+              "x": 7,
+              "y": 2
+            }
+          ]
+        },
+        {
+          "map": [
+            "#############",
+            "##h..h..h.###",
+            "##^....~...##",
+            "#############"
+          ],
+          "goals": [
+            {
+              "kind": "painted",
+              "pattern": [
+                ".............",
+                ".............",
+                "........RRR..",
+                "............."
+              ]
+            },
+            {
+              "kind": "reach",
+              "x": 7,
+              "y": 2
+            }
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 7,
+          "y": 2
+        }
       ]
     },
     {
@@ -804,6 +2682,48 @@
       "plate": "a4",
       "solution": [
         "REPEAT TIDE + 2 FORWARD END LEFT REPEAT TIDE − 1 FORWARD END"
+      ],
+      "days": [
+        {
+          "map": [
+            "###########",
+            "#######~###",
+            "#######.###",
+            "##>.......#",
+            "###########",
+            "###########"
+          ],
+          "tide": 3
+        },
+        {
+          "map": [
+            "###########",
+            "#######~###",
+            "###>......#",
+            "###########",
+            "###########",
+            "###########"
+          ],
+          "tide": 2
+        },
+        {
+          "map": [
+            "###########",
+            "#######~###",
+            "#######.###",
+            "#######.###",
+            "#>........#",
+            "###########"
+          ],
+          "tide": 4
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 7,
+          "y": 1
+        }
       ]
     },
     {
@@ -814,6 +2734,41 @@
       "plate": "a4",
       "solution": [
         "a ← 1 REPEAT 6 REPEAT a FORWARD END LEFT a ← a + 1 END"
+      ],
+      "days": [
+        {
+          "map": [
+            "##############",
+            "######~#######",
+            "######.#######",
+            "#....#.#######",
+            "#.##.#.#######",
+            "#.#>.#.#######",
+            "#.####.#######",
+            "#......#######",
+            "##############"
+          ]
+        },
+        {
+          "map": [
+            "##############",
+            "######~......#",
+            "############.#",
+            "########...#.#",
+            "########.#^#.#",
+            "########.###.#",
+            "########.....#",
+            "##############",
+            "##############"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 6,
+          "y": 1
+        }
       ]
     },
     {
@@ -829,6 +2784,48 @@
         "  IF HERE = RED a ← a + 1 ELSE b ← b + 1 END",
         "END",
         "RIGHT REPEAT a FORWARD END RIGHT REPEAT b FORWARD END"
+      ],
+      "days": [
+        {
+          "map": [
+            "###########",
+            "###########",
+            "###########",
+            "###>BRBBRB#",
+            "#####.....#",
+            "#####~....#",
+            "###########"
+          ]
+        },
+        {
+          "map": [
+            "###########",
+            "###########",
+            "##>RRBBR###",
+            "#####...###",
+            "#####...###",
+            "#####~..###",
+            "###########"
+          ]
+        },
+        {
+          "map": [
+            "###########",
+            "#>BRRBRBR##",
+            "#####....##",
+            "#####....##",
+            "#####....##",
+            "#####~...##",
+            "###########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 5,
+          "y": 5
+        }
       ]
     },
     {
@@ -842,6 +2839,97 @@
         "RIGHT RIGHT REPEAT a FORWARD END LEFT",
         "b ← 0 WHILE FRONT = FREE FORWARD b ← b + 1 END",
         "IF a > b PAINT RED ELSE PAINT BLUE END"
+      ],
+      "days": [
+        {
+          "map": [
+            "#########",
+            "#>......#",
+            "#.#######",
+            "#.#######",
+            "#.#######",
+            "#.#######",
+            "#########"
+          ],
+          "goals": [
+            {
+              "kind": "painted",
+              "pattern": [
+                ".........",
+                ".........",
+                ".........",
+                ".........",
+                ".........",
+                ".R.......",
+                "........."
+              ]
+            }
+          ]
+        },
+        {
+          "map": [
+            "#########",
+            "#########",
+            "##>..####",
+            "##.######",
+            "##.######",
+            "##.######",
+            "#########"
+          ],
+          "goals": [
+            {
+              "kind": "painted",
+              "pattern": [
+                ".........",
+                ".........",
+                ".........",
+                ".........",
+                ".........",
+                "..B......",
+                "........."
+              ]
+            }
+          ]
+        },
+        {
+          "map": [
+            "#########",
+            "#########",
+            "#########",
+            "#>.....##",
+            "#.#######",
+            "#.#######",
+            "#########"
+          ],
+          "goals": [
+            {
+              "kind": "painted",
+              "pattern": [
+                ".........",
+                ".........",
+                ".........",
+                ".........",
+                ".........",
+                ".R.......",
+                "........."
+              ]
+            }
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "painted",
+          "pattern": [
+            ".........",
+            ".........",
+            ".........",
+            ".........",
+            ".........",
+            ".R.......",
+            "........."
+          ]
+        }
       ]
     },
     {
@@ -852,6 +2940,54 @@
       "plate": "a4",
       "solution": [
         "a ← TIDE × 2 REPEAT a FORWARD END RIGHT REPEAT a − 1 FORWARD END"
+      ],
+      "days": [
+        {
+          "map": [
+            "#########",
+            "#######.#",
+            "#######.#",
+            "###>....#",
+            "#######.#",
+            "#######.#",
+            "#######~#",
+            "#########"
+          ],
+          "tide": 2
+        },
+        {
+          "map": [
+            "#########",
+            "#>......#",
+            "#######.#",
+            "#######.#",
+            "#######.#",
+            "#######.#",
+            "#######~#",
+            "#########"
+          ],
+          "tide": 3
+        },
+        {
+          "map": [
+            "#########",
+            "#######.#",
+            "#######.#",
+            "#######.#",
+            "#######.#",
+            "#####>..#",
+            "#######~#",
+            "#########"
+          ],
+          "tide": 1
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 7,
+          "y": 6
+        }
       ]
     },
     {
@@ -872,6 +3008,105 @@
         "ELSE IF a < b REPEAT b PAINT BLUE FORWARD END",
         "ELSE PAINT YELLOW END",
         "END"
+      ],
+      "days": [
+        {
+          "map": [
+            "###########",
+            "#########~#",
+            "#########.#",
+            "#########.#",
+            "#>.R.BR.R.#",
+            "#########.#",
+            "###########"
+          ],
+          "goals": [
+            {
+              "kind": "painted",
+              "pattern": [
+                "...........",
+                "...........",
+                ".........R.",
+                ".........R.",
+                ".........R.",
+                "...........",
+                "..........."
+              ]
+            },
+            {
+              "kind": "reach",
+              "x": 9,
+              "y": 1
+            }
+          ]
+        },
+        {
+          "map": [
+            "###########",
+            "#########~#",
+            "#########.#",
+            "#>B..R..B.#",
+            "#########.#",
+            "#########.#",
+            "###########"
+          ],
+          "goals": [
+            {
+              "kind": "painted",
+              "pattern": [
+                "...........",
+                "...........",
+                ".........B.",
+                ".........B.",
+                "...........",
+                "...........",
+                "..........."
+              ]
+            },
+            {
+              "kind": "reach",
+              "x": 9,
+              "y": 1
+            }
+          ]
+        },
+        {
+          "map": [
+            "###########",
+            "#########~#",
+            "#########.#",
+            "#########.#",
+            "#########.#",
+            "#>RB.BRBB.#",
+            "###########"
+          ],
+          "goals": [
+            {
+              "kind": "painted",
+              "pattern": [
+                "...........",
+                "...........",
+                ".........B.",
+                ".........B.",
+                ".........B.",
+                ".........B.",
+                "..........."
+              ]
+            },
+            {
+              "kind": "reach",
+              "x": 9,
+              "y": 1
+            }
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 9,
+          "y": 1
+        }
       ]
     },
     {
@@ -881,10 +3116,45 @@
       "name": "The triangle",
       "plate": "a4",
       "solution": [
-        "FOR a ← 1 TO 5",
+        "FOR a ← 1 TO 3",
         "  REPEAT a FORWARD END LEFT",
         "  REPEAT a FORWARD END RIGHT",
         "END"
+      ],
+      "days": [
+        {
+          "map": [
+            "#########",
+            "#######~#",
+            "#######.#",
+            "#######.#",
+            "####....#",
+            "####.####",
+            "##...####",
+            "#>.######",
+            "#########"
+          ]
+        },
+        {
+          "map": [
+            "#########",
+            "#######~#",
+            "#######.#",
+            "#######.#",
+            "####....#",
+            "####.####",
+            "##...####",
+            "#>..#####",
+            "#########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 7,
+          "y": 1
+        }
       ]
     },
     {
@@ -894,7 +3164,46 @@
       "name": "The spiral",
       "plate": "a4",
       "solution": [
-        "FOR a ← 1 TO 10 REPEAT a FORWARD END LEFT END"
+        "FOR a ← 1 TO 9 REPEAT a FORWARD END LEFT END"
+      ],
+      "days": [
+        {
+          "map": [
+            "############",
+            "#........###",
+            "#.######.###",
+            "#.#....#.###",
+            "#.#.##.#.###",
+            "#.#.#>.#.###",
+            "#.#.####.###",
+            "#.#......###",
+            "#.##########",
+            "#.........~#",
+            "############"
+          ]
+        },
+        {
+          "map": [
+            "############",
+            "#........###",
+            "#.######.###",
+            "#.#....#.###",
+            "#.#.##.#.###",
+            "#.#..>.#.###",
+            "#.#.####.###",
+            "#.#......###",
+            "#.##########",
+            "#.........~#",
+            "############"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 10,
+          "y": 9
+        }
       ]
     },
     {
@@ -905,6 +3214,43 @@
       "plate": "a4",
       "solution": [
         "FOR a ← 1 TO 6 IF a = 3 PAINT RED ELSE PAINT BLUE END FORWARD END"
+      ],
+      "days": [
+        {
+          "map": [
+            "###########",
+            "##.########",
+            "##>.....~##",
+            "#####.#####",
+            "###########"
+          ]
+        },
+        {
+          "map": [
+            "###########",
+            "####.#.####",
+            "##>.....~##",
+            "###.#######",
+            "###########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "painted",
+          "pattern": [
+            "...........",
+            "...........",
+            "..BBRBBB...",
+            "...........",
+            "..........."
+          ]
+        },
+        {
+          "kind": "reach",
+          "x": 8,
+          "y": 2
+        }
       ]
     },
     {
@@ -918,6 +3264,52 @@
         "  REPEAT a PAINT GREEN FORWARD END RIGHT RIGHT",
         "  REPEAT a FORWARD END LEFT FORWARD LEFT",
         "END"
+      ],
+      "days": [
+        {
+          "map": [
+            "########",
+            "#>.....#",
+            "#.....##",
+            "#.....##",
+            "#...####",
+            "#..#####",
+            "#~######",
+            "########"
+          ]
+        },
+        {
+          "map": [
+            "########",
+            "#>.....#",
+            "#......#",
+            "#....###",
+            "#....###",
+            "#..#####",
+            "#~######",
+            "########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "painted",
+          "pattern": [
+            "........",
+            ".GGGGG..",
+            ".GGGG...",
+            ".GGG....",
+            ".GG.....",
+            ".G......",
+            "........",
+            "........"
+          ]
+        },
+        {
+          "kind": "reach",
+          "x": 1,
+          "y": 6
+        }
       ]
     },
     {
@@ -931,6 +3323,55 @@
         "  REPEAT a PAINT RED FORWARD END RIGHT RIGHT",
         "  REPEAT a FORWARD END LEFT FORWARD LEFT",
         "END"
+      ],
+      "days": [
+        {
+          "map": [
+            "#########",
+            "#>..#####",
+            "#...#####",
+            "#....####",
+            "#.....###",
+            "#......##",
+            "#.......#",
+            "#~#######",
+            "#########"
+          ]
+        },
+        {
+          "map": [
+            "#########",
+            "#>.######",
+            "#....####",
+            "#....####",
+            "#.....#.#",
+            "#......##",
+            "#.......#",
+            "#~#######",
+            "#########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "painted",
+          "pattern": [
+            ".........",
+            ".R.......",
+            ".RR......",
+            ".RRR.....",
+            ".RRRR....",
+            ".RRRRR...",
+            ".RRRRRR..",
+            ".........",
+            "........."
+          ]
+        },
+        {
+          "kind": "reach",
+          "x": 1,
+          "y": 7
+        }
       ]
     },
     {
@@ -941,6 +3382,56 @@
       "plate": "a4",
       "solution": [
         "FOR a ← 1 TO 5 REPEAT a × 2 FORWARD END PAINT YELLOW RIGHT END"
+      ],
+      "days": [
+        {
+          "map": [
+            "#############",
+            "#...........#",
+            "#.###########",
+            "#.######.####",
+            "#.###########",
+            "#.###>..#####",
+            "#.#####.#####",
+            "#.####..#####",
+            "#.#####.#####",
+            "#.......#####",
+            "#############"
+          ]
+        },
+        {
+          "map": [
+            "#############",
+            "#...........#",
+            "#.###########",
+            "#.#.#########",
+            "#.###########",
+            "#.###>..#####",
+            "#.#####.#.###",
+            "#.#####.#####",
+            "#.#####.#####",
+            "#.......#####",
+            "#############"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "painted",
+          "pattern": [
+            ".............",
+            ".Y.........Y.",
+            ".............",
+            ".............",
+            ".............",
+            ".......Y.....",
+            ".............",
+            ".............",
+            ".............",
+            ".Y.....Y.....",
+            "............."
+          ]
+        }
       ]
     },
     {
@@ -950,12 +3441,61 @@
       "name": "The table",
       "plate": "a4",
       "solution": [
-        "FOR a ← 1 TO 3",
+        "FOR a ← 1 TO 2",
         "  FOR b ← 1 TO 3",
         "    REPEAT a × b PAINT RED FORWARD END RIGHT RIGHT",
         "    REPEAT a × b FORWARD END LEFT FORWARD LEFT",
         "  END",
         "END"
+      ],
+      "days": [
+        {
+          "map": [
+            "#########",
+            "#>.######",
+            "#...#####",
+            "#....####",
+            "#...#####",
+            "#.....###",
+            "#.......#",
+            "#~#######",
+            "#########"
+          ]
+        },
+        {
+          "map": [
+            "#########",
+            "#>.######",
+            "#....####",
+            "#....####",
+            "#...#####",
+            "#.....###",
+            "#.......#",
+            "#~#######",
+            "#########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "painted",
+          "pattern": [
+            ".........",
+            ".R.......",
+            ".RR......",
+            ".RRR.....",
+            ".RR......",
+            ".RRRR....",
+            ".RRRRRR..",
+            ".........",
+            "........."
+          ]
+        },
+        {
+          "kind": "reach",
+          "x": 1,
+          "y": 7
+        }
       ]
     },
     {
@@ -966,6 +3506,114 @@
       "plate": "a4",
       "solution": [
         "FOR a ← 1 TO TIDE REPEAT a FORWARD END PAINT BLUE LEFT END"
+      ],
+      "days": [
+        {
+          "map": [
+            "###########",
+            "######....#",
+            "######.##.#",
+            "######.#>.#",
+            "######.####",
+            "######.####",
+            "###########",
+            "###########",
+            "###########"
+          ],
+          "tide": 4,
+          "goals": [
+            {
+              "kind": "painted",
+              "pattern": [
+                "...........",
+                "......B..B.",
+                "...........",
+                ".........B.",
+                "...........",
+                "......B....",
+                "...........",
+                "...........",
+                "..........."
+              ]
+            }
+          ]
+        },
+        {
+          "map": [
+            "###########",
+            "###########",
+            "###########",
+            "###########",
+            "###########",
+            "######....#",
+            "#########.#",
+            "########>.#",
+            "###########"
+          ],
+          "tide": 3,
+          "goals": [
+            {
+              "kind": "painted",
+              "pattern": [
+                "...........",
+                "...........",
+                "...........",
+                "...........",
+                "...........",
+                "......B..B.",
+                "...........",
+                ".........B.",
+                "..........."
+              ]
+            }
+          ]
+        },
+        {
+          "map": [
+            "###########",
+            "#....######",
+            "#.##.######",
+            "#.#>.######",
+            "#.#########",
+            "#......####",
+            "###########",
+            "###########",
+            "###########"
+          ],
+          "tide": 5,
+          "goals": [
+            {
+              "kind": "painted",
+              "pattern": [
+                "...........",
+                ".B..B......",
+                "...........",
+                "....B......",
+                "...........",
+                ".B....B....",
+                "...........",
+                "...........",
+                "..........."
+              ]
+            }
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "painted",
+          "pattern": [
+            "...........",
+            "...........",
+            "...........",
+            "...........",
+            "...........",
+            "......B....",
+            "...........",
+            "...........",
+            "..........."
+          ]
+        }
       ]
     },
     {
@@ -975,10 +3623,65 @@
       "name": "The pyramid",
       "plate": "a4",
       "solution": [
-        "FOR a ← 9 TO 1",
+        "FOR a ← 8 TO 1",
         "  REPEAT a PAINT YELLOW FORWARD END RIGHT FORWARD RIGHT",
         "  REPEAT a − 1 FORWARD END LEFT LEFT",
         "END"
+      ],
+      "days": [
+        {
+          "map": [
+            "###########",
+            "#>........#",
+            "##........#",
+            "###.......#",
+            "####......#",
+            "#####.....#",
+            "######....#",
+            "#######...#",
+            "########..#",
+            "#########~#",
+            "###########"
+          ]
+        },
+        {
+          "map": [
+            "###########",
+            "#>........#",
+            "##........#",
+            "###.......#",
+            "#.##......#",
+            "#####.....#",
+            "######....#",
+            "#######...#",
+            "########..#",
+            "#########~#",
+            "###########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "painted",
+          "pattern": [
+            "...........",
+            ".YYYYYYYY..",
+            "..YYYYYYY..",
+            "...YYYYYY..",
+            "....YYYYY..",
+            ".....YYYY..",
+            "......YYY..",
+            ".......YY..",
+            "........Y..",
+            "...........",
+            "..........."
+          ]
+        },
+        {
+          "kind": "reach",
+          "x": 9,
+          "y": 9
+        }
       ]
     },
     {
@@ -988,7 +3691,62 @@
       "name": "The crater path",
       "plate": "a4",
       "solution": [
-        "FOR a ← 10 TO 1 REPEAT a FORWARD END RIGHT IF a = 5 PAINT RED END END"
+        "FOR a ← 9 TO 1 REPEAT a FORWARD END RIGHT IF a = 5 PAINT RED END END"
+      ],
+      "days": [
+        {
+          "map": [
+            "############",
+            "#>.........#",
+            "##########.#",
+            "###......#.#",
+            "###.####.#.#",
+            "###.#.~#.#.#",
+            "###.#.##.#.#",
+            "###.#....#.#",
+            "###.######.#",
+            "###........#",
+            "############"
+          ]
+        },
+        {
+          "map": [
+            "############",
+            "#>.........#",
+            "##########.#",
+            "###......#.#",
+            "###.####.#.#",
+            "##..#.~#.#.#",
+            "##..#.##.#.#",
+            "###.#....#.#",
+            "###.######.#",
+            "###........#",
+            "############"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "painted",
+          "pattern": [
+            "............",
+            "............",
+            "............",
+            "........R...",
+            "............",
+            "............",
+            "............",
+            "............",
+            "............",
+            "............",
+            "............"
+          ]
+        },
+        {
+          "kind": "reach",
+          "x": 6,
+          "y": 5
+        }
       ]
     },
     {
@@ -998,7 +3756,35 @@
       "name": "Turn around",
       "plate": "a4",
       "solution": [
-        "DEFINE ★ LEFT LEFT END FORWARD FORWARD ★ FORWARD FORWARD ★"
+        "DEFINE ★ LEFT LEFT END",
+        "FORWARD FORWARD ★ FORWARD FORWARD FORWARD ★"
+      ],
+      "days": [
+        {
+          "map": [
+            "#######",
+            "#~~~~~#",
+            "#~>..##",
+            "#~~~~~#",
+            "#######"
+          ]
+        },
+        {
+          "map": [
+            "#######",
+            "#~~#~~#",
+            "#~>..~#",
+            "#~~~~~#",
+            "#######"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 1,
+          "y": 2
+        }
       ]
     },
     {
@@ -1010,6 +3796,41 @@
       "solution": [
         "DEFINE ★ REPEAT 4 REPEAT 3 PAINT GREEN FORWARD END RIGHT END END",
         "★ REPEAT 4 FORWARD END ★ REPEAT 4 FORWARD END ★"
+      ],
+      "days": [
+        {
+          "map": [
+            "##############",
+            "#>...........#",
+            "#.##......rb.#",
+            "#.##......gy.#",
+            "#............#",
+            "##############"
+          ]
+        },
+        {
+          "map": [
+            "##############",
+            "#>...........#",
+            "#.~~..##..~~.#",
+            "#.~~..##..~~.#",
+            "#............#",
+            "##############"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "painted",
+          "pattern": [
+            "..............",
+            ".GGGGGGGGGGGG.",
+            ".G..GG..GG..G.",
+            ".G..GG..GG..G.",
+            ".GGGGGGGGGGGG.",
+            ".............."
+          ]
+        }
       ]
     },
     {
@@ -1020,8 +3841,44 @@
       "plate": "a4",
       "solution": [
         "DEFINE ★ LEFT LEFT END",
-        "DEFINE ● PICK_UP ★ REPEAT 3 FORWARD END DROP ★ END",
+        "DEFINE ● PICK_UP ★ REPEAT 3 FORWARD END DROP ★ REPEAT 3 FORWARD END END",
         "● FORWARD ● FORWARD ●"
+      ],
+      "days": [
+        {
+          "map": [
+            "#####",
+            "##h##",
+            "##h##",
+            "##h##",
+            "##^##",
+            "##.##",
+            "#~~~#",
+            "#~~~#",
+            "#~~~#",
+            "#####"
+          ]
+        },
+        {
+          "map": [
+            "#####",
+            "##h##",
+            "##h##",
+            "##h##",
+            "##^##",
+            "#...#",
+            "#~~~#",
+            "#~~~#",
+            "#~~~#",
+            "#####"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "home",
+          "count": 3
+        }
       ]
     },
     {
@@ -1034,6 +3891,35 @@
         "DEFINE ★ LEFT LEFT END",
         "DEFINE ● FORWARD FORWARD ★ FORWARD FORWARD ★ END",
         "REPEAT 3 ● RIGHT FORWARD LEFT END"
+      ],
+      "days": [
+        {
+          "map": [
+            "#######",
+            "##rgb##",
+            "#.....#",
+            "#.....#",
+            "#.^..~#",
+            "#######"
+          ]
+        },
+        {
+          "map": [
+            "#######",
+            "##byr##",
+            "#.....#",
+            "#.....#",
+            "#.^..~#",
+            "#######"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 5,
+          "y": 4
+        }
       ]
     },
     {
@@ -1045,6 +3931,41 @@
       "solution": [
         "DEFINE ★ a REPEAT a FORWARD END RIGHT END",
         "★ 2 ★ 4 ★ 6 ★ 8"
+      ],
+      "days": [
+        {
+          "map": [
+            "###########",
+            "#####.....#",
+            "#####.###.#",
+            "#####^###.#",
+            "#########.#",
+            "#########.#",
+            "#########.#",
+            "#~........#",
+            "###########"
+          ]
+        },
+        {
+          "map": [
+            "###########",
+            "#####.....#",
+            "#.b.#.###.#",
+            "#.r.#^#g#.#",
+            "#########.#",
+            "#.y.#####.#",
+            "#########.#",
+            "#~........#",
+            "###########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 1,
+          "y": 7
+        }
       ]
     },
     {
@@ -1059,6 +3980,53 @@
         "  RIGHT RIGHT REPEAT 6 FORWARD END DROP",
         "END",
         "REPEAT 3 ★ LEFT FORWARD FORWARD LEFT END"
+      ],
+      "days": [
+        {
+          "map": [
+            "##########",
+            "#~>.h....#",
+            "#~.#######",
+            "#~......h#",
+            "#~.#######",
+            "#~....h..#",
+            "#~.#######",
+            "#~~#######",
+            "##########"
+          ]
+        },
+        {
+          "map": [
+            "##########",
+            "#~>.....h#",
+            "#~.#######",
+            "#~.h.....#",
+            "#~.#######",
+            "#~...h...#",
+            "#~.#######",
+            "#~~#######",
+            "##########"
+          ]
+        },
+        {
+          "map": [
+            "##########",
+            "#~>...h..#",
+            "#~.#######",
+            "#~.....h.#",
+            "#~.#######",
+            "#~..h....#",
+            "#~.#######",
+            "#~~#######",
+            "##########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "home",
+          "count": 3
+        }
       ]
     },
     {
@@ -1072,6 +4040,39 @@
         "  IF a > 0 REPEAT a FORWARD END LEFT ★ a − 1 END",
         "END",
         "★ 6"
+      ],
+      "days": [
+        {
+          "map": [
+            "#########",
+            "###.....#",
+            "###.###.#",
+            "###.#~#.#",
+            "###...#.#",
+            "#######.#",
+            "#>......#",
+            "#########"
+          ]
+        },
+        {
+          "map": [
+            "#########",
+            "#.#.....#",
+            "#.#.###.#",
+            "#.#.#~#.#",
+            "#.#...#.#",
+            "#.#####.#",
+            "#>......#",
+            "#########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 5,
+          "y": 3
+        }
       ]
     },
     {
@@ -1081,7 +4082,43 @@
       "name": "Deeper and deeper",
       "plate": "a4",
       "solution": [
-        "DEFINE ★ IF FRONT = FREE FORWARD ★ FORWARD ELSE RIGHT RIGHT END END ★"
+        "DEFINE ★ IF FRONT = FREE FORWARD ★ FORWARD ELSE PICK_UP RIGHT RIGHT END END",
+        "★ DROP"
+      ],
+      "days": [
+        {
+          "map": [
+            "##########",
+            "#~~~~~~~~#",
+            "#~>....h##",
+            "#~~~~~~~~#",
+            "##########"
+          ]
+        },
+        {
+          "map": [
+            "##########",
+            "#~~~~~~~~#",
+            "#~>..h####",
+            "#~~~~~~~~#",
+            "##########"
+          ]
+        },
+        {
+          "map": [
+            "##########",
+            "#~~~~~~~~#",
+            "#~>.....h#",
+            "#~~~~~~~~#",
+            "##########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "home",
+          "count": 1
+        }
       ]
     },
     {
@@ -1098,6 +4135,59 @@
         "END",
         "DEFINE ● LEFT FORWARD FORWARD RIGHT END",
         "REPEAT 4 ★ ● END"
+      ],
+      "days": [
+        {
+          "map": [
+            "#############",
+            "#~.##########",
+            "#~.##########",
+            "#~......h####",
+            "#~.##########",
+            "#~..h########",
+            "#~.##########",
+            "#~........h##",
+            "#~.##########",
+            "#~>...h######",
+            "#############"
+          ]
+        },
+        {
+          "map": [
+            "#############",
+            "#~.##########",
+            "#~.##########",
+            "#~.....h#####",
+            "#~.##########",
+            "#~.........h#",
+            "#~.##########",
+            "#~...h#######",
+            "#~.##########",
+            "#~>......h###",
+            "#############"
+          ]
+        },
+        {
+          "map": [
+            "#############",
+            "#~.##########",
+            "#~.##########",
+            "#~.........h#",
+            "#~.##########",
+            "#~.....h#####",
+            "#~.##########",
+            "#~......h####",
+            "#~.##########",
+            "#~>..h#######",
+            "#############"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "home",
+          "count": 4
+        }
       ]
     },
     {
@@ -1110,6 +4200,111 @@
         "DEFINE ★ WHILE FRONT = FREE IF HERE = RED PAINT BLUE END FORWARD END END",
         "DEFINE ● RIGHT FORWARD RIGHT END",
         "REPEAT 3 ★ ● ★ LEFT FORWARD LEFT END"
+      ],
+      "days": [
+        {
+          "map": [
+            "##########",
+            "#>.R..R..#",
+            "#.R....R.#",
+            "#...R....#",
+            "#....RR..#",
+            "#.R......#",
+            "#..R.R...#",
+            "#.########",
+            "##########"
+          ],
+          "goals": [
+            {
+              "kind": "painted",
+              "pattern": [
+                "..........",
+                "...B..B...",
+                "..B....B..",
+                "....B.....",
+                ".....BB...",
+                "..B.......",
+                "...B.B....",
+                "..........",
+                ".........."
+              ]
+            }
+          ]
+        },
+        {
+          "map": [
+            "##############",
+            "#>.R..R...R..#",
+            "#.R....R.R...#",
+            "#...R......R.#",
+            "#....RR.R....#",
+            "#.R.......R..#",
+            "#..R.R......R#",
+            "#.############",
+            "##############"
+          ],
+          "goals": [
+            {
+              "kind": "painted",
+              "pattern": [
+                "..............",
+                "...B..B...B...",
+                "..B....B.B....",
+                "....B......B..",
+                ".....BB.B.....",
+                "..B.......B...",
+                "...B.B......B.",
+                "..............",
+                ".............."
+              ]
+            }
+          ]
+        },
+        {
+          "map": [
+            "############",
+            "#>.R..R..R.#",
+            "#.R....R..R#",
+            "#...R......#",
+            "#....RR....#",
+            "#.R....R...#",
+            "#..R.R..R..#",
+            "#.##########",
+            "############"
+          ],
+          "goals": [
+            {
+              "kind": "painted",
+              "pattern": [
+                "............",
+                "...B..B..B..",
+                "..B....B..B.",
+                "....B.......",
+                ".....BB.....",
+                "..B....B....",
+                "...B.B..B...",
+                "............",
+                "............"
+              ]
+            }
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "painted",
+          "pattern": [
+            "..........",
+            "...B..B...",
+            "..B....B..",
+            "....B.....",
+            ".....BB...",
+            "..B.......",
+            "...B.B....",
+            "..........",
+            ".........."
+          ]
+        }
       ]
     },
     {
@@ -1120,6 +4315,51 @@
       "plate": "a4",
       "solution": [
         "WHILE HERE ≠ YELLOW RIGHT WHILE FRONT = ROCK LEFT END FORWARD END"
+      ],
+      "days": [
+        {
+          "map": [
+            "###########",
+            "#>....#...#",
+            "#.###.#.#.#",
+            "#...#...#.#",
+            "###.#####.#",
+            "#...#...#.#",
+            "#.###.#.#.#",
+            "#.....#..Y#",
+            "###########"
+          ]
+        },
+        {
+          "map": [
+            "###########",
+            "#...#....Y#",
+            "#.#.#.###.#",
+            "#.#...#...#",
+            "#.#####.###",
+            "#.#...#...#",
+            "#.#.#.###.#",
+            "#>..#.....#",
+            "###########"
+          ]
+        },
+        {
+          "map": [
+            "###########",
+            "#>#.....#Y#",
+            "#.#.###.#.#",
+            "#.#...#.#.#",
+            "#.###.#.#.#",
+            "#.....#...#",
+            "###########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach_colour",
+          "colour": "YELLOW"
+        }
       ]
     },
     {
@@ -1178,6 +4418,67 @@
         "  IF b = 0 RIGHT FORWARD RIGHT b ← 1",
         "  ELSE LEFT FORWARD LEFT b ← 0 END",
         "END"
+      ],
+      "days": [
+        {
+          "map": [
+            "##########",
+            "#>.......#",
+            "#........#",
+            "#........#",
+            "#........#",
+            "#........#",
+            "#........#",
+            "#~########",
+            "##########"
+          ]
+        },
+        {
+          "map": [
+            "##############",
+            "#>...........#",
+            "#............#",
+            "#............#",
+            "#............#",
+            "#............#",
+            "#............#",
+            "#~############",
+            "##############"
+          ]
+        },
+        {
+          "map": [
+            "##############",
+            "#>...........#",
+            "#............#",
+            "#.......######",
+            "#.......######",
+            "#..........###",
+            "#..........###",
+            "#~############",
+            "##############"
+          ]
+        },
+        {
+          "map": [
+            "##############",
+            "#>....########",
+            "#.....########",
+            "#...........##",
+            "#...........##",
+            "#........#####",
+            "#........#####",
+            "#~############",
+            "##############"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach",
+          "x": 1,
+          "y": 7
+        }
       ]
     },
     {
@@ -1197,6 +4498,113 @@
         "RIGHT FORWARD RIGHT REPEAT a PAINT RED FORWARD END",
         "LEFT FORWARD LEFT REPEAT b PAINT BLUE FORWARD END",
         "RIGHT FORWARD RIGHT REPEAT c PAINT GREEN FORWARD END"
+      ],
+      "days": [
+        {
+          "map": [
+            "################",
+            "#>B.RGBBR.RRGR.#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "################"
+          ],
+          "goals": [
+            {
+              "kind": "painted",
+              "pattern": [
+                "................",
+                "................",
+                "..........RRRRR.",
+                ".........BBB....",
+                "...........GG...",
+                "................"
+              ]
+            }
+          ]
+        },
+        {
+          "map": [
+            "################",
+            "#>G.RBGBGRB.RR.#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "################"
+          ],
+          "goals": [
+            {
+              "kind": "painted",
+              "pattern": [
+                "................",
+                "................",
+                "...........RRRR.",
+                "..........BBB...",
+                "...........GGG..",
+                "................"
+              ]
+            }
+          ]
+        },
+        {
+          "map": [
+            "################",
+            "#>RBGRBGRBRBGR.#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "################"
+          ],
+          "goals": [
+            {
+              "kind": "painted",
+              "pattern": [
+                "................",
+                "................",
+                "..........RRRRR.",
+                ".........BBBB...",
+                "...........GGG..",
+                "................"
+              ]
+            }
+          ]
+        },
+        {
+          "map": [
+            "################",
+            "#>GRBGRRBBBRRR.#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "################"
+          ],
+          "goals": [
+            {
+              "kind": "painted",
+              "pattern": [
+                "................",
+                "................",
+                ".........RRRRRR.",
+                "........BBBB....",
+                "...........GG...",
+                "................"
+              ]
+            }
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "painted",
+          "pattern": [
+            "................",
+            "................",
+            "...........RRRR.",
+            "..........BB....",
+            "...........GG...",
+            "................"
+          ]
+        }
       ]
     },
     {
@@ -1209,8 +4617,54 @@
         "REPEAT 6",
         "  IF COLOUR = RED a ← 1 ELSE IF COLOUR = BLUE a ← 2 ELSE a ← 3 END END",
         "  PICK_UP RIGHT REPEAT a FORWARD END DROP",
-        "  RIGHT RIGHT REPEAT a FORWARD END RIGHT",
+        "  RIGHT RIGHT REPEAT a FORWARD END RIGHT FORWARD",
         "END"
+      ],
+      "days": [
+        {
+          "map": [
+            "#######",
+            "#r.RBG#",
+            "#g.RBG#",
+            "#b.RBG#",
+            "#r.RBG#",
+            "#b.RBG#",
+            "#g.RBG#",
+            "#^.RBG#",
+            "#######"
+          ]
+        },
+        {
+          "map": [
+            "#######",
+            "#b.RBG#",
+            "#b.RBG#",
+            "#r.RBG#",
+            "#g.RBG#",
+            "#g.RBG#",
+            "#r.RBG#",
+            "#^.RBG#",
+            "#######"
+          ]
+        },
+        {
+          "map": [
+            "#######",
+            "#g.RBG#",
+            "#r.RBG#",
+            "#r.RBG#",
+            "#b.RBG#",
+            "#r.RBG#",
+            "#g.RBG#",
+            "#^.RBG#",
+            "#######"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "sorted"
+        }
       ]
     },
     {
@@ -1221,6 +4675,69 @@
       "plate": "a4",
       "solution": [
         "WHILE HERE ≠ YELLOW RIGHT WHILE FRONT ≠ FREE LEFT END FORWARD END"
+      ],
+      "days": [
+        {
+          "map": [
+            "###########",
+            "#>..#.....#",
+            "##.##.###.#",
+            "#...#.#...#",
+            "#.###.#.###",
+            "#.....#..Y#",
+            "###########"
+          ]
+        },
+        {
+          "map": [
+            "###########",
+            "#Y..#.....#",
+            "###.#.#b#.#",
+            "#...#.#...#",
+            "#.###.#r#.#",
+            "#.....#..<#",
+            "###########"
+          ]
+        },
+        {
+          "map": [
+            "###########",
+            "#>.....#..#",
+            "#.####.#.##",
+            "#.#..#...Y#",
+            "#.#.####.##",
+            "#...h.....#",
+            "###########"
+          ]
+        },
+        {
+          "map": [
+            "###########",
+            "#...#...#.#",
+            "#.#.#.#.#.#",
+            "#.#...#...#",
+            "#.#######.#",
+            "#>.LY.....#",
+            "###########"
+          ]
+        },
+        {
+          "map": [
+            "###########",
+            "#.....#...#",
+            "#.###.#.#.#",
+            "#...#...#.#",
+            "###.#####.#",
+            "#v..#Y....#",
+            "###########"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach_colour",
+          "colour": "YELLOW"
+        }
       ]
     },
     {
@@ -1240,6 +4757,78 @@
         "  ELSE LEFT FORWARD LEFT b ← 0 END",
         "END",
         "REPEAT a DROP END"
+      ],
+      "days": [
+        {
+          "map": [
+            "############",
+            "#>..h......#",
+            "#.......h..#",
+            "#..........#",
+            "#.h........#",
+            "#.....h....#",
+            "#..........#",
+            "#........h.#",
+            "#..........#",
+            "#.~#########",
+            "############"
+          ],
+          "capacity": 5
+        },
+        {
+          "map": [
+            "############",
+            "#>.......h.#",
+            "#..........#",
+            "#..h...h...#",
+            "#..........#",
+            "#..........#",
+            "#....h.....#",
+            "#..........#",
+            "#.h........#",
+            "#.~#########",
+            "############"
+          ],
+          "capacity": 5
+        },
+        {
+          "map": [
+            "############",
+            "#>.........#",
+            "#.....h....#",
+            "#.........h#",
+            "#...h......#",
+            "#..........#",
+            "#h.........#",
+            "#..........#",
+            "#.......h..#",
+            "#.~#########",
+            "############"
+          ],
+          "capacity": 5
+        },
+        {
+          "map": [
+            "############",
+            "#>.........#",
+            "#.h..h.....#",
+            "#..........#",
+            "#..........#",
+            "#......h...#",
+            "#..........#",
+            "#.........h#",
+            "#..h.......#",
+            "#.~#########",
+            "############"
+          ],
+          "capacity": 5
+        }
+      ],
+      "goals": [
+        {
+          "kind": "home",
+          "count": 5
+        }
       ]
     },
     {
@@ -1255,6 +4844,53 @@
         "  ELSE IF FRONT = GATE WAIT ELSE LEFT END",
         "  END END",
         "END"
+      ],
+      "days": [
+        {
+          "map": [
+            "###########",
+            "#...D.....#",
+            "#.#######.#",
+            "#.....Y##D#",
+            "#########.#",
+            "#>...D....#",
+            "###########"
+          ],
+          "light": "GGGGGGRRRR",
+          "gates": 7
+        },
+        {
+          "map": [
+            "###########",
+            "#......D..#",
+            "#.#######.#",
+            "#...D.Y##.#",
+            "#########.#",
+            "#>......D.#",
+            "###########"
+          ],
+          "light": "GGGGGGGGRRRRR",
+          "gates": 5
+        },
+        {
+          "map": [
+            "###########",
+            "#..D......#",
+            "#.#######D#",
+            "#.....Y##.#",
+            "#########.#",
+            "#>.D......#",
+            "###########"
+          ],
+          "light": "GGGGRRRGGGGGGRR",
+          "gates": 9
+        }
+      ],
+      "goals": [
+        {
+          "kind": "reach_colour",
+          "colour": "YELLOW"
+        }
       ]
     },
     {
@@ -1272,6 +4908,77 @@
         "  ELSE FORWARD END",
         "END",
         "REPEAT CARRYING DROP END"
+      ],
+      "days": [
+        {
+          "map": [
+            "###########",
+            "#>..R.h...#",
+            "#########.#",
+            "#.h....R..#",
+            "#.#########",
+            "#..R..R...#",
+            "#########.#",
+            "#~Y..R..h.#",
+            "###########"
+          ],
+          "light": "GGGGGGGGRRRR",
+          "capacity": 3
+        },
+        {
+          "map": [
+            "###########",
+            "#>..R...R.#",
+            "#########h#",
+            "#....h.R..#",
+            "#.#########",
+            "#..R..R...#",
+            "#########.#",
+            "#~Y.hR....#",
+            "###########"
+          ],
+          "light": "GGGGGRRRRRR",
+          "capacity": 3
+        },
+        {
+          "map": [
+            "###########",
+            "#>.hR.....#",
+            "#########.#",
+            "#......R..#",
+            "#h#########",
+            "#..R..Rh..#",
+            "#########R#",
+            "#~Y..R....#",
+            "###########"
+          ],
+          "light": "GGGGGGGGGGGRRR",
+          "capacity": 3
+        }
+      ],
+      "goals": [
+        {
+          "kind": "home",
+          "count": 3
+        },
+        {
+          "kind": "painted",
+          "pattern": [
+            "...........",
+            "....G......",
+            "...........",
+            ".......G...",
+            "...........",
+            "...G..G....",
+            "...........",
+            ".....G.....",
+            "..........."
+          ]
+        },
+        {
+          "kind": "reach_colour",
+          "colour": "YELLOW"
+        }
       ]
     },
     {
@@ -1287,6 +4994,54 @@
         "  IF FRONT = HATCHLING PICK_UP END",
         "END",
         "REPEAT CARRYING DROP END"
+      ],
+      "days": [
+        {
+          "map": [
+            "##############",
+            "#>....#..h..##",
+            "##.####.###.##",
+            "#..#h...#...##",
+            "#.##.####.####",
+            "#....#...h.Y~#",
+            "##############"
+          ],
+          "capacity": 3
+        },
+        {
+          "map": [
+            "#############",
+            "#...#.....Y~#",
+            "#.#.#.#######",
+            "#.#h..#...h.#",
+            "#.#####.###.#",
+            "#>..h...#...#",
+            "#############"
+          ],
+          "capacity": 3
+        },
+        {
+          "map": [
+            "#############",
+            "#v#.........#",
+            "#.#.#####.#.#",
+            "#..h#h..#.#.#",
+            "###.#.#.#.###",
+            "#.....#h..Y~#",
+            "#############"
+          ],
+          "capacity": 3
+        }
+      ],
+      "goals": [
+        {
+          "kind": "home",
+          "count": 3
+        },
+        {
+          "kind": "reach_colour",
+          "colour": "YELLOW"
+        }
       ]
     }
   ]

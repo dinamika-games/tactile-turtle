@@ -86,6 +86,8 @@ try {
   await shot("scanning");
   check(await waitFor(async () => (await text()).includes("Gut gemacht"), 40000), "the run is won: the reward");
   await shot("reward");
+  check((await evaluate("[...document.querySelectorAll('.reward button')].map((b) => b.dataset.action).join()")) === "next,again,back,home", "the reward: Next first, then again, the levels and 🏠");
+  check(await waitFor(async () => Number(await evaluate("document.querySelector('.reward .countdown')?.textContent")) <= 13, 5000), "the countdown to the next level runs");
   check((await evaluate("localStorage.getItem('tactile-turtle/journeys')")).includes("Klasse 4a"), "the journey is saved");
 
   await send("Page.navigate", { url });
@@ -99,8 +101,7 @@ try {
   await waitFor(async () => (await text()).includes("Wählt eine Welt"));
   await click('[data-world="1"]');
   await waitFor(async () => (await text()).includes("Wählt ein Level"));
-  check((await evaluate("[...document.querySelectorAll('[data-level]:not([disabled])')].map((b) => b.dataset.level).join()")) === "1", "level 1 stays playable (2 and 3 are open but in preparation)");
-  check((await text()).includes("In Vorbereitung"), "open levels without maps say they are in preparation");
+  check((await evaluate("[...document.querySelectorAll('[data-level]:not([disabled])')].map((b) => b.dataset.level).join()")) === "1,2,3", "after level 1, levels 2 and 3 open too");
   await shot("levels-after");
 
   // Back and the main menu.
@@ -110,8 +111,10 @@ try {
   check(await waitFor(async () => (await text()).includes("Wählt ein Level")), "the browser's Back leaves the level for the levels");
   check((await evaluate("document.body.classList.contains('camera')")) === false, "leaving the level hides the webcam");
   check((await evaluate("document.getElementById('video').srcObject === null")) === true, "leaving the level switches the camera off");
-  await evaluate("history.back()");
-  check(await waitFor(async () => (await text()).includes("Wählt eine Welt")), "Back again: the worlds");
+  for (const type of ["keyDown", "keyUp"]) {
+    await send("Input.dispatchKeyEvent", { type, key: "Escape", code: "Escape", windowsVirtualKeyCode: 27 });
+  }
+  check(await waitFor(async () => (await text()).includes("Wählt eine Welt")), "Esc goes one screen back: the worlds");
   await click('[data-action="home"]');
   check(await waitFor(async () => (await text()).includes("Spielen")), "🏠 leads to the main menu");
   await click('[data-action="play"]');

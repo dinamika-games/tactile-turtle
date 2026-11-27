@@ -22,9 +22,8 @@ export interface PlacedTile extends RowTile {
   /** The slot of the tile in its row (0 = the leftmost). */
   readonly column: number;
   /**
-   * Whether the tile was found close to the middle of its slot. Far from the
-   * anchors, the picture is placed less precisely; such a sighting supports a
-   * tile but cannot make one on its own (src/scan/hold.ts).
+   * Whether the tile was found close to the middle of its slot (its vote
+   * counts double when the frames are merged, src/scan/hold.ts).
    */
   readonly confident: boolean;
   /** The centre of the tile on the plate, in millimetres. */
@@ -99,12 +98,14 @@ const MARKER_OFFSET: Point = {
 };
 
 /**
- * A tile seen within this distance from the middle of a slot is placed
- * confidently; up to the larger distance, it is placed but uncertain (far
- * from the anchors, or where the lens distorts); beyond, it is ignored.
+ * Every tile goes to the slot whose middle is nearest to its centre: the row
+ * lines and the ticks only help the children to set the tiles, and a tile set
+ * between two slots still counts. A tile seen within this distance from the
+ * middle of its slot is placed confidently: it then helps to place the tiles
+ * beyond it (taken as sitting exactly in its slot), and its vote counts double
+ * when the frames are merged.
  */
 const CONFIDENT_MM = 8;
-const UNCERTAIN_MM = 11;
 
 /** Anchors whose corners land farther than this from where they belong are dropped. */
 const ANCHOR_TOLERANCE_MM = 4;
@@ -188,7 +189,6 @@ function placeTiles(
     const slotX = plate.rows_left + (column + 0.5) * TILE_GEOMETRY.tile_width;
     const slotY = plate.rows_top + (row + 0.5) * plate.row_pitch;
     const offset = Math.max(Math.abs(x - slotX), Math.abs(y - slotY));
-    if (offset > UNCERTAIN_MM) continue;
     const confident = offset <= CONFIDENT_MM;
     const other = rows[row].findIndex((tile) => tile.column === column);
     if (other >= 0) {

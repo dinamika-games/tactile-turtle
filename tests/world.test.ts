@@ -3,7 +3,8 @@ import { describe, expect, it } from "vitest";
 import { parse } from "../src/lang/parser.ts";
 import { tokenizeText } from "../src/lang/tokens.ts";
 import { MAX_TICKS, run, RunError } from "../src/world/run.ts";
-import { parseMap, type World } from "../src/world/world.ts";
+import { goalMet } from "../src/world/goals.ts";
+import { dayWorld, parseMap, type World } from "../src/world/world.ts";
 
 function runText(text: string, world: World): World {
   for (const _ of run(parse(tokenizeText(text)), world)) {
@@ -39,10 +40,42 @@ describe("the interpreter", () => {
     expect(world.home).toBe(1);
   });
 
-  it("switches lamps and uses items on gates", () => {
-    const world = runText("SWITCH RIGHT PICK_UP RIGHT USE", parseMap(["#####", "#.L.#", "#.^b#", "#.D.#", "#####"]));
+  it("switches lamps and uses a key on a gate", () => {
+    const world = runText("SWITCH RIGHT PICK_UP RIGHT USE", parseMap(["#####", "#.L.#", "#.^k#", "#.D.#", "#####"]));
     expect(world.cells[1][2].thing).toMatchObject({ kind: "LAMP", on: true });
     expect(world.cells[3][2].thing).toMatchObject({ kind: "GATE", open: true });
+    expect(world.turtle.carrying).toEqual([]);
+  });
+
+  it("uses fuel on a lamp, and nothing else on anything else", () => {
+    const world = runText("PICK_UP RIGHT RIGHT USE", parseMap(["####", "#f.#", "#^.#", "#L.#", "####"]));
+    expect(world.cells[3][1].thing).toMatchObject({ kind: "LAMP", on: true });
+    expect(errorOf("PICK_UP RIGHT RIGHT USE", parseMap(["###", "#b#", "#^#", "#D#", "###"])).code).toBe("nothing_to_use");
+  });
+
+  it("waits for the crab to walk off", () => {
+    const world = runText("WHILE FRONT ≠ FREE WAIT END FORWARD", dayWorld({ map: ["####", "#>c#", "####"], crab: 3 }));
+    expect(world.turtle.x).toBe(2);
+    expect(world.tick).toBeGreaterThanOrEqual(3);
+  });
+
+  it("opens and closes the gates by themselves", () => {
+    const world = dayWorld({ map: ["####", "#>D#", "####"], gates: 2 });
+    runText("WAIT", world);
+    expect(world.cells[1][2].thing).toMatchObject({ kind: "GATE", open: false });
+    runText("WAIT", world);
+    expect(world.cells[1][2].thing).toMatchObject({ kind: "GATE", open: true });
+  });
+
+  it("reads the light and the tide of the day", () => {
+    const world = runText("WHILE LIGHT = RED WAIT END REPEAT TIDE FORWARD END", dayWorld({ map: ["#####", "#>..#", "#####"], light: "RRRRGGGG", tide: 2 }));
+    expect(world.turtle.x).toBe(3);
+  });
+
+  it("checks a painted pattern", () => {
+    const world = runText("PAINT RED FORWARD PAINT BLUE", parseMap(["####", "#>.#", "####"]));
+    expect(goalMet({ kind: "painted", pattern: ["####", "#RB#", "####"] }, world)).toBe(true);
+    expect(goalMet({ kind: "painted", pattern: ["####", "#BR#", "####"] }, world)).toBe(false);
   });
 
   it("reads the sensors", () => {
