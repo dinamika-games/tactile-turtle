@@ -67,6 +67,7 @@
     "ui.not_quite": "还差一点：再试一次",
     "ui.next_level": "下一关",
     "ui.try_again": "再试一次",
+    "ui.reset": "回到开始",
     "ui.camera_failed": "摄像头无法启动：{error}",
     "goal.reach": "走到海边。",
     "goal.reach_colour": "沿着线走到{colour}色格子。",

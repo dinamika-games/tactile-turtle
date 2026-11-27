@@ -67,6 +67,7 @@
     "ui.not_quite": "Jo plotësisht: provoni përsëri",
     "ui.next_level": "Niveli tjetër",
     "ui.try_again": "Përsëri",
+    "ui.reset": "Te fillimi",
     "ui.camera_failed": "Kamera nuk u nis: {error}",
     "goal.reach": "Ecni deri te deti.",
     "goal.reach_colour": "Ndiqni vijën deri te kutia {colour}.",

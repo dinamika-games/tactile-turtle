@@ -67,6 +67,7 @@
     "ui.not_quite": "Non ancora: riprovate",
     "ui.next_level": "Livello successivo",
     "ui.try_again": "Ancora",
+    "ui.reset": "Torna all'inizio",
     "ui.camera_failed": "La videocamera non è partita: {error}",
     "goal.reach": "Camminate fino al mare.",
     "goal.reach_colour": "Seguite la linea fino alla casella {colour}.",

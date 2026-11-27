@@ -67,6 +67,7 @@
     "ui.not_quite": "ད་དུང་མ་ཐུབ། ཡང་བསྐྱར་ཚོད་ལྟ",
     "ui.next_level": "རིམ་པ་རྗེས་མ",
     "ui.try_again": "ཡང་བསྐྱར",
+    "ui.reset": "འགོ་མ།",
     "ui.camera_failed": "པར་ཆས་འགོ་མ་ཚུགས། {error}",
     "goal.reach": "རྒྱ་མཚོའི་ཕྱོགས་སུ་འགྲོ",
     "goal.reach_colour": "ཐིག་ཤུལ་བཟུང་ནས་{colour}ཡི་ས་ཁུལ་དུ་འགྲོ",
