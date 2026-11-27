@@ -1,0 +1,9 @@
+# The development tools for the printable PDFs; install with:
+#   python3 -m venv venv && venv/bin/pip install -r dev/requirements.txt
+# WeasyPrint also needs Pango, and the stickers need the fonts Noto Sans,
+# Tibetan Machine Uni and DejaVu Sans (Debian/Ubuntu: fonts-noto-core
+# fonts-dejavu-core fonts-tibetan-machine). Reading the PDFs back (npm run verify:print) needs
+# pdftoppm (poppler-utils).
+fonttools==4.65.0
+pillow==12.3.0
+weasyprint==70.0

@@ -1,0 +1,35 @@
+{
+  "format": 3,
+  "marker_dictionary": "TT_4X4_100",
+  "note": "Each row has an anchor marker at both ends (left id = first_anchor + 2 * row, right = + 1). Any part of the plate with one anchor in view can be placed exactly; frames are stitched in plate millimetres.",
+  "plates": [
+    {
+      "name": "a4",
+      "description": "A4 landscape: 7 rows of 9 tiles",
+      "width": 297,
+      "height": 210,
+      "anchor_size": 20,
+      "anchor_margin": 4,
+      "first_anchor": 66,
+      "rows_left": 28,
+      "rows_top": 7,
+      "rows": 7,
+      "columns": 9,
+      "row_pitch": 28
+    },
+    {
+      "name": "a3",
+      "description": "A3 landscape: 10 rows of 14 tiles",
+      "width": 420,
+      "height": 297,
+      "anchor_size": 20,
+      "anchor_margin": 4,
+      "first_anchor": 80,
+      "rows_left": 35,
+      "rows_top": 8.5,
+      "rows": 10,
+      "columns": 14,
+      "row_pitch": 28
+    }
+  ]
+}

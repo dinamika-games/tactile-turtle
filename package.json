@@ -1,0 +1,31 @@
+{
+  "name": "tactile-turtle",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "markers": "node dev/print/generate_markers.mjs",
+    "verify:print": "vitest run tests/print.test.ts",
+    "docs:e2e": "TT_SAVE_PICTURES=1 vitest run tests/scan-e2e.test.ts",
+    "test:webcam": "vitest run --config vitest.webcam.config.ts",
+    "docs": "node dev/docs/render_docs.ts && npm run docs:e2e",
+    "test:browser": "npm run build && node dev/browser/fake_camera.ts build/fake-camera.mjpeg && node dev/browser/chrome_e2e.mjs build/fake-camera.mjpeg",
+    "test:ui": "node dev/browser/fake_camera.ts build/fake-camera-level-1.mjpeg 1 && node dev/browser/ui_e2e.mjs build/fake-camera-level-1.mjpeg"
+  },
+  "dependencies": {
+    "js-aruco2": "2.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "26.6.7",
+    "@types/pngjs": "6.0.5",
+    "jpeg-js": "0.4.4",
+    "pngjs": "7.0.0",
+    "typescript": "7.0.2",
+    "vite": "8.3.8",
+    "vitest": "5.1.1"
+  }
+}
