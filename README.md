@@ -14,6 +14,29 @@ It runs in the browser (iPad or any laptop), the tiles are printed from PDFs in 
 The language includes common programming commands: `REPEAT`, `WHILE`, `IF`/`ELSE`, `FOR`, variables and procedures.
 See [DESIGN.md](DESIGN.md) for the whole design.
 
+## Set up
+
+1. **Print** the tiles in your language and the A4 plate (every level fits on it; A3 only gives more room). Print at 100 %, not "fit to page": the 50 mm test bar on each sheet must measure 50 mm. Matte paper reflects less glare.
+2. **Tiles:** print on magnetic paper, or on sticky paper and stick it on a magnetic sheet. Cut along the dashed lines. Sort the tiles by kind into a box with compartments (the type case).
+3. **Plate:** stick the plate sheet flat onto a steel sheet or a magnetic whiteboard. Leave the square markers at both ends of each row uncovered: the game finds the plate by them.
+4. **Play:** set the tiles row by row and hold the plate up to the webcam, about 50–60 cm away, roughly straight, in good light. Keep fingers off the markers. If the screen says "Come a little closer", step closer. If the plate is too big for the picture, move it slowly so that the camera sees every part.
+
+The tiles are recognised by their markers, not their words, so kits in different languages can be mixed on one plate.
+
+| The tiles in English | … and in Bosanski / Hrvatski / Srpski |
+|---|---|
+| ![The top of the first sheet of English tiles: FORWARD, LEFT, RIGHT, PICK UP, DROP, PAINT, each with its marker](docs/setup/tiles-en.png) | ![The same tiles in Bosanski / Hrvatski / Srpski: NAPRIJED, LIJEVO, DESNO, PODIGNI, SPUSTI, OBOJI, with the same markers](docs/setup/tiles-hbs.png) |
+
+| The A4 plate | Magnets on a metal surface | A magnetic whiteboard |
+|---|---|---|
+| ![The A4 plate sheet: 7 rows, an anchor marker at both ends of each](docs/setup/plate-a4.png) | ![Magnetic letters on a refrigerator door](docs/setup/magnets.jpg) | ![Paper magnets set out on a whiteboard](docs/setup/whiteboard.jpg) |
+
+| A type case, as typesetters used | Bins work just as well |
+|---|---|
+| ![A letterpress type case with small compartments](docs/setup/type-case.jpg) | ![Blue plastic storage bins on a shelf](docs/setup/bins.jpg) |
+
+<sub>Photos from Wikimedia Commons: magnets by [lylamerle](https://commons.wikimedia.org/wiki/File:Magnetic_letters_scattered_on_a_refrigerator_door.jpg) (CC BY 2.0); whiteboard by [Jan Dittrich (WMDE)](https://commons.wikimedia.org/wiki/File:WMDE-ENG-UX_MagnetBasedPrototype.jpg) (CC BY 4.0); type case by [dronepicr](https://commons.wikimedia.org/wiki/File:Type_case_with_movable_types_for_letterpress_printing_in_the_Gutenberg_Museum,_Mainz,_Germany_(48988492232).jpg) (CC BY 2.0); bins by [Michal Klajban](https://commons.wikimedia.org/wiki/File:Blue_plastic_storage_organizer_boxes_for_screws.jpg) (CC BY-SA 4.0). Resized.</sub>
+
 ## How it works
 
 ```mermaid
