@@ -184,7 +184,7 @@ Why not QR codes: a tile needs a number from 0 to 99, not a text; the smallest Q
 
 ### The plate
 
-A sheet of steel (or a magnetic whiteboard) with a printed sticker (`data/plate.json`). Two sizes; programs are at most A3:
+A sheet of steel (or a magnetic whiteboard) with a printed sticker (`data/plate.json`). Two sizes. No level needs A3: every reference solution fits on A4; A3 only gives more room, e.g. for a longer program of the children's own:
 
 | Plate | Rows × slots | Anchors |
 |---|---|---|
@@ -276,7 +276,7 @@ Every level has a reference solution, its maps (one per day) and its goals; `tes
 81 Turn around · 82 A square · 83 Two helpers · 84 A helper's helper · 85 A parameter (`DEFINE ★ a`, `★ 4`) · 86 The decks · 87 The spiral stair (recursion with a parameter: `★ a − 1`) · 88 Deeper and deeper (recursion to the wall and back) · 89 The cabins · 90 The ship's hold
 
 ### World 10: The Great Crossing (algorithms, olympiad tasks)
-91 Hand on the wall (right-hand rule) · 92 Follow the line (`COLOUR`) · 93 The snake (scanning a field) · 94 Bar chart (count, report; A3 plate) · 95 The sorting yard (three colours to three zones) · 96 Five mazes · 97 The rescue (find the hatchlings, bring them home) · 98 Currents and beams · 99 The storm · 100 Home
+91 Hand on the wall (right-hand rule) · 92 Follow the line (`COLOUR`) · 93 The snake (scanning a field) · 94 Bar chart (count red and blue, ignore green, report) · 95 The sorting yard (three colours to three zones) · 96 Five mazes · 97 The rescue (find the hatchlings, bring them home) · 98 Currents and beams · 99 The storm · 100 Home
 
 ## 8. Journeys (built: `src/ui/journeys.ts`)
 
