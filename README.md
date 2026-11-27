@@ -112,7 +112,7 @@ npm run verify:print                                # read them back with the de
 
 On Debian/Ubuntu the PDFs need `fonts-noto-core fonts-noto-cjk fonts-dejavu-core fonts-tibetan-machine`, and the check needs `poppler-utils`.
 
-Pushing a tag `v*` builds the game and the PDFs in every language and attaches them to the GitHub Release.
+Pushing a tag `v*` builds the game and the PDFs in every language (the full kit and the smaller kits for worlds 1, 1-2 and 1-3) and attaches them to the GitHub Release.
 
 ## License
 
