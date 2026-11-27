@@ -1,5 +1,7 @@
 # Tactile Turtle
 
+![A player holds up the plate with the tiles FORWARD, LEFT, FORWARD, FORWARD, RIGHT, FORWARD to the webcam; the game scans it, the turtle walks around the rock to the water, and the level is won with three stars, while the camera on the right shows the player with the face blurred](docs/gameplay.gif)
+
 > **▶ Play: <https://dinamika-games.github.io/tactile-turtle/>**
 >
 > Open it in a browser with a webcam (an iPad, or any laptop) and allow the camera. Nothing to install.
