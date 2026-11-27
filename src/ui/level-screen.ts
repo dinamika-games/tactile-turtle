@@ -1,6 +1,7 @@
 // A level: the board stays on the screen while the children set the tiles;
 // the scanning ring appears over it when they hold the plate up; then the
-// turtle runs the program. A win is recorded in the journey (time, points,
+// turtle runs the program. A run that fails stays on the screen (at its end)
+// until the children hold up the next program. A win is recorded in the journey (time, points,
 // stars) and opens the next levels.
 
 import { tokenize, type Token } from "../lang/tokens.ts";
@@ -81,6 +82,14 @@ export async function openLevel(level: Level, context: LevelContext): Promise<vo
     context.onLeave();
   };
   const board = levelBoard(level, skin);
+  // What stays on the stage between scans: the board, or the last run that
+  // failed (at its end), until the children show the next program.
+  let resting = board;
+  const showResting = (picture: string) => {
+    showOn(stage, picture);
+    // A failed run is shown again at its end, not played from the start.
+    if (resting !== board) stage.querySelector<SVGSVGElement>(":scope > svg")?.setCurrentTime(1e6);
+  };
   showOn(stage, board);
   overlay.innerHTML =
     `<div class="bar"><button class="small" data-action="back">${backArrow()} ${t("ui.back")}</button>` +
@@ -93,13 +102,12 @@ export async function openLevel(level: Level, context: LevelContext): Promise<vo
   scanner.onUpdate = ({ state, small }) => {
     if (running) return;
     if (state.phase === "idle") {
-      showOn(stage, board);
+      showResting(resting);
       return;
     }
     const partial = state.merged !== null && !state.merged.complete && state.merged.coverage > 0;
-    showOn(
-      stage,
-      scanningOverlay(board, {
+    showResting(
+      scanningOverlay(resting, {
         progress: state.progress,
         label: t("ui.scanning"),
         spanner: skin.href("spanner"),
@@ -119,13 +127,15 @@ export async function openLevel(level: Level, context: LevelContext): Promise<vo
     const tokens = tokenize(rows);
     const played = play(level, tokens, runWords());
     const stepMs = 600;
-    showOn(stage, renderRunAnimation(tokens, played.frames, { stepMs, loop: false, skin, word: (token) => tileWord(token.kind.key), targets: levelTargets(level, played.day) }));
+    const animation = renderRunAnimation(tokens, played.frames, { stepMs, loop: false, skin, word: (token) => tileWord(token.kind.key), targets: levelTargets(level, played.day) });
+    showOn(stage, animation);
     await new Promise((resolve) => setTimeout(resolve, (played.frames.length + 3) * stepMs));
     if (played.won) {
       const result = context.onWin((performance.now() - started) / 1000);
       showReward(result);
     } else {
-      showOn(stage, board);
+      // The failed run stays on the screen until the next program is shown.
+      resting = animation;
       await scanner.start();
     }
   }
