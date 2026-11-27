@@ -3,6 +3,7 @@
 
 import { MarkerDetector } from "./detector.ts";
 import { readPlate, toData, type ReadingData } from "./plate.ts";
+import type { Point } from "./geometry.ts";
 
 const detector = new MarkerDetector();
 let canvas: OffscreenCanvas | null = null;
@@ -10,6 +11,10 @@ let canvas: OffscreenCanvas | null = null;
 export interface ScanReply {
   readonly reading: ReadingData | null;
   readonly markers: number;
+  /** Every marker found, with its corners (to show them over the webcam, src/ui/marker-glow.ts). */
+  readonly found: readonly { readonly id: number; readonly corners: readonly Point[] }[];
+  readonly width: number;
+  readonly height: number;
   readonly milliseconds: number;
 }
 
@@ -29,6 +34,9 @@ self.onmessage = (event: MessageEvent<ImageBitmap>) => {
   const reply: ScanReply = {
     reading: reading === null ? null : toData(reading, image, markers),
     markers: markers.length,
+    found: markers.map((marker) => ({ id: marker.id, corners: marker.corners.corners.map(({ x, y }) => ({ x, y })) })),
+    width: image.width,
+    height: image.height,
     milliseconds: performance.now() - started,
   };
   self.postMessage(reply);

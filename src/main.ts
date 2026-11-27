@@ -13,6 +13,7 @@ import { App } from "./ui/app.ts";
 import { CameraScanner } from "./ui/camera.ts";
 import { openLevel } from "./ui/level-screen.ts";
 import { fitToScreen } from "./ui/stage.ts";
+import { MarkerGlow } from "./ui/marker-glow.ts";
 
 const stage = document.getElementById("stage")!;
 const overlay = document.getElementById("overlay")!;
@@ -38,7 +39,7 @@ const spritesReady = Promise.all(
 );
 
 const params = new URLSearchParams(location.search);
-const scanner = new CameraScanner(video, stats);
+const scanner = new CameraScanner(video, stats, new MarkerGlow(document.getElementById("marker-glow") as HTMLCanvasElement));
 
 void spritesReady.then(() => {
   if (params.has("demo")) {

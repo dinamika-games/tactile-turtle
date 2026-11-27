@@ -238,7 +238,7 @@ Measured with the virtual webcam (section 13), which renders a 65° webcam with 
 3. **Journeys** (section 8): Continue the last one, + New journey (named with the date and time, or typed), the others, and Delete (with a question).
 4. **Worlds:** the ten worlds with the stars collected; a world is open when one of its levels is.
 5. **Levels of the world:** open ones with their stars, locked ones with 🔒, open ones without a map yet "In preparation".
-6. **The level:** the board with the name and the goal; the webcam beside it (a column on the right in landscape, a strip at the bottom in portrait, never over the level); the scanning ring over the dimmed level; the run; the **reward** (stars, points, Next level with its 15-second countdown, Try again, Levels, 🏠).
+6. **The level:** the board with the name and the goal; the webcam beside it (a column on the right in landscape, a strip at the bottom in portrait, never over the level), where every marker read lights up (`src/ui/marker-glow.ts`, WebGL: brackets lock on, the code read pops out and springs back, cell by cell; tiles teal, anchors blue); the scanning ring over the dimmed level; the run; the **reward** (stars, points, Next level with its 15-second countdown, Try again, Levels, 🏠).
 
 Every screen is a step in the browser's history: Back (the button, the browser's, Esc, or a swipe on a tablet) goes to the previous screen; 🏠 leads to the start from the worlds, the levels and the reward. Buttons are large for tablets, and lift under the mouse where there is one. Everything is fitted to the screen (tested on emulated tablets in both orientations).
 

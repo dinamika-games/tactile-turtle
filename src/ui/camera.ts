@@ -4,6 +4,7 @@
 import { PlateHold, type HoldState } from "../scan/hold.ts";
 import { fromData } from "../scan/plate.ts";
 import type { ScanReply } from "../scan/worker.ts";
+import type { MarkerGlow } from "./marker-glow.ts";
 
 /** Anchors smaller than this (pixels) are hard to read: ask to come closer. */
 export const SMALL_ANCHOR_PX = 26;
@@ -29,9 +30,12 @@ export class CameraScanner {
   /** Called for every frame read while scanning. */
   onUpdate: (update: ScanUpdate) => void = () => {};
 
-  constructor(video: HTMLVideoElement, stats: HTMLElement) {
+  private readonly glow: MarkerGlow | null;
+
+  constructor(video: HTMLVideoElement, stats: HTMLElement, glow: MarkerGlow | null = null) {
     this.video = video;
     this.stats = stats;
+    this.glow = glow;
     this.worker.onmessage = (event: MessageEvent<ScanReply>) => this.received(event.data);
   }
 
@@ -65,6 +69,7 @@ export class CameraScanner {
   pause(): void {
     this.running = false;
     this.hold.reset();
+    this.glow?.clear();
   }
 
   /** Switch the camera off (leaving a level): its light goes out. start() turns it on again. */
@@ -84,6 +89,7 @@ export class CameraScanner {
       `${this.video.videoWidth}x${this.video.videoHeight} · ${reply.markers} markers · ${reply.milliseconds.toFixed(0)} ms` +
       (reply.reading ? ` · anchors ${reply.reading.anchorPixels.toFixed(0)} px` : "");
     if (!this.running) return;
+    this.glow?.update(reply.found, reply.width, reply.height);
     const state = this.hold.add(performance.now(), reply.reading === null ? null : fromData(reply.reading));
     const small = reply.reading !== null && reply.reading.anchorPixels < SMALL_ANCHOR_PX;
     if (state.accepted) this.hold.reset();
