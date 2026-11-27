@@ -41,6 +41,10 @@ describe("the levels", () => {
       expect(missing).toEqual([]);
     });
 
+    it("needs no more than the A4 plate", () => {
+      expect(level.plate).toBe("a4");
+    });
+
     it("fits on its plate", () => {
       const plate = plateData.plates.find((candidate) => candidate.name === level.plate);
       expect(plate).toBeDefined();

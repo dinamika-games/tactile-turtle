@@ -4486,18 +4486,16 @@
       "world": 10,
       "world_name": "The Great Crossing",
       "name": "Bar chart",
-      "plate": "a3",
+      "plate": "a4",
       "solution": [
-        "a ← 0 b ← 0 c ← 0",
+        "a ← 0 b ← 0",
         "WHILE FRONT = FREE",
         "  IF HERE = RED a ← a + 1 END",
         "  IF HERE = BLUE b ← b + 1 END",
-        "  IF HERE = GREEN c ← c + 1 END",
         "  FORWARD",
         "END",
         "RIGHT FORWARD RIGHT REPEAT a PAINT RED FORWARD END",
-        "LEFT FORWARD LEFT REPEAT b PAINT BLUE FORWARD END",
-        "RIGHT FORWARD RIGHT REPEAT c PAINT GREEN FORWARD END"
+        "LEFT FORWARD LEFT REPEAT b PAINT BLUE FORWARD END"
       ],
       "days": [
         {
@@ -4517,7 +4515,7 @@
                 "................",
                 "..........RRRRR.",
                 ".........BBB....",
-                "...........GG...",
+                "................",
                 "................"
               ]
             }
@@ -4540,7 +4538,7 @@
                 "................",
                 "...........RRRR.",
                 "..........BBB...",
-                "...........GGG..",
+                "................",
                 "................"
               ]
             }
@@ -4563,7 +4561,7 @@
                 "................",
                 "..........RRRRR.",
                 ".........BBBB...",
-                "...........GGG..",
+                "................",
                 "................"
               ]
             }
@@ -4586,7 +4584,7 @@
                 "................",
                 ".........RRRRRR.",
                 "........BBBB....",
-                "...........GG...",
+                "................",
                 "................"
               ]
             }
@@ -4601,7 +4599,7 @@
             "................",
             "...........RRRR.",
             "..........BB....",
-            "...........GG...",
+            "................",
             "................"
           ]
         }

@@ -8,7 +8,6 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
-import levelsData from "../data/levels.json" with { type: "json" };
 import { parse } from "../src/lang/parser.ts";
 import { tokenize, tokenizeText } from "../src/lang/tokens.ts";
 import type { DetectedMarker, Frame } from "../src/scan/detector.ts";
@@ -37,8 +36,18 @@ FORWARD END
 REPEAT a PAINT BLUE
 FORWARD END`;
 
-// The longest program of all levels (level 94, "Bar chart"), on the A3 plate.
-const A3_PROGRAM = levelsData.levels.find((level) => level.id === 94)!.solution.join("\n");
+// A long program which needs the A3 plate (72 tiles; the A4 plate has 63
+// slots): counting three colours and drawing them as bars.
+const A3_PROGRAM = `a ← 0 b ← 0 c ← 0
+WHILE FRONT = FREE
+IF HERE = RED a ← a + 1 END
+IF HERE = BLUE b ← b + 1 END
+IF HERE = GREEN c ← c + 1 END
+FORWARD
+END
+RIGHT FORWARD RIGHT REPEAT a PAINT RED FORWARD END
+LEFT FORWARD LEFT REPEAT b PAINT BLUE FORWARD END
+RIGHT FORWARD RIGHT REPEAT c PAINT GREEN FORWARD END`;
 
 interface Case {
   readonly name: string;
