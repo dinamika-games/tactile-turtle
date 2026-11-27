@@ -27,15 +27,11 @@ The tiles are recognised by their markers, not their words, so kits in different
 |---|---|
 | ![The top of the first sheet of English tiles: FORWARD, LEFT, RIGHT, PICK UP, DROP, PAINT, each with its marker](docs/setup/tiles-en.png) | ![The same tiles in Bosanski / Hrvatski / Srpski: NAPRIJED, LIJEVO, DESNO, PODIGNI, SPUSTI, OBOJI, with the same markers](docs/setup/tiles-hbs.png) |
 
-| The A4 plate | Magnets on a metal surface | A magnetic whiteboard |
-|---|---|---|
-| ![The A4 plate sheet: 7 rows, an anchor marker at both ends of each](docs/setup/plate-a4.png) | ![Magnetic letters on a refrigerator door](docs/setup/magnets.jpg) | ![Paper magnets set out on a whiteboard](docs/setup/whiteboard.jpg) |
-
-| A type case, as typesetters used | Bins work just as well |
+| The A4 plate, as printed | Stuck on a magnetic board, with the first tiles set |
 |---|---|
-| ![A letterpress type case with small compartments](docs/setup/type-case.jpg) | ![Blue plastic storage bins on a shelf](docs/setup/bins.jpg) |
+| ![The A4 plate sheet: 7 rows, an anchor marker at both ends of each](docs/setup/plate-a4.png) | ![The plate on a white magnetic board, the tiles NAPRIJED, NAPRIJED, NAPRIJED, LIJEVO in the first row and DESNO, PODIGNI in the second](docs/setup/plate-with-tiles.jpg) |
 
-<sub>Photos from Wikimedia Commons: magnets by [lylamerle](https://commons.wikimedia.org/wiki/File:Magnetic_letters_scattered_on_a_refrigerator_door.jpg) (CC BY 2.0); whiteboard by [Jan Dittrich (WMDE)](https://commons.wikimedia.org/wiki/File:WMDE-ENG-UX_MagnetBasedPrototype.jpg) (CC BY 4.0); type case by [dronepicr](https://commons.wikimedia.org/wiki/File:Type_case_with_movable_types_for_letterpress_printing_in_the_Gutenberg_Museum,_Mainz,_Germany_(48988492232).jpg) (CC BY 2.0); bins by [Michal Klajban](https://commons.wikimedia.org/wiki/File:Blue_plastic_storage_organizer_boxes_for_screws.jpg) (CC BY-SA 4.0). Resized.</sub>
+<sub>The photo of the plate is an illustration generated with GenAI.</sub>
 
 ## How it works
 
