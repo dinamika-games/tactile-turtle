@@ -56,7 +56,6 @@
     "ui.levels": "选择一个关卡",
     "ui.back": "返回",
     "ui.locked": "未解锁",
-    "ui.coming_soon": "准备中",
     "ui.level": "第{n}关",
     "ui.world": "世界{n}",
     "ui.points": "{n}分",

@@ -135,38 +135,28 @@ export function score(levelId: number, seconds: number): LevelResult {
 
 /**
  * Is the level open? Level 1 always; then every level up to the one after the
- * highest won one: a level opens only once the last open one is won. Levels
- * without a map yet are skipped: the next level with a map beyond the highest
- * won one is open too.
+ * highest won one: a level opens only once the last open one is won.
  */
 export function isOpen(journey: Journey, levelId: number): boolean {
   const won = Object.keys(journey.results).map(Number);
   const highest = won.length === 0 ? 0 : Math.max(...won);
-  if (levelId === 1 || levelId <= highest + 1) return true;
-  return playableLevels().find((id) => id > highest) === levelId;
+  return levelId === 1 || levelId <= highest + 1;
 }
 
-/** The first open level with a map after this one (the "Next level"), if any. */
-export function nextPlayable(journey: Journey, levelId: number): number | null {
-  return playableLevels().find((id) => id > levelId && isOpen(journey, id)) ?? null;
+/** The level after this one (the "Next level"), if there is one and it is open. */
+export function nextLevel(journey: Journey, levelId: number): number | null {
+  const next = levelId + 1;
+  return levelExists(next) && isOpen(journey, next) ? next : null;
+}
+
+/** Is there a level with this id? */
+export function levelExists(levelId: number): boolean {
+  return levelsData.levels.some((level) => level.id === levelId);
 }
 
 /** Is the world open? When one of its levels is. */
 export function isWorldOpen(journey: Journey, world: number): boolean {
   return Array.from({ length: 10 }, (_, i) => (world - 1) * 10 + 1 + i).some((id) => isOpen(journey, id));
-}
-
-function playableLevels(): number[] {
-  return levelsData.levels
-    .filter((level) => "days" in level)
-    .map((level) => level.id)
-    .sort((a, b) => a - b);
-}
-
-/** Does the level have its map yet (can it be played)? */
-export function isPlayable(levelId: number): boolean {
-  const level = levelsData.levels.find((candidate) => candidate.id === levelId);
-  return level !== undefined && "days" in level;
 }
 
 export function starsIn(journey: Journey, world: number): number {

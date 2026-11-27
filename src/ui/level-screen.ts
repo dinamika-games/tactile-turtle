@@ -27,7 +27,7 @@ export interface LevelContext {
   readonly onHome: () => void;
   /** Leave the level (back to the levels of the world). */
   readonly onLeave: () => void;
-  /** Going to the next level, if it is open and has its map (asked after the win, which may open it). */
+  /** Going to the next level, if it is open (asked after the win, which may open it). */
   readonly next: () => (() => void) | null;
 }
 

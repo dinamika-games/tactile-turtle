@@ -154,7 +154,7 @@ The **kit** is the set of tiles a group owns: 264 tiles on three A4 sheets. Its 
 | other actions, `WHILE`, `ELSE`, `≠`, `+`, `COLOUR`, `●` | 3–5 |
 | the rest | 2–4 |
 
-Each level's **type case** is a part of the kit with limits per tile ("at most 6 `FORWARD`"), the main way the puzzles push towards loops: level 10's beach is twelve steps long but there are only six `FORWARD` tiles. `tests/levels.test.ts` checks that every level's solution fits the kit and its plate, and runs it on its days where the map exists.
+Each level's **type case** is a part of the kit with limits per tile ("at most 6 `FORWARD`"), the main way the puzzles push towards loops: level 10's beach is twelve steps long but there are only six `FORWARD` tiles. `tests/levels.test.ts` checks that every level's solution fits the kit and its plate, and runs it on its days.
 
 ### Points and stars
 
@@ -168,7 +168,7 @@ Failed runs cost nothing but the time they take. Replays keep the best result. T
 
 ### Unlocking
 
-Derived, not stored: level 1 is always open, and every level up to the one after the highest won level is open too: a level opens only once the last open one is won. Levels without a map yet are skipped: the next level with a map beyond the highest won one is open as well, and "Next level" leads to the next open level with a map. After a win, the next level opens by itself after 15 seconds (a spanner in an emptying ring and the seconds on the button), unless a button is pressed.
+Derived, not stored: level 1 is always open, and every level up to the one after the highest won level is open too: a level opens only once the last open one is won; "Next level" leads to the level after. After a win, the next level opens by itself after 15 seconds (a spanner in an emptying ring and the seconds on the button), unless a button is pressed.
 
 ## 5. The plate and the scanning
 
@@ -237,7 +237,7 @@ Measured with the virtual webcam (section 13), which renders a 65° webcam with 
 2. **Start:** the title, Play, and 🌐 with the language (to change it).
 3. **Journeys** (section 8): Continue the last one, + New journey (named with the date and time, or typed), the others, and Delete (with a question).
 4. **Worlds:** the ten worlds with the stars collected; a world is open when one of its levels is.
-5. **Levels of the world:** open ones with their stars, locked ones with 🔒, open ones without a map yet "In preparation".
+5. **Levels of the world:** open ones with their stars, locked ones with 🔒.
 6. **The level:** the board with the name and the goal; the webcam beside it (a column on the right in landscape, a strip at the bottom in portrait, never over the level), where every marker read lights up (`src/ui/marker-glow.ts`, WebGL: brackets lock on, the code read pops out and springs back, cell by cell; tiles teal, anchors blue); the scanning ring over the dimmed level; the run; the **reward** (stars, points, Next level with its 15-second countdown, Try again, Levels, 🏠).
 
 Every screen is a step in the browser's history: Back (the button, the browser's, Esc, or a swipe on a tablet) goes to the previous screen; 🏠 leads to the start from the worlds, the levels and the reward. Buttons are large for tablets, and lift under the mouse where there is one. Everything is fitted to the screen (tested on emulated tablets in both orientations).
@@ -331,7 +331,7 @@ tests/      unit tests, the virtual webcam, the end-to-end tests
 
 ## 13. Testing
 
-* **The language and the levels:** the parser and its errors; every level's solution parses, fits the kit and its plate; levels with maps are won on every day.
+* **The language and the levels:** the parser and its errors; every level's solution parses, fits the kit and its plate; every level is won on every day.
 * **The markers:** the dictionary's distances; the PDFs read back with the detector.
 * **The virtual webcam** (`tests/virtual-webcam.ts`): renders the plate with hand-placed tiles (each shifted and turned a little), stand-in labels, two hands holding it, a room behind; a pinhole camera with a 65° field of view and barrel distortion; distance-dependent defocus (thin lens); uneven light, glare, vignetting; motion blur, sensor noise, salt and pepper, and JPEG. A hold is several frames with trembling hands.
 * **End to end** (`tests/scan-e2e.test.ts`): A4 and A3 at 50/60/70 cm in 720p, A4 at 30 cm in 640 × 480, and A3 too close to see whole, moved about and stitched (720p at 30 cm, 640 × 480 at 25 cm). The program must be read back exactly.

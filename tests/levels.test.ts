@@ -71,8 +71,8 @@ describe("the maps", () => {
     name: string;
     world: number;
     solution: string[];
-    days?: Day[];
-    goals?: Goal[];
+    days: Day[];
+    goals: Goal[];
   }[];
 
   it("exist for every level", () => {
@@ -82,13 +82,13 @@ describe("the maps", () => {
 
   // From world 4 on, one fixed path must not solve a level (DESIGN.md, "The days").
   it("have two to five days from world 4 on", () => {
-    const wrong = withMaps.filter((level) => level.world >= 4 && !(level.days!.length >= 2 && level.days!.length <= 5));
+    const wrong = withMaps.filter((level) => level.world >= 4 && !(level.days.length >= 2 && level.days.length <= 5));
     expect(wrong.map((level) => level.id)).toEqual([]);
   });
 
   describe.each(withMaps)("level $id: $name", (level) => {
     it("fits on the screen (at most 16 x 11 cells, framed by rocks)", () => {
-      for (const day of level.days!) {
+      for (const day of level.days) {
         const world = dayWorld(day);
         expect(world.width).toBeLessThanOrEqual(16);
         expect(world.height).toBeLessThanOrEqual(11);
@@ -98,7 +98,7 @@ describe("the maps", () => {
       }
     });
 
-    it.each((level.days ?? []).map((day, index) => ({ day, index })))("is won on day $index", ({ day }) => {
+    it.each(level.days.map((day, index) => ({ day, index })))("is won on day $index", ({ day }) => {
       const program = parse(tokenizeText(level.solution.join("\n")));
       const world = dayWorld(day);
       for (const _ of run(program, world)) {

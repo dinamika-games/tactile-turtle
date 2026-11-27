@@ -56,7 +56,6 @@
     "ui.levels": "Выберите уровень",
     "ui.back": "Назад",
     "ui.locked": "Закрыто",
-    "ui.coming_soon": "Готовится",
     "ui.level": "Уровень {n}",
     "ui.world": "Мир {n}",
     "ui.points": "{n} очков",

@@ -31,7 +31,7 @@ export function levelTargets(level: Level, day: Day = level.days[0]): (Colour | 
 
 export function levelById(id: number): Level {
   const level = levelsData.levels.find((candidate) => candidate.id === id) as unknown as Level | undefined;
-  if (level === undefined || !("days" in level)) throw new Error(`Level ${id} has no map yet.`);
+  if (level === undefined) throw new Error(`There is no level ${id}.`);
   return level;
 }
 

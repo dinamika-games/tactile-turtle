@@ -13,10 +13,10 @@ import { backArrow, LANGUAGES, language, setLanguage, t } from "./i18n.ts";
 import {
   defaultName,
   isOpen,
-  isPlayable,
   isWorldOpen,
   JourneyStore,
-  nextPlayable,
+  levelExists,
+  nextLevel,
   starsIn,
   totalPoints,
   type Journey,
@@ -253,18 +253,14 @@ export class App {
         levels
           .map((level) => {
             const open = isOpen(journey, level.id) || unlockAll();
-            const playable = isPlayable(level.id);
             const result = journey.results[String(level.id)];
             const meta = !open
               ? "🔒"
-              : !playable
-                ? t("ui.coming_soon")
-                : result !== undefined
-                  ? "★".repeat(result.stars) + "☆".repeat(3 - result.stars)
-                  : "☆☆☆";
-            const enabled = open && playable;
+              : result !== undefined
+                ? "★".repeat(result.stars) + "☆".repeat(3 - result.stars)
+                : "☆☆☆";
             return (
-              `<button class="${enabled ? "" : "locked"}" data-level="${level.id}" ${enabled ? "" : "disabled"}>` +
+              `<button class="${open ? "" : "locked"}" data-level="${level.id}" ${open ? "" : "disabled"}>` +
               `<span class="number">${level.id}</span><span class="name">${escape(t(`level.${level.id}`))}</span><span class="meta">${meta}</span></button>`
             );
           })
@@ -280,12 +276,12 @@ export class App {
 
   playLevel(levelId: number): void {
     const journey = this.refreshJourney();
-    // The next level with a map (levels still in preparation are skipped).
-    const nextLevel = (): number | null => {
+    // The level after this one, if it is open (the win may just have opened it).
+    const followingLevel = (): number | null => {
       const now = this.refreshJourney();
       if (now === null) return null;
-      if (unlockAll()) return Array.from({ length: 100 - levelId }, (_, i) => levelId + 1 + i).find(isPlayable) ?? null;
-      return nextPlayable(now, levelId);
+      if (unlockAll()) return levelExists(levelId + 1) ? levelId + 1 : null;
+      return nextLevel(now, levelId);
     };
     this.context.overlay.innerHTML = "";
     void openLevel(levelById(levelId), {
@@ -298,7 +294,7 @@ export class App {
       onLeave: () => this.back(),
       // The next level replaces this one in the history: Back still leads to the levels.
       next: () => {
-        const next = nextLevel();
+        const next = followingLevel();
         return next === null
           ? null
           : () => {
@@ -315,7 +311,7 @@ export class App {
   }
 }
 
-/** ?unlock opens every level (for trying the game; only levels with maps can be played). */
+/** ?unlock opens every level (for trying the game). */
 function unlockAll(): boolean {
   return new URLSearchParams(location.search).has("unlock");
 }

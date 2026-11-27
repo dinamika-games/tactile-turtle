@@ -56,7 +56,6 @@
     "ui.levels": "Choose a level",
     "ui.back": "Back",
     "ui.locked": "Locked",
-    "ui.coming_soon": "In preparation",
     "ui.level": "Level {n}",
     "ui.world": "World {n}",
     "ui.points": "{n} points",

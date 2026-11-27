@@ -56,7 +56,6 @@
     "ui.levels": "Choisissez un niveau",
     "ui.back": "Retour",
     "ui.locked": "Verrouillé",
-    "ui.coming_soon": "En préparation",
     "ui.level": "Niveau {n}",
     "ui.world": "Monde {n}",
     "ui.points": "{n} points",

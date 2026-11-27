@@ -56,7 +56,6 @@
     "ui.levels": "레벨을 고르세요",
     "ui.back": "뒤로",
     "ui.locked": "잠김",
-    "ui.coming_soon": "준비 중",
     "ui.level": "레벨 {n}",
     "ui.world": "세계 {n}",
     "ui.points": "{n}점",

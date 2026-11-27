@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { defaultName, isOpen, isPlayable, isWorldOpen, JourneyStore, nextPlayable, score, starsIn, type KeyValueStore } from "../src/ui/journeys.ts";
+import { defaultName, isOpen, isWorldOpen, JourneyStore, levelExists, nextLevel, score, starsIn, type KeyValueStore } from "../src/ui/journeys.ts";
 
 function memory(): KeyValueStore {
   const map = new Map<string, string>();
@@ -51,16 +51,14 @@ describe("journeys", () => {
     expect(starsIn(after, 1)).toBe(3);
   });
 
-  it("skip the levels without maps: the next level with a map opens too", () => {
+  it("lead to the next level once it is open, and to none after the last", () => {
     const store = new JourneyStore(memory());
     const journey = store.create("Us");
-    const playable = Array.from({ length: 100 }, (_, i) => i + 1).filter(isPlayable);
-    expect(playable.filter((id) => isOpen(journey, id))).toEqual([1]);
+    expect(nextLevel(journey, 1)).toBeNull();
     store.record(journey.id, 1, 60);
-    const after = store.get(journey.id)!;
-    expect(playable.filter((id) => isOpen(after, id))).toEqual(playable.slice(0, 2));
-    expect(nextPlayable(after, 1)).toBe(playable[1]);
-    expect(isWorldOpen(after, Math.ceil(playable[1] / 10))).toBe(true);
+    expect(nextLevel(store.get(journey.id)!, 1)).toBe(2);
+    store.record(journey.id, 100, 60);
+    expect(nextLevel(store.get(journey.id)!, 100)).toBeNull();
   });
 
   it("score by the par time: 3 stars within it, down to 100 points at three times it", () => {
@@ -69,9 +67,9 @@ describe("journeys", () => {
     expect(score(1, 2000)).toMatchObject({ points: 100, stars: 1 });
   });
 
-  it("know which levels have their maps (all of them)", () => {
-    expect(Array.from({ length: 100 }, (_, i) => i + 1).filter((id) => !isPlayable(id))).toEqual([]);
-    expect(isPlayable(101)).toBe(false);
+  it("know which levels exist", () => {
+    expect(Array.from({ length: 100 }, (_, i) => i + 1).filter((id) => !levelExists(id))).toEqual([]);
+    expect(levelExists(101)).toBe(false);
   });
 
   it("are named with the date and time by default", () => {
